@@ -1,0 +1,35 @@
+///////////// THEME
+:root {
+  --c-primary: rgb(105, 219, 136);
+  --c-text: rgb(43, 43, 43);
+}
+///////////// COLOR
+:root {
+  --c-white: white;
+  --c-black: black;
+}
+///////////// SPACING
+:root {
+  --s-large: 30px;
+  --s-medium: 20px;
+  --s-small: 10px
+}
+///////////// BORDER RADIUS
+:root {
+  --br-large: 20px;
+  --br-medium: 10px;
+  --br-small: 5px
+}
+///////////// TEXT
+:root {
+  --fs-large: 32px;
+  --fs-s-large: 24px;
+  --fs-medium: 16px;
+  --fs-small: 8x
+}
+:root {
+  --fw-large: 900;
+  --fw-medium: 400;
+  --fw-small: 200;
+}
+
