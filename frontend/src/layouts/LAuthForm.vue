@@ -10,6 +10,9 @@
       <div class="section btn">
         <slot name="button"></slot>
       </div>
+      <div class="ext">
+        <slot name="ext"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -22,15 +25,15 @@ export default defineComponent({});
 <style lang="scss" scoped>
 .icon {
   height: 100px;
+  margin-bottom: var(--s-large);
 }
 .form {
   min-width: 300px;
   background: rgba(0, 0, 0, 0.219);
   border-radius: var(--br-large);
-  padding: 0 var(--s-large);
+  padding: var(--s-large);
 }
 .section {
-  padding: var(--s-medium) 0;
   width: 100%;
 }
 .fields {
@@ -38,11 +41,15 @@ export default defineComponent({});
   width: 100%;
   border-top: 1px solid var(--c-white);
   padding-top: var(--s-small);
+  margin-bottom: var(--s-large);
 }
 .btn {
   font-size: var(--fs-s-large);
   font-weight: var(--fw-large);
   flex-grow: 1;
   border-bottom: none;
+}
+.ext {
+  padding-top: var(--s-medium);
 }
 </style>

@@ -4,6 +4,8 @@ export enum ECommon {
   FIRSTNAME = "firstname",
   LASTNAME = "lastname",
   LOCALE = "locale",
+  SIGNUP = "sign up",
+  SIGNIN = "sign in",
 }
 
 export enum EPlaceHolder {
