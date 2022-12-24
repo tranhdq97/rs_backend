@@ -1,11 +1,6 @@
 <template>
-  <select v-model="$i18n.locale">
-    <option
-      v-for="(locale, i) in locales"
-      :key="i"
-      :value="locale"
-      @click="handleSelect(locale)"
-    >
+  <select v-model="$i18n.locale" @click="handleSelection($i18n.locale)">
+    <option v-for="(locale, i) in ELanguageCodes" :key="i" :value="locale">
       {{ locale }}
     </option>
   </select>
@@ -18,14 +13,13 @@ import { useI18n } from "vue-i18n";
 
 export default {
   setup() {
-    const currentLocale = localStorage.getItem(ECommon.LOCALE);
     const { locale } = useI18n({ useScope: "global" });
-    locale.value = currentLocale ? currentLocale : ELanguageCodes.ENGLISH;
-    const locales = ELanguageCodes;
-    const handleSelect = (selectedLocale: string) => {
-      locale.value = selectedLocale;
+    const initLocale = localStorage.getItem(ECommon.LOCALE);
+    locale.value = initLocale ? initLocale : ELanguageCodes.VIETNAMESE;
+    const handleSelection = (selectedLocale: string) => {
+      localStorage.setItem(ECommon.LOCALE, selectedLocale);
     };
-    return { locales, handleSelect };
+    return { ELanguageCodes, handleSelection };
   },
 };
 </script>
