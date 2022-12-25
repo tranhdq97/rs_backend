@@ -2,6 +2,7 @@
   "home": "trang chủ",
   "sign up": "đăng ký",
   "sign in": "đăng nhập",
+  "sign out": "đăng xuất",
   "username": "tên tài khoản",
   "password": "mật khẩu",
   "firstname": "tên",
@@ -21,5 +22,8 @@
   "appetizers": "món khai vị",
   "pay": "thanh toán",
   "menu": "thực đơn",
-  "main course": "món chính"
+  "main course": "món chính",
+  "setting": "cài đặt",
+  "minutes": "phút",
+  "seconds": "giây"
 }

@@ -1,9 +1,10 @@
 import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate";
+import sideBar from "./modules/sideBar";
 
 export default createStore({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  modules: {
+    sideBar,
+  },
+  plugins: [createPersistedState()],
 });

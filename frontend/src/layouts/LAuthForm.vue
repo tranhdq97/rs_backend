@@ -23,15 +23,19 @@ import { defineComponent } from "vue";
 export default defineComponent({});
 </script>
 <style lang="scss" scoped>
+.container {
+  align-items: center;
+}
 .icon {
   height: 100px;
   margin-bottom: var(--s-large);
 }
 .form {
   min-width: 300px;
-  background: rgba(0, 0, 0, 0.219);
+  background: rgb(240, 250, 240);
   border-radius: var(--br-large);
   padding: var(--s-large);
+  box-shadow: -2px -2px 2px var(--bs-color), 2px 2px 2px var(--bs-color);
 }
 .section {
   width: 100%;
@@ -39,13 +43,13 @@ export default defineComponent({});
 .fields {
   gap: var(--s-medium);
   width: 100%;
-  border-top: 1px solid var(--c-white);
+  border-top: 1px solid var(--c-grey);
   padding-top: var(--s-small);
   margin-bottom: var(--s-large);
 }
 .btn {
   font-size: var(--fs-s-large);
-  font-weight: var(--fw-large);
+  font-weight: var(--fw-medium);
   flex-grow: 1;
   border-bottom: none;
 }

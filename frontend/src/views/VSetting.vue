@@ -1,12 +1,15 @@
 <template>
-  <div class="container"></div>
+  <div class="container">
+    <CLocaleSwitcher />
+  </div>
 </template>
 
 <script lang="ts">
+import CLocaleSwitcher from "@/components/CLocaleSwitcher.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  setup() {},
+  components: { CLocaleSwitcher },
 });
 </script>
 

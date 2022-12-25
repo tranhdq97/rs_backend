@@ -1,7 +1,7 @@
 <template>
   <LAuthForm>
     <template v-slot:icon>
-      <img src="@/assets/icons/login.png" />
+      <img src="@/assets/icons/sign-up.png" />
     </template>
     <template v-slot:fields>
       <CEnterField
@@ -15,27 +15,27 @@
       />
     </template>
     <template v-slot:button>
-      <CButton :name="ECommon.SIGNIN" />
-    </template>
-    <template v-slot:ext>
-      <router-link :to="'/' + ERouter.SIGNUP">
-        {{ $t(ECommon.SIGNUP) }}
-      </router-link>
+      <CButton
+        :name="ECommon.SIGNUP"
+        @click="() => router.push(ERouter.SIGNIN)"
+      />
     </template>
   </LAuthForm>
 </template>
 
 <script lang="ts">
 import LAuthForm from "@/layouts/LAuthForm.vue";
-import { ERouter } from "@/enums/routers";
 import { ECommon, EPlaceHolder } from "@/enums/common";
 import { defineComponent } from "vue";
 import CButton from "@/components/CButton.vue";
 import CEnterField from "@/components/CEnterField.vue";
+import { useRouter } from "vue-router";
+import { ERouter } from "@/enums/routers";
 
 export default defineComponent({
   setup() {
-    return { ECommon, EPlaceHolder, ERouter };
+    const router = useRouter();
+    return { ECommon, EPlaceHolder, router, ERouter };
   },
   components: { LAuthForm, CButton, CEnterField },
 });
