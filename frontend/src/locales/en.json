@@ -2,6 +2,7 @@
   "home": "home",
   "sign up": "sign up",
   "sign in": "sign in",
+  "sign out": "sign out",
   "username": "username",
   "password": "password",
   "firstname": "firstname",
@@ -21,5 +22,8 @@
   "appetizers": "appetizer",
   "pay": "pay",
   "menu": "menu",
-  "main course": "main course" 
+  "main course": "main course",
+  "setting": "setting",
+  "minutes": "minutes",
+  "seconds": "seconds"
 }

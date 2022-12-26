@@ -32,7 +32,6 @@ input {
   border-radius: var(--br-small);
   padding: var(--s-small);
   width: 100%;
-  box-sizing: border-box;
   &:hover {
     border: 1px solid var(--c-primary);
   }

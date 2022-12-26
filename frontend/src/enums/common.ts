@@ -6,6 +6,12 @@ export enum ECommon {
   LOCALE = "locale",
   SIGNUP = "sign up",
   SIGNIN = "sign in",
+  SETTING = "setting",
+  TABLES = "tables",
+  HOME = "home",
+  SIGNOUT = "sign out",
+  MINUTES = "minutes",
+  SECONDS = "seconds",
 }
 
 export enum EPlaceHolder {

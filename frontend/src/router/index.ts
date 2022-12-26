@@ -1,24 +1,36 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import SignUpView from "@/views/SignUpView.vue";
-import SignInView from "@/views/SignInView.vue";
-import HomeView from "@/views/HomeView.vue";
+import VSignUp from "@/views/VSignUp.vue";
+import VSignIn from "@/views/VSignIn.vue";
+import VHome from "@/views/VHome.vue";
+import VSetting from "@/views/VSetting.vue";
+import VTables from "@/views/VTables.vue";
 import { ERouter } from "@/enums/routers";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: ERouter.HOME,
-    component: HomeView,
+    component: VHome,
   },
   {
     path: "/" + ERouter.SIGNUP,
     name: ERouter.SIGNUP,
-    component: SignUpView,
+    component: VSignUp,
   },
   {
     path: "/" + ERouter.SIGNIN,
     name: ERouter.SIGNIN,
-    component: SignInView,
+    component: VSignIn,
+  },
+  {
+    path: "/" + ERouter.SETTING,
+    name: ERouter.SETTING,
+    component: VSetting,
+  },
+  {
+    path: "/" + ERouter.TABLES,
+    name: ERouter.TABLES,
+    component: VTables,
   },
   // {
   //   path: "/about",
