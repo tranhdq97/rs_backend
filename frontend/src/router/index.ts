@@ -4,33 +4,39 @@ import VSignIn from "@/views/VSignIn.vue";
 import VHome from "@/views/VHome.vue";
 import VSetting from "@/views/VSetting.vue";
 import VTables from "@/views/VTables.vue";
-import { ERouter } from "@/enums/routers";
+import VTable from "@/views/VTable.vue";
+import { ERouter, ERouterName } from "@/enums/routers";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    name: ERouter.HOME,
+    path: ERouter.HOME,
+    name: ERouterName.HOME,
     component: VHome,
   },
   {
-    path: "/" + ERouter.SIGNUP,
-    name: ERouter.SIGNUP,
+    path: ERouter.SIGNUP,
+    name: ERouterName.SIGNUP,
     component: VSignUp,
   },
   {
-    path: "/" + ERouter.SIGNIN,
-    name: ERouter.SIGNIN,
+    path: ERouter.SIGNIN,
+    name: ERouterName.SIGNIN,
     component: VSignIn,
   },
   {
-    path: "/" + ERouter.SETTING,
-    name: ERouter.SETTING,
+    path: ERouter.SETTING,
+    name: ERouterName.SETTING,
     component: VSetting,
   },
   {
-    path: "/" + ERouter.TABLES,
-    name: ERouter.TABLES,
+    path: ERouter.TABLES,
+    name: ERouterName.TABLES,
     component: VTables,
+  },
+  {
+    path: ERouter.TABLE,
+    name: ERouterName.TABLE,
+    component: VTable,
   },
   // {
   //   path: "/about",

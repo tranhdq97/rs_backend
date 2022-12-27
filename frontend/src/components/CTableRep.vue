@@ -1,8 +1,8 @@
 <template>
-  <div class="plate">
+  <div class="plate" @click="handleClick">
     <div class="outer">
       <div class="inner">
-        <div class="name">{{ name }}</div>
+        <div class="index">{{ index.toString() }}</div>
         <div class="header">
           <div class="numServed">
             <span class="material-icons">restaurant_menu</span>
@@ -27,14 +27,22 @@
 import { defineComponent } from "vue";
 import { ECommon } from "@/enums/common";
 import CTableTimer from "./CTableTimer.vue";
+import { routeToIndex } from "@/utils/route";
+import { ERouter } from "@/enums/routers";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   props: {
-    name: { type: String, reqquired: true },
+    index: { type: Number, required: true },
     data: { type: Object, required: true },
   },
-  setup() {
-    return { ECommon };
+  setup(props) {
+    const router = useRouter();
+    const handleClick = () => {
+      const toRoute = routeToIndex(ERouter.TABLE, props.index);
+      router.push(toRoute);
+    };
+    return { ECommon, handleClick };
   },
   components: { CTableTimer },
 });
@@ -46,7 +54,7 @@ export default defineComponent({
   align-items: center;
   gap: var(--s-sp-small);
 }
-.name {
+.index {
   font-size: var(--f-medium);
   font-weight: var(--fw-s-large);
   position: absolute;

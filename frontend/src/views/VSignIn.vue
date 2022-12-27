@@ -15,10 +15,13 @@
       />
     </template>
     <template v-slot:button>
-      <CButton :name="ECommon.SIGNIN" @click="() => router.push('/')" />
+      <CButton
+        :name="ECommon.SIGNIN"
+        @click="() => router.push(ERouter.HOME)"
+      />
     </template>
     <template v-slot:ext>
-      <router-link :to="'/' + ERouter.SIGNUP">
+      <router-link :to="ERouter.SIGNUP">
         {{ $t(ECommon.SIGNUP) }}
       </router-link>
     </template>
