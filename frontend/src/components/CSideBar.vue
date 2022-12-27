@@ -33,7 +33,7 @@
 <script lang="ts">
 import { ECommon } from "@/enums/common";
 import { ELanguageCodes } from "@/enums/languages";
-import { ERouter } from "@/enums/routers";
+import { ERouter, ERouterName } from "@/enums/routers";
 import { ESSideBar } from "@/enums/store";
 import { computed, defineComponent, watch, ref } from "vue";
 import { useI18n } from "vue-i18n";
@@ -62,7 +62,8 @@ export default defineComponent({
     watch(
       () => router.currentRoute.value.name,
       (currentRoute) => {
-        currentRoute === ERouter.SIGNUP || currentRoute === ERouter.SIGNIN
+        currentRoute === ERouterName.SIGNUP ||
+        currentRoute === ERouterName.SIGNIN
           ? (isSideBarHide.value = true)
           : (isSideBarHide.value = false);
       }

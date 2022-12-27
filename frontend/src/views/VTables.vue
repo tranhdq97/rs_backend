@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <CTableRep v-for="i in 10" :key="i" :name="i.toString()" :data="dummy" />
+    <CTableRep v-for="i in 10" :key="i" :index="i" :data="dummy" />
   </div>
 </template>
 

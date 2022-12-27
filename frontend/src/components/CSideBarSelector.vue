@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/' + to" class="wrapper">
+  <router-link :to="to" class="wrapper">
     <span class="material-icons">{{ icon }}</span>
     <div class="title" v-show="!isSideBarCollapsed">{{ $t(title) }}</div>
   </router-link>
@@ -14,7 +14,7 @@ export default defineComponent({
   props: {
     title: { type: String, required: true },
     icon: { type: String, required: true },
-    to: { type: String, default: "" },
+    to: { type: String, default: "/" },
   },
   setup() {
     const store = useStore();
