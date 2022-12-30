@@ -27,5 +27,19 @@
   "setting": "setting",
   "minutes": "minutes",
   "seconds": "seconds",
-  "search": "search"
+  "search": "search",
+  "name": "name",
+  "quantity": "quantity",
+  "unit price": "unit price",
+  "total": "total",
+  "ordered at": "order at",
+  "preview": "preview",
+  "served": "served",
+  "served_at": "served at",
+  "served quantity": "served quantity",
+  "serving quantity": "serving quantity",
+  "serve": "serve",
+  "pay bill": "pay bill",
+  "VAT": "VAT",
+  "amount": "amount"
 }

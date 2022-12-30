@@ -2,47 +2,74 @@
   <div class="plate" @click="handleClick">
     <div class="outer">
       <div class="inner">
-        <div class="index">{{ index.toString() }}</div>
-        <div class="header">
+        <div class="index">{{ table.name }}</div>
+        <div class="header" v-if="!table.is_available">
           <div class="numServed">
-            <span class="material-icons">restaurant_menu</span>
+            <span
+              :class="
+                'material-icons' +
+                (data.numServed === data.numOrders ? ' identified' : '')
+              "
+              >restaurant_menu</span
+            >
             <span>{{ data.numServed }} / {{ data.numOrders }}</span>
           </div>
           <span
             :class="
-              'material-icons' + (data.isHavePhoneNumber ? ' indentified' : '')
+              'material-icons' + (data.isHavePhoneNumber ? ' identified' : '')
             "
           >
             person
           </span>
         </div>
-        <CTableTimer icon="set_meal" :mockTime="data.lastServedAt" />
-        <CTableTimer icon="hourglass_empty" :mockTime="data.oldestOrderAt" />
+        <CTableTimer
+          v-if="
+            !table.is_available &&
+            data.lastServedAt &&
+            data.numOrders != data.numServed
+          "
+          icon="set_meal"
+          :mockTime="data.lastServedAt"
+        />
+        <CTableTimer
+          v-if="
+            !table.is_available &&
+            data.newestOrderedAt &&
+            data.numOrders != data.numServed
+          "
+          icon="hourglass_empty"
+          :mockTime="data.newestOrderedAt"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { ECommon } from "@/enums/common";
 import CTableTimer from "./CTableTimer.vue";
 import { routeToIndex } from "@/utils/route";
 import { ERouter } from "@/enums/routers";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { ESOrderItem } from "@/enums/store";
 
 export default defineComponent({
   props: {
-    index: { type: Number, required: true },
-    data: { type: Object, required: true },
+    table: { type: Object, required: true },
   },
   setup(props) {
     const router = useRouter();
+    const store = useStore();
+    const data = computed(() =>
+      store.getters[ESOrderItem.G_TABLE_REP_DATA](props.table)
+    );
     const handleClick = () => {
-      const toRoute = routeToIndex(ERouter.TABLE, props.index);
+      const toRoute = routeToIndex(ERouter.TABLE, props.table.id);
       router.push(toRoute);
     };
-    return { ECommon, handleClick };
+    return { ECommon, handleClick, data };
   },
   components: { CTableTimer },
 });
@@ -62,7 +89,7 @@ export default defineComponent({
   margin-top: -140px;
   text-shadow: -1px -1px 2px var(--bs-colorLight);
 }
-.indentified {
+.identified {
   color: var(--c-primary);
 }
 .plate,

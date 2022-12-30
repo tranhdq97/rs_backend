@@ -1,7 +1,13 @@
+export interface IFTable {
+  id: number;
+  name: string;
+  is_available: boolean;
+}
+
 export interface IFTableRep {
-  isHavePhoneNumber?: Boolean,
-  lastServedAt?: Date,
-  oldestOrderAt?: Date,
-  numServed?: Number,
-  numOrders: Number,
+  phoneNumber?: string;
+  lastServedAt?: Date | null;
+  newestOrderedAt?: Date | null;
+  numServed?: number;
+  numOrders?: number;
 }

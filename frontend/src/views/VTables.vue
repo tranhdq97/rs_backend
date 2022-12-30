@@ -1,28 +1,29 @@
-<template>
-  <div class="container">
-    <CTableRep v-for="i in 10" :key="i" :index="i" :data="dummy" />
-  </div>
-</template>
-
 <script lang="ts">
+import CAddButton from "@/components/CAddButton.vue";
 import CTableRep from "@/components/CTableRep.vue";
-import { IFTableRep } from "@/interfaces/tables";
+import { ESTable } from "@/enums/store";
 import { defineComponent } from "vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
-    const dummy: IFTableRep = {
-      isHavePhoneNumber: true,
-      lastServedAt: new Date(Date.now()),
-      oldestOrderAt: new Date(Date.now()),
-      numServed: 2,
-      numOrders: 5,
-    };
-    return { dummy };
+    const store = useStore();
+    const tables = store.getters[ESTable.G_TABLES];
+    async function addTable() {
+      await store.dispatch(ESTable.A_ADD_TABLE);
+    }
+    return { tables, addTable };
   },
-  components: { CTableRep },
+  components: { CTableRep, CAddButton },
 });
 </script>
+
+<template>
+  <div class="container">
+    <CTableRep v-for="(table, i) in tables" :key="i" :table="table" />
+    <CAddButton @click="addTable" />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .container {

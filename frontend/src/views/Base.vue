@@ -1,13 +1,11 @@
-<template>
-  <div class="container"></div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from "vue";
 
-export default defineComponent({
-  setup() {},
-});
+export default defineComponent({});
 </script>
+
+<template>
+  <div class="container">Base</div>
+</template>
 
 <style lang="scss" scoped></style>

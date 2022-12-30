@@ -14,6 +14,21 @@ export enum ECommon {
   MINUTES = "minutes",
   SECONDS = "seconds",
   SEARCH = "search",
+  MEAL_NAME = "name",
+  QUANTITY = "quantity",
+  UNIT_PRICE = "unit price",
+  TOTAL = "total",
+  ORDERED_AT = "ordered at",
+  PREVIEW = "preview",
+  ORDER = "order",
+  SERVED = "served",
+  SERVED_AT = "served at",
+  SERVING_QUANTITY = "serving quantity",
+  SERVED_QUANTITY = "served quantity",
+  SERVE = "serve",
+  PAY_BILL = "pay bill",
+  VAT = "VAT",
+  AMOUNT = "amount",
 }
 
 export enum EPlaceHolder {
