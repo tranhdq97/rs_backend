@@ -98,11 +98,4 @@ export default defineComponent({
       inset -6px -6px 10px -1px var(--bs-colorLight);
   }
 }
-circle {
-  fill: none;
-  stroke: var(--c-primary);
-  stroke-width: 20px;
-  stroke-dasharray: 472;
-  stroke-dashoffset: 100;
-}
 </style>

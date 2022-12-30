@@ -27,13 +27,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 .container {
   flex-direction: row;
-  padding: var(--s-large);
   align-content: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
   row-gap: var(--s-medium);
   column-gap: var(--s-small);
   flex: 1 0 0;
-  background: var(--c-tables);
 }
 </style>

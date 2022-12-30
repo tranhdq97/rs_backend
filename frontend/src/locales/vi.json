@@ -13,6 +13,7 @@
   "enter phone number": "nhập số điện thoại",
   "enter password": "nhập mât khẩu",
   "tables": "bàn",
+  "table": "bàn",
   "order": "đặt món",
   "add": "thêm",
   "remove": "xóa",
@@ -25,5 +26,6 @@
   "main course": "món chính",
   "setting": "cài đặt",
   "minutes": "phút",
-  "seconds": "giây"
+  "seconds": "giây",
+  "search": "tìm kiếm"
 }

@@ -27,16 +27,4 @@ export default defineComponent({
   justify-content: left;
   font-size: var(--fs-medium);
 }
-input {
-  border: 1px solid var(--c-white);
-  border-radius: var(--br-small);
-  padding: var(--s-small);
-  width: 100%;
-  &:hover {
-    border: 1px solid var(--c-primary);
-  }
-  &::placeholder {
-    text-transform: lowercase;
-  }
-}
 </style>

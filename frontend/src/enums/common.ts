@@ -8,10 +8,12 @@ export enum ECommon {
   SIGNIN = "sign in",
   SETTING = "setting",
   TABLES = "tables",
+  TABLE = "table",
   HOME = "home",
   SIGNOUT = "sign out",
   MINUTES = "minutes",
   SECONDS = "seconds",
+  SEARCH = "search",
 }
 
 export enum EPlaceHolder {

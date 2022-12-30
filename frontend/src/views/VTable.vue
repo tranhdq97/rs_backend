@@ -1,11 +1,16 @@
 <template>
-  <div class="container"></div>
+  <div class="container">
+    <CTableOverview />
+  </div>
 </template>
 
 <script lang="ts">
+import CTableOverview from "@/components/CTableOverview.vue";
 import { defineComponent } from "vue";
 
-export default defineComponent({});
+export default defineComponent({
+  components: { CTableOverview },
+});
 </script>
 
 <style lang="scss" scoped></style>

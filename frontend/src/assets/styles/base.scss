@@ -4,7 +4,7 @@
   --c-primaryLight: hsl(136, 91%, 77%);
   --c-primaryDark: hsl(136, 45%, 51%);
   --c-text: rgb(43, 43, 43);
-  --c-tables: rgb(245, 245, 245);
+  --c-background: rgb(245, 245, 245);
 }
 ///////////// COLOR
 :root {
@@ -41,6 +41,7 @@
   --fs-large: 32px;
   --fs-s-large: 24px;
   --fs-medium: 16px;
+  --fs-s-medium: 12px;
   --fs-small: 8px;
 }
 :root {

@@ -18,6 +18,7 @@ export default defineComponent({
 #app {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
+  background: var(--c-background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--c-text);

@@ -13,6 +13,7 @@
   "enter phone number": "enter your phone number",
   "enter password": "enter your password",
   "tables": "tables",
+  "table": "table",
   "order": "order",
   "add": "add",
   "remove": "remove",
@@ -25,5 +26,6 @@
   "main course": "main course",
   "setting": "setting",
   "minutes": "minutes",
-  "seconds": "seconds"
+  "seconds": "seconds",
+  "search": "search"
 }
