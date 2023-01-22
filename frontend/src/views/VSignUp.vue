@@ -40,4 +40,10 @@ export default defineComponent({
   components: { LAuthForm, CButton, CEnterField },
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+</style>

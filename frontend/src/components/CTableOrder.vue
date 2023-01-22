@@ -1,0 +1,161 @@
+<script lang="ts">
+import { ECommon } from "@/enums/common";
+import { ESBill, ESOrderItem } from "@/enums/store";
+import { IFOrderItem } from "@/interfaces/order";
+import LAModal from "@/layouts/LAModal.vue";
+import { sumProperty, toExchange } from "@/utils/common";
+import { computed, defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import CButton from "./CButton.vue";
+import COrder from "./COrder.vue";
+import COrderServe from "./COrderServe.vue";
+
+export default defineComponent({
+  props: {
+    orderedItemList: { type: Array, default: [] as IFOrderItem[] },
+  },
+  setup(props) {
+    const router = useRouter();
+    const store = useStore();
+    const isServing = ref(false);
+    const VAT = computed(() => store.getters[ESBill.G_VAT]);
+    const modal = ref<IFOrderItem | null>();
+    const tableIndex = router.currentRoute.value.params.index;
+    const total_quantity = computed(() =>
+      sumProperty(props.orderedItemList, ["quantity"])
+    );
+    const total_served = computed(() =>
+      sumProperty(props.orderedItemList, ["served_quantity"])
+    );
+    const amount = computed(() => {
+      let sum = 0;
+      (props.orderedItemList as IFOrderItem[]).map((item) => {
+        sum += (item?.served_quantity || 0) * item.menu.price;
+      });
+      return sum;
+    });
+    const serve = (item: IFOrderItem) => {
+      isServing.value = true;
+      modal.value = item;
+    };
+    async function serveSubmit(item: IFOrderItem, serveQuantity: number) {
+      await store.dispatch(ESOrderItem.A_SERVE, {
+        item: item,
+        serveQuantity: serveQuantity,
+      });
+      isServing.value = false;
+    }
+    return {
+      ECommon,
+      tableIndex,
+      total_quantity,
+      total_served,
+      amount,
+      serve,
+      serveSubmit,
+      isServing,
+      modal,
+      VAT,
+      toExchange,
+    };
+  },
+  components: { COrder, LAModal, COrderServe, CButton },
+});
+</script>
+
+<template>
+  <div class="container area">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ $t(ECommon.MEAL_NAME) }}</th>
+          <th>{{ $t(ECommon.QUANTITY) }}</th>
+          <th>{{ $t(ECommon.SERVED) }}</th>
+          <th>{{ $t(ECommon.UNIT_PRICE) }}</th>
+          <th>{{ $t(ECommon.ORDERED_AT) }}</th>
+          <th>{{ $t(ECommon.SERVED_AT) }}</th>
+          <th>{{ $t(ECommon.TOTAL) }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <COrder
+          v-for="(item, i) in orderedItemList"
+          :key="i"
+          :item="item"
+          @serve="serve(item)"
+        />
+      </tbody>
+      <tfoot v-if="orderedItemList.length">
+        <tr>
+          <td>{{ $t(ECommon.AMOUNT) }}</td>
+          <td class="text-center">{{ total_quantity }}</td>
+          <td class="text-center">{{ total_served }}</td>
+          <td v-for="i in 3" :key="i"></td>
+          <td class="text-right">{{ toExchange(amount) }}</td>
+        </tr>
+        <tr>
+          <td class="padding">{{ $t(ECommon.VAT) }}</td>
+          <td v-for="i in 5" :key="i"></td>
+          <td class="text-right padding">
+            ({{ VAT }}%) {{ toExchange((amount * VAT) / 100) }}
+          </td>
+        </tr>
+        <tr>
+          <td>{{ $t(ECommon.TOTAL) }}</td>
+          <td v-for="i in 5" :key="i"></td>
+          <td class="text-right">{{ toExchange(amount * (1 + VAT / 100)) }}</td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="paybill" v-if="orderedItemList.length">
+      <CButton :name="ECommon.PAY_BILL" />
+      <span class="material-icons preview">preview</span>
+    </div>
+    <LAModal v-if="isServing" @close="isServing = false">
+      <COrderServe
+        :data="modal"
+        @serveSubmit="
+          (payload) => serveSubmit(payload.item, payload.serveQuantity)
+        "
+      />
+    </LAModal>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.container {
+  overflow-y: auto;
+  justify-content: flex-start;
+  gap: var(--s-small);
+}
+table {
+  gap: var(--s-small);
+}
+thead {
+  background: var(--c-primary);
+  color: var(--c-white);
+  th {
+    padding: var(--s-small);
+    font-weight: var(--fw-small);
+  }
+}
+.padding {
+  padding-top: var(--s-large);
+}
+.paybill {
+  width: 100%;
+  align-items: center;
+}
+.preview {
+  margin-left: var(--s-medium);
+  border-radius: var(--br-small);
+  border: 1px solid var(--c-text);
+  font-size: var(--fs-large);
+  font-weight: var(--fw-small);
+  &:hover {
+    border: 1px solid var(--c-primary);
+    color: var(--c-primary);
+  }
+}
+</style>

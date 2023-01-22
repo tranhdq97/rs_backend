@@ -9,8 +9,20 @@ div {
   text-align: center;
 }
 input {
+  display: block;
   outline: none;
   box-sizing: border-box;
+  border: 1px solid var(--c-white);
+  border-radius: var(--br-small);
+  padding: var(--s-small);
+  width: 100%;
+  background: transparent;
+  &:hover {
+    border: 1px solid var(--c-primary);
+  }
+  &::placeholder {
+    text-transform: lowercase;
+  }
 }
 img {
   width: auto;
@@ -34,5 +46,51 @@ a {
 }
 .router-view {
   flex-grow: 1;
+  height: 100vh;
   overflow-y: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: var(--s-large);
+}
+.area {
+  background: var(--c-white);
+  padding: var(--s-medium);
+  border-radius: var(--s-small);
+  border: 1px solid var(--c-greyLight);
+  box-shadow: var(--bs-medium) var(--bs-medium) var(--bs-blur) var(--bs-color);
+}
+.box-shadow {
+  box-shadow: var(--bs-medium) 0 var(--bs-blur) var(--bs-color);
+}
+.stretch {
+  flex-grow: 1;
+}
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  color: var(--c-grey);
+}
+td {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  margin-left: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: var(--s-small);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-primary);
+  border-radius: var(--s-small);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-greyDark);
 }

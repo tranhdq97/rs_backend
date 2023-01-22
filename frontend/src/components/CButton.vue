@@ -24,6 +24,9 @@ export default defineComponent({
   color: var(--c-white);
   padding: var(--s-small);
   font-size: inherit;
-  flex-grow: inherit;
+  flex-grow: 1;
+  &:hover {
+    background: var(--c-primaryDark);
+  }
 }
 </style>

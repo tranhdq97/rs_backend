@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-show="!isSideBarHide">
+  <div class="container box-shadow" v-show="!isSideBarHide">
     <div class="menu">
       <span class="material-icons" @click="toggleSideBar">menu</span>
       <span
@@ -83,7 +83,6 @@ export default defineComponent({
 .container {
   height: 100vh;
   background: var(--c-primary);
-  box-shadow: var(--bs-medium) 0 var(--bs-blur) var(--bs-color);
 }
 .grow {
   align-items: flex-start;

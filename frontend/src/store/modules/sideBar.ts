@@ -1,4 +1,4 @@
-export interface IFstate {
+export interface IFState {
   isSideBarHide: boolean;
   isSideBarCollapsed: boolean;
 }
@@ -10,13 +10,13 @@ export default {
     isSideBarCollapsed: true,
   },
   getters: {
-    isSideBarCollapsed: (state: IFstate) => state.isSideBarCollapsed,
+    isSideBarCollapsed: (state: IFState) => state.isSideBarCollapsed,
   },
   actions: {
-    toggleSideBar({ state }: { state: IFstate }) {
+    toggleSideBar({ state }: { state: IFState }) {
       state.isSideBarCollapsed = !state.isSideBarCollapsed;
     },
-    collapseSideBar({ state }: { state: IFstate }) {
+    collapseSideBar({ state }: { state: IFState }) {
       state.isSideBarCollapsed = true;
     },
   },

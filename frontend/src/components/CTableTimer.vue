@@ -13,10 +13,11 @@ import { untilNow } from "@/utils/time";
 export default defineComponent({
   props: {
     icon: { type: String, required: true },
-    mockTime: { type: Date, default: new Date(Date.now()) },
+    mockTime: { type: Date, required: true },
   },
   setup(props) {
     const amountTime = ref(0);
+    amountTime.value = untilNow(props.mockTime);
     setInterval(() => {
       amountTime.value = untilNow(props.mockTime);
     }, 60000);
