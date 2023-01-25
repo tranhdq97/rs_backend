@@ -1,0 +1,5 @@
+venv
+docker-compose.yml
+Dockerfile_staff
+Dockerfile_storage
+manage.py
