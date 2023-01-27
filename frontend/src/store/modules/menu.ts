@@ -1,4 +1,4 @@
-import IFMenuItem from "@/interfaces/menu";
+import { IFMenuItem } from "@/interfaces/menu";
 
 export interface IFState {
   menu: Array<IFMenuItem>;

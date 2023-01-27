@@ -1,6 +1,6 @@
 import { IFMasterData } from "./common";
 
-export default interface IFMenuItem {
+export interface IFMenuItem {
   id: number;
   name: string;
   type: IFMasterData;

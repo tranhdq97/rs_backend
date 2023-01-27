@@ -1,5 +1,5 @@
 <template>
-  <select v-model="$i18n.locale" @click="handleSelection($i18n.locale)">
+  <select v-model="lang" @click="handleSelection">
     <option v-for="(locale, i) in ELanguageCodes" :key="i" :value="locale">
       {{ locale }}
     </option>
@@ -9,13 +9,18 @@
 <script lang="ts">
 import { ELanguageCodes } from "@/enums/languages";
 import { ECommon } from "@/enums/common";
+import { useI18n } from "vue3-i18n";
+import { ref } from "vue";
 
 export default {
   setup() {
-    const handleSelection = (selectedLocale: string) => {
-      localStorage.setItem(ECommon.LOCALE, selectedLocale);
+    const i18n = useI18n();
+    const lang = ref(i18n.getLocale());
+    const handleSelection = () => {
+      localStorage.setItem(ECommon.LOCALE, lang.value);
+      i18n.setLocale(lang.value);
     };
-    return { ELanguageCodes, handleSelection };
+    return { ELanguageCodes, handleSelection, lang };
   },
 };
 </script>

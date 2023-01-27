@@ -6,12 +6,18 @@ import VSetting from "@/views/VSetting.vue";
 import VTables from "@/views/VTables.vue";
 import VTable from "@/views/VTable.vue";
 import { ERouter, ERouterName } from "@/enums/routers";
+import { EToken } from "@/enums/common";
+import { useCookies } from "vue3-cookies";
 
+const { cookies } = useCookies();
 const routes: Array<RouteRecordRaw> = [
   {
     path: ERouter.HOME,
     name: ERouterName.HOME,
     component: VHome,
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: ERouter.SIGNUP,
@@ -27,31 +33,39 @@ const routes: Array<RouteRecordRaw> = [
     path: ERouter.SETTING,
     name: ERouterName.SETTING,
     component: VSetting,
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: ERouter.TABLES,
     name: ERouterName.TABLES,
     component: VTables,
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: ERouter.TABLE,
     name: ERouterName.TABLE,
     component: VTable,
+    meta: {
+      authRequired: true,
+    },
   },
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
+  routes: routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record?.meta.authRequired)) {
+    if (!cookies.get(EToken.ACCESS)) {
+      router.push(ERouter.SIGNIN);
+    } else next();
+  } else next();
 });
 
 export default router;

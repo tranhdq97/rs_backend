@@ -6,6 +6,7 @@ import order from "./modules/order";
 import order_item from "./modules/order_item";
 import table from "./modules/table";
 import bill from "./modules/bill";
+import auth from "./modules/auth";
 
 export default createStore({
   modules: {
@@ -15,6 +16,7 @@ export default createStore({
     order_item,
     table,
     bill,
+    auth,
   },
   plugins: [createPersistedState()],
 });

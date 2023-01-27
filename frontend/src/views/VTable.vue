@@ -1,19 +1,9 @@
-<template>
-  <div class="container wrap">
-    <CTableOverview
-      :orderItemPreviewList="orderItemPreviewList"
-      @handleSelect="(item) => handleSelect(item)"
-      @handleOrder="order"
-    />
-    <CTableOrder :orderedItemList="orderedItemList" />
-  </div>
-</template>
-
 <script lang="ts">
 import CTableOrder from "@/components/CTableOrder.vue";
 import CTableOverview from "@/components/CTableOverview.vue";
+import { ERouter } from "@/enums/routers";
 import { ESOrderItem, ESTable } from "@/enums/store";
-import IFMenuItem from "@/interfaces/menu";
+import { IFMenuItem } from "@/interfaces/menu";
 import { computed, defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -24,6 +14,7 @@ export default defineComponent({
     const router = useRouter();
     const tableIndex = router.currentRoute.value.params.index as string;
     const table = store.getters[ESTable.G_TABLE](parseInt(tableIndex));
+    table ? null : router.push(ERouter.TABLES);
     const orderItemPreviewList = computed(() =>
       store.getters[ESOrderItem.G_ORDER_PREVIEW_LIST](table)
     );
@@ -42,11 +33,28 @@ export default defineComponent({
         items: orderItemPreviewList.value,
       });
     }
-    return { orderItemPreviewList, orderedItemList, handleSelect, order };
+    return {
+      orderItemPreviewList,
+      orderedItemList,
+      handleSelect,
+      order,
+      table,
+    };
   },
   components: { CTableOverview, CTableOrder },
 });
 </script>
+
+<template>
+  <div class="container wrap" v-if="table">
+    <CTableOverview
+      :orderItemPreviewList="orderItemPreviewList"
+      @handleSelect="(item) => handleSelect(item)"
+      @handleOrder="order"
+    />
+    <CTableOrder :orderedItemList="orderedItemList" />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .wrap {

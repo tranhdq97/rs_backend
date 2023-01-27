@@ -1,7 +1,7 @@
 import { ESOrder, ESOrderItem } from "@/enums/store";
-import IFMenuItem from "@/interfaces/menu";
+import { IFMenuItem } from "@/interfaces/menu";
 import { IFOrderItem, IFOrder } from "@/interfaces/order";
-import IFStaff from "@/interfaces/staff";
+import { IFStaff } from "@/interfaces/staff";
 import { IFTable, IFTableRep } from "@/interfaces/tables";
 import { Commit, Dispatch } from "vuex";
 

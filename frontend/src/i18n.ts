@@ -1,33 +1,101 @@
-import { createI18n, LocaleMessages, VueMessageType } from "vue-i18n";
+import { createI18n } from "vue3-i18n";
 
-/**
- * Load locale messages
- *
- * The loaded `JSON` locale messages is pre-compiled by `@intlify/vue-i18n-loader`, which is integrated into `vue-cli-plugin-i18n`.
- * See: https://github.com/intlify/vue-i18n-loader#rocket-i18n-resource-pre-compilation
- */
-function loadLocaleMessages(): LocaleMessages<VueMessageType> {
-  const locales = require.context(
-    "./locales",
-    true,
-    /[A-Za-z0-9-_,\s]+\.json$/i
-  );
-  const messages: LocaleMessages<VueMessageType> = {};
-  locales.keys().forEach((key) => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i);
-    if (matched && matched.length > 1) {
-      const locale = matched[1];
-      messages[locale] = locales(key).default;
-    }
-  });
-  return messages;
-}
+const messages = {
+  en: {
+    home: "home",
+    sign_up: "sign up",
+    sign_in: "sign in",
+    sign_out: "sign out",
+    username: "username",
+    password: "password",
+    firstname: "firstname",
+    lastname: "lastname",
+    email: "email",
+    phone_number: "phone number",
+    enter_email: "enter your email",
+    enter_phone_number: "enter your phone number",
+    enter_password: "enter your password",
+    tables: "tables",
+    table: "table",
+    order: "order",
+    add: "add",
+    remove: "remove",
+    bill: "bill",
+    desserts: "desserts",
+    drinks: "drinks",
+    appetizers: "appetizer",
+    pay: "pay",
+    menu: "menu",
+    main_course: "main course",
+    setting: "setting",
+    minutes: "minutes",
+    seconds: "seconds",
+    search: "search",
+    meal_name: "name",
+    quantity: "quantity",
+    unit_price: "unit price",
+    total: "total",
+    ordered_at: "order at",
+    preview: "preview",
+    served: "served",
+    served_at: "served at",
+    served_quantity: "served quantity",
+    serving_quantity: "serving quantity",
+    serve: "serve",
+    pay_bill: "pay bill",
+    VAT: "VAT",
+    amount: "amount",
+  },
+  vi: {
+    home: "trang chủ",
+    sign_up: "đăng ký",
+    sign_in: "đăng nhập",
+    sign_out: "đăng xuất",
+    username: "tên tài khoản",
+    password: "mật khẩu",
+    firstname: "tên",
+    lastname: "họ",
+    email: "địa chỉ email",
+    phone_number: "số điện thoại",
+    enter_email: "nhập địa chỉ email",
+    enter_phone_number: "nhập số điện thoại",
+    enter_password: "nhập mât khẩu",
+    tables: "bàn",
+    table: "bàn",
+    order: "đặt món",
+    add: "thêm",
+    remove: "xóa",
+    bill: "hóa đơn",
+    desserts: "món tráng miệng",
+    drinks: "đồ uống",
+    appetizers: "món khai vị",
+    pay: "thanh toán",
+    menu: "thực đơn",
+    main_course: "món chính",
+    setting: "cài đặt",
+    minutes: "phút",
+    seconds: "giây",
+    search: "tìm kiếm",
+    meal_name: "tên món",
+    quantity: "số lượng",
+    unit_price: "đơn giá",
+    total: "tổng tiền",
+    ordered_at: "gọi món lúc",
+    preview: "xem trước",
+    served: "đã lên món",
+    served_at: "lên món lúc",
+    served_quantity: "số lượng đã phục vụ",
+    serving_quantity: "số lượng lên món",
+    serve: "lên món",
+    pay_bill: "thanh toán hóa đơn",
+    VAT: "thuế VAT",
+    amount: "thành tiền",
+  },
+};
 
-export default createI18n({
-  legacy: false,
-  globalInjection: true,
-  locale: process.env.VUE_APP_I18N_LOCALE || "en",
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
-  //@ts-expect-error noproblem
-  messages: loadLocaleMessages(),
+const i18n = createI18n({
+  locale: "vi",
+  messages: messages,
 });
+
+export default i18n;
