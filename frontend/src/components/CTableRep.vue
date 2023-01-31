@@ -1,3 +1,35 @@
+<script lang="ts">
+import { computed, defineComponent } from "vue";
+import { ECommon, ERouterParams } from "@/enums/common";
+import CTableTimer from "./CTableTimer.vue";
+import { formRouter } from "@/utils/route";
+import { ERouter } from "@/enums/routers";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { ESOrderItem } from "@/enums/store";
+
+export default defineComponent({
+  props: {
+    table: { type: Object, required: true },
+  },
+  setup(props) {
+    const router = useRouter();
+    const store = useStore();
+    const data = computed(() =>
+      store.getters[ESOrderItem.G_TABLE_REP_DATA](props.table)
+    );
+    const handleClick = () => {
+      const toRouter = formRouter(ERouter.TABLE, [
+        { key: ERouterParams.INDEX, value: props.table.id },
+      ]);
+      router.push(toRouter);
+    };
+    return { ECommon, handleClick, data };
+  },
+  components: { CTableTimer },
+});
+</script>
+
 <template>
   <div class="plate" @click="handleClick">
     <div class="outer">
@@ -44,36 +76,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { computed, defineComponent } from "vue";
-import { ECommon } from "@/enums/common";
-import CTableTimer from "./CTableTimer.vue";
-import { routeToIndex } from "@/utils/route";
-import { ERouter } from "@/enums/routers";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { ESOrderItem } from "@/enums/store";
-
-export default defineComponent({
-  props: {
-    table: { type: Object, required: true },
-  },
-  setup(props) {
-    const router = useRouter();
-    const store = useStore();
-    const data = computed(() =>
-      store.getters[ESOrderItem.G_TABLE_REP_DATA](props.table)
-    );
-    const handleClick = () => {
-      const toRoute = routeToIndex(ERouter.TABLE, props.table.id);
-      router.push(toRoute);
-    };
-    return { ECommon, handleClick, data };
-  },
-  components: { CTableTimer },
-});
-</script>
 
 <style lang="scss" scoped>
 .header,

@@ -1,9 +1,10 @@
-import { ESOrder, ESOrderItem } from "@/enums/store";
+import { ESAuth, ESOrder, ESOrderItem } from "@/enums/store";
 import { IFMenuItem } from "@/interfaces/menu";
 import { IFOrderItem, IFOrder } from "@/interfaces/order";
 import { IFStaff } from "@/interfaces/staff";
 import { IFTable, IFTableRep } from "@/interfaces/tables";
 import { Commit, Dispatch } from "vuex";
+import auth from "./auth";
 
 export interface IFState {
   orderItemList: Array<IFOrderItem>;
@@ -73,7 +74,7 @@ export default {
   },
   actions: {
     addToOrderPreview(
-      { state }: { state: IFState },
+      { state, rootGetters }: { state: IFState; rootGetters: any },
       params: {
         menu: IFMenuItem;
         table: IFTable;
@@ -90,7 +91,8 @@ export default {
       )
         return;
       // Mock staff
-      const staff: IFStaff = { id: 1, role: { id: 1 }, email: "aaa@ax.com" };
+      const staff = auth.getters.user;
+      console.log("STAFF", staff);
       const newOrderItem = {
         order: params?.order,
         menu: params.menu,

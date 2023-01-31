@@ -12,6 +12,7 @@ class Master(BaseEnum):
     m_district = DBTable.MASTER_DISTRICT, "MasterDistrict", False
     m_file_type = DBTable.MASTER_FILE_TYPE, "MasterFileType", False
     m_menu_type = DBTable.MASTER_MENU_TYPE, "MasterMenuType", False
+    m_staff_type = DBTable.MASTER_STAFF_TYPE, "MasterStaffType", False
 
     @staticmethod
     def list(allowed_to_create=False):

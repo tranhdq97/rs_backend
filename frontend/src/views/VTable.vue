@@ -12,9 +12,9 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const tableIndex = router.currentRoute.value.params.index as string;
+    const tableIndex = router.currentRoute.value.params.id as string;
     const table = store.getters[ESTable.G_TABLE](parseInt(tableIndex));
-    table ? null : router.push(ERouter.TABLES);
+    if (!table) router.push(ERouter.TABLES);
     const orderItemPreviewList = computed(() =>
       store.getters[ESOrderItem.G_ORDER_PREVIEW_LIST](table)
     );

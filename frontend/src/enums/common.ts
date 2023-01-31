@@ -11,6 +11,8 @@ export enum ECommon {
   TABLE = "table",
   HOME = "home",
   SIGNOUT = "sign_out",
+  DAYS = "days",
+  HOURS = "hours",
   MINUTES = "minutes",
   SECONDS = "seconds",
   SEARCH = "search",
@@ -41,4 +43,23 @@ export enum EToken {
   ACCESS = "access",
   REFRESH = "refresh",
   EXPIRED = "expired",
+}
+
+export enum ERouterParams {
+  INDEX = ":id",
+  MASTER_NAME = ":master_name",
+}
+
+export enum EMasterModel {
+  SEX = "m_sex",
+  CITY = "m_city",
+  COUNTRY = "m_country",
+  DISTRICT = "m_district",
+  FILE_TYPE = "m_file_type",
+  MENU_TYPE = "m_menu_type",
+  STAFF_TYPE = "m_staff_type",
+}
+
+export enum EMessage {
+  PERMISSION_DENIED = "permission_denied",
 }

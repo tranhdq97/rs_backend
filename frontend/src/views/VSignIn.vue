@@ -1,5 +1,5 @@
 <template>
-  <LAuthForm>
+  <LAuthForm @keyup.enter="signIn">
     <template v-slot:icon>
       <img src="@/assets/icons/login.png" />
     </template>

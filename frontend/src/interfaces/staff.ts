@@ -2,7 +2,7 @@ import { IFMasterData, IFProfile } from "./common";
 
 export interface IFStaff {
   id?: number;
-  role?: IFMasterData;
+  type?: IFMasterData;
   email: string;
   password?: string;
   profile?: IFProfile;

@@ -18,7 +18,7 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const tableIndex: number = parseInt(
-      router.currentRoute.value.params.index as string
+      router.currentRoute.value.params.id as string
     );
     const table: IFTable = store.getters[ESTable.G_TABLE](tableIndex);
     const searchData = computed(() => store.getters[ESMenu.G_AVAILABLE_MENU]);

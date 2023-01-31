@@ -20,3 +20,9 @@ export enum EAStaff {
   UPDATE = "/staff/staff/:index/update",
   DELETE = "/staff/staff/:index/delete",
 }
+
+export enum EAMaster {
+  CREATE = "staff/master/:master_name/create",
+  LIST = "staff/master/:master_name/list",
+  DELETE = "staff/master/:master_name/:id/list",
+}

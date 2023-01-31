@@ -28,6 +28,8 @@ const messages = {
     menu: "menu",
     main_course: "main course",
     setting: "setting",
+    days: "days",
+    hours: "hours",
     minutes: "minutes",
     seconds: "seconds",
     search: "search",
@@ -45,6 +47,7 @@ const messages = {
     pay_bill: "pay bill",
     VAT: "VAT",
     amount: "amount",
+    permission_denied: "permission denied",
   },
   vi: {
     home: "trang chủ",
@@ -73,6 +76,8 @@ const messages = {
     menu: "thực đơn",
     main_course: "món chính",
     setting: "cài đặt",
+    days: "ngày",
+    hours: "giờ",
     minutes: "phút",
     seconds: "giây",
     search: "tìm kiếm",
@@ -90,6 +95,7 @@ const messages = {
     pay_bill: "thanh toán hóa đơn",
     VAT: "thuế VAT",
     amount: "thành tiền",
+    permission_denied: "bạn không có quyền truy cập",
   },
 };
 

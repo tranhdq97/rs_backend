@@ -6,10 +6,13 @@ import VSetting from "@/views/VSetting.vue";
 import VTables from "@/views/VTables.vue";
 import VTable from "@/views/VTable.vue";
 import { ERouter, ERouterName } from "@/enums/routers";
-import { EToken } from "@/enums/common";
-import { useCookies } from "vue3-cookies";
+import { EMessage } from "@/enums/common";
+import { EIDStaffType } from "@/enums/value_id";
+import { ESAuth } from "@/enums/store";
+import { IFStaff } from "@/interfaces/staff";
+import store from "@/store";
+import i18n from "@/i18n";
 
-const { cookies } = useCookies();
 const routes: Array<RouteRecordRaw> = [
   {
     path: ERouter.HOME,
@@ -35,6 +38,7 @@ const routes: Array<RouteRecordRaw> = [
     component: VSetting,
     meta: {
       authRequired: true,
+      notAllowedRoles: [EIDStaffType.EMPLOYEE, EIDStaffType.UNAPPROVED],
     },
   },
   {
@@ -43,6 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     component: VTables,
     meta: {
       authRequired: true,
+      notAllowedRoles: [EIDStaffType.UNAPPROVED],
     },
   },
   {
@@ -51,6 +56,7 @@ const routes: Array<RouteRecordRaw> = [
     component: VTable,
     meta: {
       authRequired: true,
+      notAllowedRoles: [EIDStaffType.UNAPPROVED],
     },
   },
 ];
@@ -61,8 +67,19 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record?.meta.authRequired)) {
-    if (!cookies.get(EToken.ACCESS)) {
+  if (
+    to.matched.some(
+      (record) => record?.meta?.authRequired && record?.meta?.notAllowedRoles
+    )
+  ) {
+    const notAllowedRoleList = (to.meta.notAllowedRoles as number[]) || [];
+    const user: IFStaff = store.getters[ESAuth.G_USER];
+    if (notAllowedRoleList.includes(user?.type?.id || -1)) {
+      alert(i18n.t(EMessage.PERMISSION_DENIED));
+    } else next();
+  } else if (to.matched.some((record) => record?.meta?.authRequired)) {
+    const user: IFStaff = store.getters[ESAuth.G_USER];
+    if (!user) {
       router.push(ERouter.SIGNIN);
     } else next();
   } else next();

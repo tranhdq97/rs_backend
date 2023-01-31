@@ -40,8 +40,7 @@ axios.interceptors.response.use(
 authAxios.interceptors.request.use(
   function (config) {
     config.headers.timeDiff = new Date().getTimezoneOffset;
-
-    config.headers.Authorization = "Bearer" + cookies.get(EToken.ACCESS);
+    config.headers.Authorization = "Bearer " + cookies.get(EToken.ACCESS);
     return config;
   },
   function (err) {
@@ -57,10 +56,10 @@ authAxios.interceptors.response.use(
     if (error.response.status === 401) {
       if (cookies.get(EToken.REFRESH)) {
         await store.dispatch(ESAuth.A_REFRESH);
-        return authAxios(error.config);
-      } else {
-        router.push(ERouter.SIGNIN);
+        if (cookies.get(EToken.ACCESS)) return authAxios(error.config);
       }
+      store.commit(ESAuth.M_REMOVE_CURRENT_USER);
+      router.push(ERouter.SIGNIN);
       return;
     }
     alert(error.message);

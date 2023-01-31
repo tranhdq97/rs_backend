@@ -1,5 +1,5 @@
 <template>
-  <LAuthForm>
+  <LAuthForm @keyup.enter="signUp">
     <template v-slot:icon>
       <img src="@/assets/icons/sign-up.png" />
     </template>
@@ -41,8 +41,8 @@ export default defineComponent({
     const password = ref("");
     async function signUp() {
       await store.dispatch(ESAuth.A_SIGN_UP, {
-        email: email,
-        password: password,
+        email: email.value,
+        password: password.value,
       });
       router.push(ERouter.SIGNIN);
     }
