@@ -1,6 +1,6 @@
-import IFCustomer from "./customer";
-import IFMenuItem from "./menu";
-import IFStaff from "./staff";
+import { IFCustomer } from "./customer";
+import { IFMenuItem } from "./menu";
+import { IFStaff } from "./staff";
 import { IFTable } from "./tables";
 
 export interface IFOrder {

@@ -21,8 +21,6 @@ export interface IFDistrict {
 
 export interface IFAddress {
   id: number;
-  country: IFMasterData;
-  city: IFCity;
   district: IFDistrict;
   street?: string;
 }
@@ -34,4 +32,21 @@ export interface IFProfile {
   lastname?: string;
   dob?: Date;
   address?: IFAddress;
+}
+
+export interface IFToken {
+  access: string;
+  refresh: string;
+}
+
+export interface IFTimeDiff {
+  diffDays: number;
+  diffHours: number;
+  diffMins: number;
+  diffSecs: number;
+}
+
+export interface IFRouterParams {
+  key: string;
+  value: string;
 }

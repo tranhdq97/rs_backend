@@ -1,6 +1,6 @@
 import { IFProfile } from "./common";
 
-export default interface IFCustomer {
+export interface IFCustomer {
   id: number;
   profile: IFProfile;
 }

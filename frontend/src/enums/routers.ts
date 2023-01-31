@@ -4,7 +4,7 @@ export enum ERouter {
   HOME = "/",
   SETTING = "/setting",
   TABLES = "/tables",
-  TABLE = "/table/:index",
+  TABLE = "/table/:id",
 }
 
 export enum ERouterName {

@@ -1,18 +1,27 @@
 <template>
   <div class="container">
     <div class="title">{{ $t(title) }}</div>
-    <input :type="type" :placeholder="$t(placeHolder)" />
+    <input
+      :type="type"
+      :placeholder="$t(placeHolder)"
+      v-model="value"
+      @input="$emit('content', value)"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   props: {
     title: { type: String, required: true },
     type: { type: String, default: "text" },
     placeHolder: { type: String, default: "" },
+  },
+  setup() {
+    const value = ref("");
+    return { value };
   },
 });
 </script>

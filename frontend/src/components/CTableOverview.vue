@@ -18,7 +18,7 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const tableIndex: number = parseInt(
-      router.currentRoute.value.params.index as string
+      router.currentRoute.value.params.id as string
     );
     const table: IFTable = store.getters[ESTable.G_TABLE](tableIndex);
     const searchData = computed(() => store.getters[ESMenu.G_AVAILABLE_MENU]);
@@ -32,20 +32,20 @@ export default defineComponent({
   <div class="container area">
     <div class="head-info">
       <span class="material-icons">table_restaurant</span>
-      {{ $t(ECommon.TABLE) }}: {{ table.name }}
+      <div>{{ table.name }}</div>
     </div>
     <div class="head-info">
       <div class="sub-info">
         <span class="material-icons">contact_phone</span>
-        <div>{{ "0934346270" }}</div>
+        <div class="normal">{{ "0934346270" }}</div>
       </div>
       <div class="sub-info">
         <span class="material-icons">badge</span>
-        <div>{{ "Dong Quoc Tranh" }}</div>
+        <div class="normal">{{ "Dong Quoc Tranh" }}</div>
       </div>
       <div class="sub-info">
         <span class="material-icons">groups</span>
-        <div>{{ 5 }}</div>
+        <div class="normal">{{ 5 }}</div>
       </div>
     </div>
     <div class="head-info search">
@@ -107,5 +107,8 @@ export default defineComponent({
 }
 .search {
   justify-content: stretch;
+}
+.normal {
+  font-weight: var(--fw-medium);
 }
 </style>

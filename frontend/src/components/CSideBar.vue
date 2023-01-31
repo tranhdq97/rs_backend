@@ -1,3 +1,59 @@
+<script lang="ts">
+import { ECommon } from "@/enums/common";
+import { ELanguageCodes } from "@/enums/languages";
+import { ERouter, ERouterName } from "@/enums/routers";
+import { ESAuth, ESSideBar } from "@/enums/store";
+import { computed, defineComponent, watch, ref } from "vue";
+import { useI18n } from "vue3-i18n";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import CSideBarSelector from "./CSideBarSelector.vue";
+
+export default defineComponent({
+  components: { CSideBarSelector },
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    const isSideBarHide = ref(true);
+    const isSideBarCollapsed = computed(
+      () => store.getters[ESSideBar.G_IS_SIDEBAR_COLLAPSED]
+    );
+    const collapseSideBar = () => {
+      store.dispatch(ESSideBar.A_COLLAPSE_SIDEBAR);
+    };
+    const toggleSideBar = () => {
+      store.dispatch(ESSideBar.A_TOGGLE_SIDEBAR);
+    };
+    const signOut = () => {
+      store.dispatch(ESAuth.A_SIGN_OUT);
+      router.push(ERouter.SIGNIN);
+    };
+    const i18n = useI18n();
+    const initLocale = localStorage.getItem(ECommon.LOCALE);
+    i18n.setLocale(initLocale ? initLocale : ELanguageCodes.VIETNAMESE);
+    watch(
+      () => router.currentRoute.value.name,
+      (currentRoute) => {
+        currentRoute === ERouterName.SIGNUP ||
+        currentRoute === ERouterName.SIGNIN
+          ? (isSideBarHide.value = true)
+          : (isSideBarHide.value = false);
+      }
+    );
+    return {
+      ERouter,
+      ECommon,
+      isSideBarHide,
+      isSideBarCollapsed,
+      collapseSideBar,
+      toggleSideBar,
+      signOut,
+      router,
+    };
+  },
+});
+</script>
+
 <template>
   <div class="container box-shadow" v-show="!isSideBarHide">
     <div class="menu">
@@ -25,60 +81,13 @@
     <CSideBarSelector
       :title="ECommon.SIGNOUT"
       icon="logout"
-      :to="ERouter.SIGNIN"
+      :to="router.currentRoute.value.path"
+      :activeNotAllowed="true"
+      @click="signOut"
     />
   </div>
 </template>
 
-<script lang="ts">
-import { ECommon } from "@/enums/common";
-import { ELanguageCodes } from "@/enums/languages";
-import { ERouter, ERouterName } from "@/enums/routers";
-import { ESSideBar } from "@/enums/store";
-import { computed, defineComponent, watch, ref } from "vue";
-import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import CSideBarSelector from "./CSideBarSelector.vue";
-
-export default defineComponent({
-  components: { CSideBarSelector },
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    const isSideBarHide = ref(true);
-    const isSideBarCollapsed = computed(
-      () => store.getters[ESSideBar.G_IS_SIDEBAR_COLLAPSED]
-    );
-    const collapseSideBar = () => {
-      store.dispatch(ESSideBar.A_COLLAPSE_SIDEBAR);
-    };
-    const toggleSideBar = () => {
-      store.dispatch(ESSideBar.A_TOGGLE_SIDEBAR);
-    };
-    const { locale } = useI18n({ useScope: "global" });
-    const initLocale = localStorage.getItem(ECommon.LOCALE);
-    locale.value = initLocale ? initLocale : ELanguageCodes.VIETNAMESE;
-    watch(
-      () => router.currentRoute.value.name,
-      (currentRoute) => {
-        currentRoute === ERouterName.SIGNUP ||
-        currentRoute === ERouterName.SIGNIN
-          ? (isSideBarHide.value = true)
-          : (isSideBarHide.value = false);
-      }
-    );
-    return {
-      ERouter,
-      ECommon,
-      isSideBarHide,
-      isSideBarCollapsed,
-      collapseSideBar,
-      toggleSideBar,
-    };
-  },
-});
-</script>
 <style lang="scss" scoped>
 .container {
   height: 100vh;

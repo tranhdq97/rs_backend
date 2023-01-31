@@ -36,3 +36,14 @@ export enum ESTable {
 export enum ESBill {
   G_VAT = "bill/VAT",
 }
+
+export enum ESAuth {
+  G_USER = "auth/user",
+  A_SIGN_UP = "auth/signUp",
+  A_SIGN_IN = "auth/signIn",
+  A_SIGN_OUT = "auth/signOut",
+  A_REFRESH = "auth/refreshToken",
+  A_GET_ME = "auth/getMe",
+  M_REMOVE_CURRENT_USER = "auth/removeCurrentUser",
+  M_SET_USER = "auth/setUser",
+}
