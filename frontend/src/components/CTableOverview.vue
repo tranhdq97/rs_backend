@@ -1,30 +1,37 @@
 <script lang="ts">
 import { ECommon } from "@/enums/common";
-import { ESMenu, ESTable } from "@/enums/store";
-import { IFTable } from "@/interfaces/tables";
-import { computed, defineComponent } from "vue";
-import { useRouter } from "vue-router";
+import { ESMenu } from "@/enums/store";
+import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 import CButton from "./CButton.vue";
 import CPreOrder from "./CPreOrder.vue";
 import CSearchField from "./CSearchField.vue";
+import CTableCustomerInfo from "./CTableCustomerInfo.vue";
 
 export default defineComponent({
   props: {
     orderItemPreviewList: { type: Array, default: () => [] },
+    table: { type: Object, required: true },
+    order: { type: Object, required: false },
   },
   emits: ["handleSelect", "handleOrder"],
-  setup() {
-    const router = useRouter();
+  setup(props) {
     const store = useStore();
-    const tableIndex: number = parseInt(
-      router.currentRoute.value.params.id as string
-    );
-    const table: IFTable = store.getters[ESTable.G_TABLE](tableIndex);
+    const phoneNumber = ref(props?.order?.customer?.profile?.phone_number);
+    const firstName = ref(props?.order?.customer?.profile?.firstname);
+    const lastName = ref(props?.order?.customer?.profile?.lastName);
+    const numPeople = ref(props?.order?.num_people?.toString());
     const searchData = computed(() => store.getters[ESMenu.G_AVAILABLE_MENU]);
-    return { ECommon, searchData, table };
+    return {
+      ECommon,
+      searchData,
+      phoneNumber,
+      firstName,
+      lastName,
+      numPeople,
+    };
   },
-  components: { CSearchField, CPreOrder, CButton },
+  components: { CSearchField, CPreOrder, CButton, CTableCustomerInfo },
 });
 </script>
 
@@ -35,18 +42,25 @@ export default defineComponent({
       <div>{{ table.name }}</div>
     </div>
     <div class="head-info">
-      <div class="sub-info">
-        <span class="material-icons">contact_phone</span>
-        <div class="normal">{{ "0934346270" }}</div>
-      </div>
-      <div class="sub-info">
-        <span class="material-icons">badge</span>
-        <div class="normal">{{ "Dong Quoc Tranh" }}</div>
-      </div>
-      <div class="sub-info">
-        <span class="material-icons">groups</span>
-        <div class="normal">{{ 5 }}</div>
-      </div>
+      <CTableCustomerInfo
+        icon="contact_phone"
+        :info="phoneNumber"
+        :placeHolder="$t(ECommon.PHONE_NUMBER)"
+      />
+      <CTableCustomerInfo
+        icon="badge"
+        :info="lastName"
+        :placeHolder="$t(ECommon.LASTNAME)"
+      />
+      <CTableCustomerInfo
+        :info="firstName"
+        :placeHolder="$t(ECommon.FIRSTNAME)"
+      />
+      <CTableCustomerInfo
+        icon="groups"
+        :info="numPeople"
+        :placeHolder="$t(ECommon.NUM_PEOPLE)"
+      />
     </div>
     <div class="head-info search">
       <span class="material-icons">menu_book</span>
@@ -96,10 +110,6 @@ export default defineComponent({
     font-weight: var(--fw-small);
   }
 }
-.sub-info {
-  align-items: center;
-  gap: var(--s-medium);
-}
 .pre-order {
   gap: var(--s-small);
   overflow-y: auto;
@@ -107,8 +117,5 @@ export default defineComponent({
 }
 .search {
   justify-content: stretch;
-}
-.normal {
-  font-weight: var(--fw-medium);
 }
 </style>

@@ -8,8 +8,8 @@ const messages = {
     sign_out: "sign out",
     username: "username",
     password: "password",
-    firstname: "firstname",
-    lastname: "lastname",
+    firstname: "first name",
+    lastname: "last name",
     email: "email",
     phone_number: "phone number",
     enter_email: "enter your email",
@@ -48,6 +48,7 @@ const messages = {
     VAT: "VAT",
     amount: "amount",
     permission_denied: "permission denied",
+    num_people: "no. people",
   },
   vi: {
     home: "trang chủ",
@@ -96,6 +97,7 @@ const messages = {
     VAT: "thuế VAT",
     amount: "thành tiền",
     permission_denied: "bạn không có quyền truy cập",
+    num_people: "số người",
   },
 };
 

@@ -3,6 +3,7 @@ export enum ECommon {
   PASSWORD = "password",
   FIRSTNAME = "firstname",
   LASTNAME = "lastname",
+  PHONE_NUMBER = "phone_number",
   LOCALE = "locale",
   SIGNUP = "sign_up",
   SIGNIN = "sign_in",
@@ -31,6 +32,7 @@ export enum ECommon {
   PAY_BILL = "pay_bill",
   VAT = "VAT",
   AMOUNT = "amount",
+  NUM_PEOPLE = "num_people",
 }
 
 export enum EPlaceHolder {

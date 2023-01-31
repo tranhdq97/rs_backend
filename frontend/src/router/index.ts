@@ -74,8 +74,10 @@ router.beforeEach((to, from, next) => {
   ) {
     const notAllowedRoleList = (to.meta.notAllowedRoles as number[]) || [];
     const user: IFStaff = store.getters[ESAuth.G_USER];
-    if (notAllowedRoleList.includes(user?.type?.id || -1)) {
+    if (user && notAllowedRoleList.includes(user?.type?.id || -1)) {
       alert(i18n.t(EMessage.PERMISSION_DENIED));
+    } else if (!user) {
+      router.push(ERouter.SIGNIN);
     } else next();
   } else if (to.matched.some((record) => record?.meta?.authRequired)) {
     const user: IFStaff = store.getters[ESAuth.G_USER];

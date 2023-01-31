@@ -9,13 +9,13 @@
 import authAxios from "@/axios";
 import { EAMaster } from "@/enums/api";
 import { EMasterModel, ERouterParams } from "@/enums/common";
-import { formRouter } from "@/utils/route";
+import { formURL } from "@/utils/url";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
     async function click() {
-      const url = formRouter(EAMaster.LIST, [
+      const url = formURL(EAMaster.LIST, [
         { key: ERouterParams.MASTER_NAME, value: EMasterModel.COUNTRY },
       ]);
       await authAxios.get(url);

@@ -1,14 +1,16 @@
 <script lang="ts">
 import CAddButton from "@/components/CAddButton.vue";
 import CTableRep from "@/components/CTableRep.vue";
-import { ESTable } from "@/enums/store";
-import { defineComponent } from "vue";
+import { ESMenu, ESTable } from "@/enums/store";
+import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
     const store = useStore();
-    const tables = store.getters[ESTable.G_TABLES];
+    store.dispatch(ESTable.A_GET_TABLES);
+    store.dispatch(ESMenu.A_GET_MENU);
+    const tables = computed(() => store.getters[ESTable.G_TABLES]);
     async function addTable() {
       await store.dispatch(ESTable.A_ADD_TABLE);
     }

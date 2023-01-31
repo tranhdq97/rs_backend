@@ -9,7 +9,7 @@ from base.common.constant.view_action import BaseViewAction
 from base.common.custom.pagination import CustomPagination
 from base.common.utils.exceptions import PermissionDenied
 from base.order.models import Order
-from staff.order.filters.order import OrderListQueryFields
+from staff.order.filters.order import OrderListQueryFields, OrderFilter
 from staff.order.serializers.order import OrderListSlz, OrderRetrieveSlz, OrderCreateSlz, OrderUpdateSlz
 
 
@@ -19,11 +19,12 @@ class OrderViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Update
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend, OrderingFilter, SearchFilter)
     serializer_class = OrderListSlz
-    queryset = Order.objects.all()
+    queryset = Order.objects.filter(paid_at__isnull=True)
     search_fields = OrderListQueryFields.SEARCH_FIELDS
     ordering_fields = OrderListQueryFields.ORDER_FIELDS
     ordering = OrderListQueryFields.ORDER_DEFAULT_FIELD
     filterset_fields = OrderListQueryFields.FILTERSET_FIELDS
+    filterset_class = OrderFilter
 
     def get_serializer_class(self):
         slz_switcher = {

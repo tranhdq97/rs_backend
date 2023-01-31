@@ -18,3 +18,19 @@ export function sumProperty(array: any[], properties: string[]): number {
   });
   return sum;
 }
+
+export function concatProperty(
+  array: any[],
+  property: string,
+  factor: string
+): string {
+  let text = "";
+  array.map((item: any, index: number) => {
+    text += (index === 0 ? "" : factor) + item[property];
+  });
+  return text;
+}
+
+export function addPaddingNumber(number: number, numLen?: number) {
+  return number.toString().padStart(numLen || 3, "0");
+}

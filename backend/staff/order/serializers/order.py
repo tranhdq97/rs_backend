@@ -19,13 +19,16 @@ class OrderBaseSlz(serializers.ModelSerializer):
 
 
 class OrderCreateSlz(OrderBaseSlz):
-    table_id = ForeignKeyField(Table)
-    customer_id = ForeignKeyField(Customer, required=False)
+    table_id = ForeignKeyField(Table, write_only=True)
+    customer_id = ForeignKeyField(Customer, required=False, write_only=True)
+    table = TableRetrieveSlz(read_only=True)
+    customer = CustomerRetrieveSlz(read_only=True)
 
     class Meta:
         model = OrderBaseSlz.Meta.model
         fields = OrderBaseSlz.Meta.fields + (
-            OrderFields.NUM_PEOPLE, OrderFields.TABLE_ID, OrderFields.CUSTOMER_ID
+            OrderFields.NUM_PEOPLE, OrderFields.TABLE_ID, OrderFields.CUSTOMER_ID, OrderFields.TABLE,
+            OrderFields.CUSTOMER
         )
 
 

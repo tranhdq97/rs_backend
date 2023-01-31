@@ -33,7 +33,7 @@ export default defineComponent({
 <template>
   <div class="plate" @click="handleClick">
     <div class="outer">
-      <div class="inner">
+      <div :class="'inner' + (table.is_available ? ' avail' : '')">
         <div class="index">{{ table.name }}</div>
         <div class="header" v-if="!table.is_available">
           <div class="numServed">
@@ -126,5 +126,8 @@ export default defineComponent({
     box-shadow: inset 2px 2px 6px -1px var(--bs-color),
       inset -6px -6px 10px -1px var(--bs-colorLight);
   }
+}
+.avail {
+  background: var(--c-greyLight);
 }
 </style>

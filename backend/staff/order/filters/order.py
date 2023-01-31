@@ -1,4 +1,8 @@
+from django_filters import FilterSet
+
 from base.common.constant.db_fields import CommonFields, OrderFields, TableFields, UserFields, ProfileFields
+from base.common.filters.common import NumberInFilter
+from base.order.models import Order
 
 
 class OrderListQueryFields:
@@ -16,3 +20,11 @@ class OrderListQueryFields:
         "__".join([OrderFields.TABLE, TableFields.NAME]),
         "__".join([OrderFields.CUSTOMER, UserFields.PROFILE, ProfileFields.PHONE_NUMBER]),
     )
+
+
+class OrderFilter(FilterSet):
+    table_id__in = NumberInFilter(field_name=OrderFields.TABLE_ID, lookup_expr="in")
+
+    class Meta:
+        model = Order
+        fields = ()

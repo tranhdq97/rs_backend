@@ -10,6 +10,7 @@ networks:
 
 services:
   db:
+    restart: always
     container_name: rs_database
     image: mysql:8.0
     ports:
@@ -25,6 +26,7 @@ services:
       MYSQL_ROOT_PASSWORD: '1'
 
   backend_staff:
+    restart: always
     container_name: rs_backend_staff
     build:
       context: .
@@ -47,6 +49,7 @@ services:
     #    gunicorn $DJANGO_APP_TARGET -b :$PORT --timeout 3600 --threads 4"
 
   backend_storage:
+    restart: always
     container_name: rs_backend_storage
     build:
       context: .

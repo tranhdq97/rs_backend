@@ -1,5 +1,11 @@
+import authAxios from "@/axios";
+import { EAOrder } from "@/enums/api";
+import { EPCommon, EPOrder } from "@/enums/params";
+import { IAListRes } from "@/interfaces/api";
 import { IFOrder } from "@/interfaces/order";
 import { IFTable } from "@/interfaces/tables";
+import { concatProperty } from "@/utils/common";
+import { formURL } from "@/utils/url";
 
 export interface IFState {
   // not have paid_at
@@ -17,24 +23,32 @@ export default {
       return state.orderList.find((item: IFOrder) => item.id === order.id);
     },
     orderByTable: (state: IFState) => (table: IFTable) => {
-      return state.orderList.find((item) => item.table.id === table.id);
+      return state.orderList.find(
+        (item) => item?.table?.id === table.id && !item.paid_at
+      );
     },
   },
   actions: {
     async addOrder({ state }: { state: IFState }, order: IFOrder) {
-      // Call add Order API
-      let existedOrder = state.orderList.find(
-        (item: IFOrder) => item.id === order.id
+      const res: IFOrder = await authAxios.post(EAOrder.CREATE, order);
+      state.orderList.push(res);
+      return res;
+    },
+    async getOrders({ state }: { state: IFState }, tables: IFTable[]) {
+      if (!tables?.length) return state.orderList;
+      const tableIDs = concatProperty(tables, EPCommon.ID, ",");
+      const URL = formURL(
+        EAOrder.LIST,
+        [],
+        [{ key: EPOrder.TABLE_ID__IN, value: tableIDs }]
       );
-      if (!existedOrder) {
-        state.orderList.push(order);
-        existedOrder = order;
-      }
-      return existedOrder;
+      const res: IAListRes = await authAxios.get(URL);
+      state.orderList = res.results as Array<IFOrder>;
+      return state.orderList;
     },
   },
   mutations: {
-    removePaidOrder(state: IFState, order: IFOrder) {
+    removeOrder(state: IFState, order: IFOrder) {
       const index = state.orderList.indexOf(order);
       index > -1 ? state.orderList.splice(index, 1) : null;
     },

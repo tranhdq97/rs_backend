@@ -2,7 +2,7 @@
 import CTableOrder from "@/components/CTableOrder.vue";
 import CTableOverview from "@/components/CTableOverview.vue";
 import { ERouter } from "@/enums/routers";
-import { ESOrderItem, ESTable } from "@/enums/store";
+import { ESOrder, ESOrderItem, ESTable } from "@/enums/store";
 import { IFMenuItem } from "@/interfaces/menu";
 import { computed, defineComponent } from "vue";
 import { useRouter } from "vue-router";
@@ -18,6 +18,9 @@ export default defineComponent({
     const orderItemPreviewList = computed(() =>
       store.getters[ESOrderItem.G_ORDER_PREVIEW_LIST](table)
     );
+    const tableOrder = computed(() =>
+      store.getters[ESOrder.G_ORDER_BY_TABLE](table)
+    );
     const orderedItemList = computed(() =>
       store.getters[ESOrderItem.G_ORDERED_LIST](table)
     );
@@ -30,7 +33,9 @@ export default defineComponent({
     async function order() {
       await store.dispatch(ESOrderItem.A_ORDER, {
         table: table,
+        tableOrder: tableOrder.value,
         items: orderItemPreviewList.value,
+        customer: null,
       });
     }
     return {
@@ -39,6 +44,7 @@ export default defineComponent({
       handleSelect,
       order,
       table,
+      tableOrder,
     };
   },
   components: { CTableOverview, CTableOrder },
@@ -49,10 +55,12 @@ export default defineComponent({
   <div class="container wrap" v-if="table">
     <CTableOverview
       :orderItemPreviewList="orderItemPreviewList"
+      :table="table"
+      :order="tableOrder"
       @handleSelect="(item) => handleSelect(item)"
       @handleOrder="order"
     />
-    <CTableOrder :orderedItemList="orderedItemList" />
+    <CTableOrder :orderedItemList="orderedItemList" :table="table" />
   </div>
 </template>
 

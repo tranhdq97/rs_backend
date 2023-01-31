@@ -48,5 +48,5 @@ export interface IFTimeDiff {
 
 export interface IFRouterParams {
   key: string;
-  value: string;
+  value: string | number | boolean | undefined;
 }

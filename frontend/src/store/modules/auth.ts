@@ -20,10 +20,7 @@ export default {
     user: null,
   } as IFState,
   getters: {
-    user: (state: IFState) => {
-      console.log("IN getter USER");
-      return state.user;
-    },
+    user: (state: IFState) => state.user,
   },
   actions: {
     async signUp({ state }: { state: IFState }, user: IFStaff) {
