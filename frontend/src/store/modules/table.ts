@@ -60,8 +60,7 @@ export default {
         { key: ERouterParams.INDEX, value: params.table.id },
       ]);
       await authAxios.put(URL, params.updateData);
-      const table = state.tables.find((table) => table.id === params.table.id);
-      if (table) Object.assign(table, { ...table, ...params.updateData });
+      params.table = { ...params.table, ...params.updateData };
       return params.table;
     },
   },

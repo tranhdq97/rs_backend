@@ -2,9 +2,10 @@
 import CTableOrder from "@/components/CTableOrder.vue";
 import CTableOverview from "@/components/CTableOverview.vue";
 import { ERouter } from "@/enums/routers";
-import { ESOrder, ESOrderItem, ESTable } from "@/enums/store";
+import { ESCustomer, ESOrder, ESOrderItem, ESTable } from "@/enums/store";
+import { IFCustomer } from "@/interfaces/customer";
 import { IFMenuItem } from "@/interfaces/menu";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 

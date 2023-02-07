@@ -21,3 +21,9 @@ export enum EPOrderItem {
 }
 
 export enum EPOrder {}
+
+export enum EPCustomer {
+  PROFILE__FIRST_NAME = "profile__first_name",
+  PROFILE__LAST_NAME = "profile__last_name",
+  PROFILE__PHONE_NUMBER = "profile__phone_number",
+}

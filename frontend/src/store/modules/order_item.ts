@@ -242,7 +242,7 @@ export default {
         ESTable.A_UPDATE_TABLE,
         {
           table: params.order.table,
-          updateData: { is_availabel: true },
+          updateData: { is_available: true },
         },
         { root: true }
       );

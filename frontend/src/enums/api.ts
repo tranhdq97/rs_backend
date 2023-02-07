@@ -15,7 +15,12 @@ export enum EAAuth {
   CHANGE_PASSWORD = "staff/auth/change-password",
 }
 
-export enum EACustomer {}
+export enum EACustomer {
+  CREATE = "/staff/customer/create",
+  LIST = "/staff/customer/list",
+  DETAIL = "/staff/customer/:id/detail",
+  DELETE = "/staff/customer/:id/delete",
+}
 
 export enum EAMaster {
   CREATE = "staff/master/:master_name/create",

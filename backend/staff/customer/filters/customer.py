@@ -10,7 +10,8 @@ class CustomerListQueryFields:
     ORDER_FIELDS = (
         CommonFields.ID,
         "__".join([UserFields.PROFILE, ProfileFields.FIRST_NAME]),
-        "__".join([UserFields.PROFILE, ProfileFields.LAST_NAME])
+        "__".join([UserFields.PROFILE, ProfileFields.LAST_NAME]),
+        "__".join([UserFields.PROFILE, ProfileFields.PHONE_NUMBER]),
     )
     ORDER_DEFAULT_FIELD = f"{CommonFields.ID}"
     FILTERSET_FIELDS = (

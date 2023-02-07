@@ -1,5 +1,11 @@
+import authAxios from "@/axios";
+import { EACustomer } from "@/enums/api";
+import { EPCommon } from "@/enums/params";
+import { IAListRes } from "@/interfaces/api";
 import { IFCustomer } from "@/interfaces/customer";
 import { IFTable } from "@/interfaces/tables";
+import { formURL } from "@/utils/url";
+import { EOCustomer } from "@/enums/ordering";
 
 export interface IFState {
   customerList: IFCustomer[];
@@ -24,6 +30,23 @@ export default {
       params: { customer: IFCustomer; table: IFTable }
     ) {
       return null;
+    },
+    async searchCustomerByPhoneNumber(
+      { state }: { state: IFState },
+      phoneNumber: string
+    ) {
+      const URL = formURL(
+        EACustomer.LIST,
+        [],
+        [
+          { key: EPCommon.SEARCH, value: phoneNumber },
+          { key: EPCommon.PAGE_SIZE, value: 20 },
+          { key: EPCommon.PAGE, value: 1 },
+          { key: EPCommon.ORDERING, value: EOCustomer.PROFILE__PHONE_NUMBER },
+        ]
+      );
+      const res: IAListRes = await authAxios.get(URL);
+      return res.results as IFCustomer[];
     },
   },
   mutations: {

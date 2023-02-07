@@ -55,3 +55,7 @@ export enum ESAuth {
   M_REMOVE_CURRENT_USER = "auth/removeCurrentUser",
   M_SET_USER = "auth/setUser",
 }
+
+export enum ESCustomer {
+  A_SEARCH_CUSTOMER_BY_PN = "customer/searchCustomerByPhoneNumber",
+}

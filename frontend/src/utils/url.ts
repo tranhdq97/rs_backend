@@ -10,8 +10,11 @@ export function formURL(
   });
   if (params) {
     baseURL += "?";
-    params.map((val) => {
-      if (val.key && val.value) baseURL += val.key + "=" + val.value;
+    params.map((val, index) => {
+      if (val.key && val.value) {
+        baseURL += val.key + "=" + val.value;
+        if (index + 1 < params.length) baseURL += "&";
+      }
     });
   }
   return baseURL;

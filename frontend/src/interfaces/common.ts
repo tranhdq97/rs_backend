@@ -4,7 +4,7 @@ export interface IFSearchItem {
 }
 
 export interface IFMasterData {
-  id: number;
+  id?: number;
   name?: string;
 }
 
@@ -28,8 +28,8 @@ export interface IFAddress {
 export interface IFProfile {
   id: number;
   phone_number: string;
-  firstname?: string;
-  lastname?: string;
+  first_name?: string;
+  last_name?: string;
   dob?: Date;
   address?: IFAddress;
 }
