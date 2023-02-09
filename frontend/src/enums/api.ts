@@ -50,7 +50,12 @@ export enum EAOrderItem {
   UPDATE = "/staff/order_item/:id/update",
   DELETE = "/staff/order_item/:id/delete",
 }
-export enum EAProfile {}
+export enum EAProfile {
+  CREATE = "/staff/profile/create",
+  DETAIL = "/staff/profile/:id/detail",
+  UPDATE = "/staff/profile/:id/update",
+  DELETE = "/staff/profile/:id/delete",
+}
 
 export enum EAStaff {
   CREATE = "/staff/staff/create",

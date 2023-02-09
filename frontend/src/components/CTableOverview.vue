@@ -1,6 +1,7 @@
 <script lang="ts">
+import authAxios from "@/axios";
 import { ECommon } from "@/enums/common";
-import { ESCustomer, ESMenu } from "@/enums/store";
+import { ESCustomer, ESMenu, ESOrder } from "@/enums/store";
 import { IFMasterData } from "@/interfaces/common";
 import { IFCustomer } from "@/interfaces/customer";
 import { computed, defineComponent, ref } from "vue";
@@ -19,14 +20,12 @@ export default defineComponent({
   emits: ["handleSelect", "handleOrder"],
   setup(props) {
     const store = useStore();
-    const phoneNumber = ref(
-      props?.order?.customer?.profile?.phone_number || ""
-    );
-    const firstName = ref(props?.order?.customer?.profile?.firstname || "");
-    const lastName = ref(props?.order?.customer?.profile?.lastName || "");
+    const customer = ref<IFCustomer | null>(props.order?.customer);
+    const phoneNumber = ref(customer.value?.profile?.phone_number || "");
+    const firstName = ref(customer.value?.profile?.first_name || "");
+    const lastName = ref(customer.value?.profile?.last_name || "");
     const numPeople = ref(props?.order?.num_people?.toString() || "0");
     const searchData = computed(() => store.getters[ESMenu.G_AVAILABLE_MENU]);
-    const customer = ref<IFCustomer | null>();
     const customers = ref<IFCustomer[]>([]);
     const customerList = computed(() => {
       const data: IFMasterData[] = [];
@@ -51,6 +50,38 @@ export default defineComponent({
       }
       customers.value = res;
     }
+    async function selectCustomer(item: IFMasterData) {
+      const selectedCustomer: IFCustomer | null = customers.value.find(
+        (cus) => cus.id === item.id
+      ) as IFCustomer;
+      if (selectedCustomer) {
+        if (props.order) {
+          await store.dispatch(ESOrder.A_UPDATE_ORDER, {
+            order: props.order,
+            updateData: { customer_id: selectedCustomer.id },
+          });
+        } else {
+          return;
+        }
+      }
+      customer.value = selectedCustomer;
+      return;
+    }
+    async function addPhoneNumber() {
+      customer.value = await store.dispatch(
+        ESCustomer.A_ADD_CUSTOMER,
+        phoneNumber.value
+      );
+    }
+    async function updateLastName() {
+      return;
+    }
+    async function updateFirstName() {
+      return;
+    }
+    async function updateNumPeople() {
+      return;
+    }
     return {
       ECommon,
       searchData,
@@ -62,6 +93,11 @@ export default defineComponent({
       customers,
       customerList,
       searchCustomer,
+      selectCustomer,
+      addPhoneNumber,
+      updateLastName,
+      updateFirstName,
+      updateNumPeople,
     };
   },
   components: { CSearchField, CPreOrder, CButton, CTableCustomerInfo },
@@ -82,19 +118,24 @@ export default defineComponent({
         :placeHolder="$t(ECommon.PHONE_NUMBER)"
         actionIcon="add"
         @change="(content) => searchCustomer(content.value)"
+        @selectCustomer="(item) => selectCustomer(item)"
+        @addInfo="addPhoneNumber"
+        :isDisabled="!order"
       />
       <CTableCustomerInfo
         icon="badge"
-        :content="lastName"
-        :placeHolder="$t(ECommon.LASTNAME)"
-        :isDisabled="!customer"
-        @change="(content) => (lastName = content.value)"
-      />
-      <CTableCustomerInfo
         :content="firstName"
         :placeHolder="$t(ECommon.FIRSTNAME)"
         :isDisabled="!customer"
         @change="(content) => (firstName = content.value)"
+        @addInfo="updateFirstName"
+      />
+      <CTableCustomerInfo
+        :content="lastName"
+        :placeHolder="$t(ECommon.LASTNAME)"
+        :isDisabled="!customer"
+        @change="(content) => (lastName = content.value)"
+        @addInfo="updateLastName"
       />
       <CTableCustomerInfo
         icon="groups"
@@ -102,6 +143,7 @@ export default defineComponent({
         :content="numPeople"
         :placeHolder="$t(ECommon.NUM_PEOPLE)"
         @change="(content) => (numPeople = content.value)"
+        @addInfo="updateNumPeople"
       />
     </div>
     <div class="head-info search">

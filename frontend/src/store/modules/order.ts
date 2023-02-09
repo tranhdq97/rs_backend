@@ -1,5 +1,6 @@
 import authAxios from "@/axios";
 import { EAOrder } from "@/enums/api";
+import { ERouterParams } from "@/enums/common";
 import { EPCommon, EPOrder } from "@/enums/params";
 import { IAListRes } from "@/interfaces/api";
 import { IFOrder } from "@/interfaces/order";
@@ -45,6 +46,18 @@ export default {
       const res: IAListRes = await authAxios.get(URL);
       state.orderList = res.results as Array<IFOrder>;
       return state.orderList;
+    },
+    async updateOrder(
+      { state }: { state: IFState },
+      params: { order: IFOrder; updateData: IFOrder }
+    ) {
+      console.log("ININI");
+      const URL = formURL(EAOrder.UPDATE, [
+        { key: ERouterParams.INDEX, value: params.order.id },
+      ]);
+      const res: IFOrder = await authAxios.put(URL, params.updateData);
+      params.order = { ...res };
+      return params.order;
     },
   },
   mutations: {

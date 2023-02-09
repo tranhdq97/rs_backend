@@ -1,11 +1,13 @@
 import authAxios from "@/axios";
-import { EACustomer } from "@/enums/api";
+import { EACustomer, EAProfile } from "@/enums/api";
 import { EPCommon } from "@/enums/params";
 import { IAListRes } from "@/interfaces/api";
 import { IFCustomer } from "@/interfaces/customer";
 import { IFTable } from "@/interfaces/tables";
 import { formURL } from "@/utils/url";
 import { EOCustomer } from "@/enums/ordering";
+import { IFProfile } from "@/interfaces/common";
+import { ESProfile } from "@/enums/store";
 
 export interface IFState {
   customerList: IFCustomer[];
@@ -25,11 +27,12 @@ export default {
     },
   },
   actions: {
-    async addCustomer(
-      { state }: { state: IFState },
-      params: { customer: IFCustomer; table: IFTable }
-    ) {
-      return null;
+    async addPhoneNumber({ state }: { state: IFState }, phoneNumber: string) {
+      const customer: IFCustomer = await authAxios.post(EACustomer.CREATE, {
+        profile: { phone_number: phoneNumber },
+      });
+      state.customerList.push(customer);
+      return customer;
     },
     async searchCustomerByPhoneNumber(
       { state }: { state: IFState },

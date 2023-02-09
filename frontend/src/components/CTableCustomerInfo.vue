@@ -1,4 +1,5 @@
 <script lang="ts">
+import { is } from "@babel/types";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -11,14 +12,18 @@ export default defineComponent({
     contentList: { type: Array, required: false },
     isDisabled: { type: Boolean, required: false },
   },
-  emits: ["change"],
+  emits: ["change", "selectCustomer", "addInfo"],
   setup(props, { emit }) {
     const isChanging = ref(false);
     const change = (e: EventTarget | null) => {
       isChanging.value = true;
       emit("change", e);
     };
-    return { isChanging, change };
+    const addInfo = () => {
+      emit("addInfo");
+      isChanging.value = false;
+    };
+    return { isChanging, change, addInfo };
   },
 });
 </script>
@@ -29,6 +34,7 @@ export default defineComponent({
       <span
         class="material-icons action-icon"
         v-if="!isDisabled && isChanging && content.length > 0"
+        @click="addInfo"
       >
         {{ actionIcon || "check" }}
       </span>
@@ -46,7 +52,12 @@ export default defineComponent({
       />
     </div>
     <div class="recommend" v-if="contentList?.length">
-      <div v-for="(item, i) in contentList" :key="i" class="option">
+      <div
+        v-for="(item, i) in contentList"
+        :key="i"
+        class="option"
+        @click="$emit('selectCustomer', item)"
+      >
         {{ item.name }}
       </div>
     </div>
@@ -62,6 +73,7 @@ export default defineComponent({
   border-radius: var(--br-small);
   border: 1px solid var(--c-greyLight);
   padding: var(--s-sp-small) var(--s-small);
+  text-transform: capitalize;
 }
 span {
   padding-right: var(--s-medium);

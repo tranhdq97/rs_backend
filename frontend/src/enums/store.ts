@@ -30,6 +30,7 @@ export enum ESOrder {
   G_ORDER_BY_TABLE = "order/orderByTable",
   A_ADD_ORDER = "order/addOrder",
   A_GET_ORDERS = "order/getOrders",
+  A_UPDATE_ORDER = "order/updateOrder",
   M_REMOVE_ORDER = "order/removeOrder",
 }
 
@@ -58,4 +59,10 @@ export enum ESAuth {
 
 export enum ESCustomer {
   A_SEARCH_CUSTOMER_BY_PN = "customer/searchCustomerByPhoneNumber",
+  A_ADD_CUSTOMER = "customer/addPhoneNumber",
+}
+
+export enum ESProfile {
+  A_ADD_PHONE_NUMBER = "profile/addPhoneNumber",
+  A_UPDATE_PROFILE = "profile/updateProfile",
 }
