@@ -3,7 +3,6 @@ import { ECommon } from "@/enums/common";
 import { ESBill, ESOrder, ESOrderItem } from "@/enums/store";
 import { IFOrderItem } from "@/interfaces/order";
 import LAModal from "@/layouts/LAModal.vue";
-import table from "@/store/modules/table";
 import { sumProperty, toExchange } from "@/utils/common";
 import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
@@ -117,7 +116,7 @@ export default defineComponent({
         </tr>
       </tfoot>
     </table>
-    <div class="paybill" v-if="orderedItemList.length">
+    <div class="paybill" v-if="order">
       <CButton :name="ECommon.PAY_BILL" @click="payBill" />
       <span class="material-icons preview">preview</span>
     </div>

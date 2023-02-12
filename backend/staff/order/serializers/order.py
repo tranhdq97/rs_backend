@@ -33,13 +33,16 @@ class OrderCreateSlz(OrderBaseSlz):
 
 
 class OrderUpdateSlz(OrderBaseSlz):
-    table_id = ForeignKeyField(Table, required=False)
-    customer_id = ForeignKeyField(Customer, required=False)
+    table_id = ForeignKeyField(Table, required=False, write_only=True)
+    customer_id = ForeignKeyField(Customer, required=False, write_only=True)
+    table = TableRetrieveSlz(read_only=True)
+    customer = CustomerRetrieveSlz(read_only=True)
 
     class Meta:
         model = OrderBaseSlz.Meta.model
         fields = OrderBaseSlz.Meta.fields + (
-            OrderFields.PAID_AT, OrderFields.NUM_PEOPLE, OrderFields.TABLE_ID, OrderFields.CUSTOMER_ID
+            OrderFields.PAID_AT, OrderFields.NUM_PEOPLE, OrderFields.TABLE_ID, OrderFields.CUSTOMER_ID,
+            OrderFields.TABLE, OrderFields.CUSTOMER
         )
         extra_kwargs = {
             OrderFields.NUM_PEOPLE: {"required": False}

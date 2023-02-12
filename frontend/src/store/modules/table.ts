@@ -52,6 +52,26 @@ export default {
         }
       }
     },
+    // async initTable(
+    //   {
+    //     state,
+    //     dispatch,
+    //   }: {
+    //     state: IFState;
+    //     dispatch: Dispatch;
+    //   },
+    //   table: IFTable
+    // ) {
+    //   const orders = await dispatch(
+    //     ESOrder.A_GET_ORDERS,
+    //     tableRes.results as IFTable[],
+    //     { root: true }
+    //   );
+    //   if (orders) {
+    //     await dispatch(ESOrderItem.A_GET_ORDER_ITEMS, orders, { root: true });
+    //   }
+    //   }
+    // },
     async updateTable(
       { state }: { state: IFState },
       params: { table: IFTable; updateData: IFTable }

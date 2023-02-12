@@ -2,14 +2,15 @@ import authAxios from "@/axios";
 import { EAOrder } from "@/enums/api";
 import { ERouterParams } from "@/enums/common";
 import { EPCommon, EPOrder } from "@/enums/params";
+import { ESOrder } from "@/enums/store";
 import { IAListRes } from "@/interfaces/api";
 import { IFOrder } from "@/interfaces/order";
 import { IFTable } from "@/interfaces/tables";
 import { concatProperty } from "@/utils/common";
 import { formURL } from "@/utils/url";
+import { Commit } from "vuex";
 
 export interface IFState {
-  // not have paid_at
   orderList: Array<IFOrder>;
 }
 
@@ -48,15 +49,14 @@ export default {
       return state.orderList;
     },
     async updateOrder(
-      { state }: { state: IFState },
+      { state, commit }: { state: IFState; commit: Commit },
       params: { order: IFOrder; updateData: IFOrder }
     ) {
-      console.log("ININI");
       const URL = formURL(EAOrder.UPDATE, [
         { key: ERouterParams.INDEX, value: params.order.id },
       ]);
       const res: IFOrder = await authAxios.put(URL, params.updateData);
-      params.order = { ...res };
+      commit(ESOrder.M_UPDATE, res, { root: true });
       return params.order;
     },
   },
@@ -64,6 +64,17 @@ export default {
     removeOrder(state: IFState, order: IFOrder) {
       const index = state.orderList.indexOf(order);
       index > -1 ? state.orderList.splice(index, 1) : null;
+    },
+    update(state: IFState, order: IFOrder) {
+      const updatingOrder = state.orderList.find(
+        (item) => order.id === item?.id
+      );
+      if (updatingOrder) {
+        updatingOrder.num_people = order.num_people;
+        updatingOrder.paid_at = order.paid_at;
+        updatingOrder.table = order.table;
+        updatingOrder.customer = order.customer;
+      }
     },
   },
 };

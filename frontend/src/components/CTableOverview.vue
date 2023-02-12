@@ -1,5 +1,4 @@
 <script lang="ts">
-import authAxios from "@/axios";
 import { ECommon } from "@/enums/common";
 import { ESCustomer, ESMenu, ESOrder } from "@/enums/store";
 import { IFMasterData } from "@/interfaces/common";
@@ -55,32 +54,46 @@ export default defineComponent({
         (cus) => cus.id === item.id
       ) as IFCustomer;
       if (selectedCustomer) {
-        if (props.order) {
-          await store.dispatch(ESOrder.A_UPDATE_ORDER, {
-            order: props.order,
-            updateData: { customer_id: selectedCustomer.id },
-          });
-        } else {
-          return;
-        }
+        const res = await store.dispatch(ESOrder.A_UPDATE_ORDER, {
+          order: props.order,
+          updateData: { customer_id: selectedCustomer.id },
+        });
+        phoneNumber.value = res?.customer?.profile?.phone_number || "";
+        firstName.value = res?.customer?.profile?.first_name || "";
+        lastName.value = res?.customer?.profile?.last_name || "";
       }
       customer.value = selectedCustomer;
-      return;
     }
     async function addPhoneNumber() {
       customer.value = await store.dispatch(
-        ESCustomer.A_ADD_CUSTOMER,
+        ESCustomer.A_ADD_PHONE_NUMBER,
         phoneNumber.value
       );
     }
     async function updateLastName() {
-      return;
+      await store.dispatch(ESCustomer.A_UPDATE_CUSTOMER, {
+        customer: customer.value,
+        udpateData: { last_name: lastName.value },
+      });
     }
     async function updateFirstName() {
-      return;
+      await store.dispatch(ESCustomer.A_UPDATE_CUSTOMER, {
+        customer: customer.value,
+        udpateData: { first_name: firstName.value },
+      });
     }
     async function updateNumPeople() {
-      return;
+      if (!props.order) {
+        await store.dispatch(ESOrder.A_ADD_ORDER, {
+          table_id: props.table.id,
+          num_people: numPeople.value,
+        });
+      } else {
+        await store.dispatch(ESOrder.A_UPDATE_ORDER, {
+          order: props.order,
+          updateData: { num_people: numPeople.value },
+        });
+      }
     }
     return {
       ECommon,
@@ -142,6 +155,7 @@ export default defineComponent({
         type="number"
         :content="numPeople"
         :placeHolder="$t(ECommon.NUM_PEOPLE)"
+        min="0"
         @change="(content) => (numPeople = content.value)"
         @addInfo="updateNumPeople"
       />

@@ -20,6 +20,7 @@ export enum EACustomer {
   LIST = "/staff/customer/list",
   DETAIL = "/staff/customer/:id/detail",
   DELETE = "/staff/customer/:id/delete",
+  UPDATE = "/staff/customer/:id/update",
 }
 
 export enum EAMaster {

@@ -11,11 +11,12 @@ from base.common.custom.pagination import CustomPagination
 from base.common.utils.exceptions import PermissionDenied, APIErr
 from base.customer.models import Customer
 from staff.customer.filters.customer import CustomerListQueryFields
-from staff.customer.serializers.customer import CustomerListSlz, CustomerRetrieveSlz, CustomerCreateSlz
+from staff.customer.serializers.customer import CustomerListSlz, CustomerRetrieveSlz, CustomerCreateSlz, \
+    CustomerUpdateSlz
 
 
 class CustomerViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin,
-                      mixins.DestroyModelMixin, GenericViewSet):
+                      mixins.DestroyModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     permission_classes = (AllowAny,)
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend, OrderingFilter, SearchFilter)
@@ -31,6 +32,7 @@ class CustomerViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.C
             BaseViewAction.LIST: CustomerListSlz,
             BaseViewAction.RETRIEVE: CustomerRetrieveSlz,
             BaseViewAction.CREATE: CustomerCreateSlz,
+            BaseViewAction.UPDATE: CustomerUpdateSlz,
         }
         slz = slz_switcher.get(self.action, self.serializer_class)
         if slz is None:
@@ -44,6 +46,7 @@ class CustomerViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.C
             BaseViewAction.RETRIEVE: (IsApproved,),
             BaseViewAction.CREATE: (IsApproved,),
             BaseViewAction.DESTROY: (IsSuperStaff | IsManager,),
+            BaseViewAction.UPDATE: (IsApproved,),
         }
         self.permission_classes = perm_switcher.get(self.action, self.permission_classes)
         if self.permission_classes is None:

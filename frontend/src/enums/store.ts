@@ -32,6 +32,7 @@ export enum ESOrder {
   A_GET_ORDERS = "order/getOrders",
   A_UPDATE_ORDER = "order/updateOrder",
   M_REMOVE_ORDER = "order/removeOrder",
+  M_UPDATE = "order/update",
 }
 
 export enum ESTable {
@@ -59,7 +60,10 @@ export enum ESAuth {
 
 export enum ESCustomer {
   A_SEARCH_CUSTOMER_BY_PN = "customer/searchCustomerByPhoneNumber",
-  A_ADD_CUSTOMER = "customer/addPhoneNumber",
+  A_ADD_PHONE_NUMBER = "customer/addPhoneNumber",
+  A_UPDATE_CUSTOMER = "customer/updateCustomer",
+  M_REMOVE_CUSTOMER = "customer/removeCustomer",
+  M_UPDATE = "customer/update",
 }
 
 export enum ESProfile {

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { is } from "@babel/types";
+import { IFMasterData } from "@/interfaces/common";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -11,6 +11,8 @@ export default defineComponent({
     content: { type: String || Number, default: "" },
     contentList: { type: Array, required: false },
     isDisabled: { type: Boolean, required: false },
+    min: { type: String, required: false },
+    max: { type: String, required: false },
   },
   emits: ["change", "selectCustomer", "addInfo"],
   setup(props, { emit }) {
@@ -23,7 +25,11 @@ export default defineComponent({
       emit("addInfo");
       isChanging.value = false;
     };
-    return { isChanging, change, addInfo };
+    const selectCustomer = (item: IFMasterData) => {
+      emit("selectCustomer", item);
+      isChanging.value = false;
+    };
+    return { isChanging, change, addInfo, selectCustomer };
   },
 });
 </script>
@@ -48,15 +54,17 @@ export default defineComponent({
         :type="type || 'text'"
         :placeholder="placeHolder"
         :value="content"
+        :min="min || 0"
+        :max="max"
         @input="(e) => change(e?.target)"
       />
     </div>
-    <div class="recommend" v-if="contentList?.length">
+    <div class="recommend" v-if="isChanging && contentList?.length">
       <div
         v-for="(item, i) in contentList"
         :key="i"
         class="option"
-        @click="$emit('selectCustomer', item)"
+        @click="selectCustomer(item)"
       >
         {{ item.name }}
       </div>

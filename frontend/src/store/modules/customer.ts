@@ -1,13 +1,12 @@
 import authAxios from "@/axios";
-import { EACustomer, EAProfile } from "@/enums/api";
+import { EACustomer } from "@/enums/api";
 import { EPCommon } from "@/enums/params";
 import { IAListRes } from "@/interfaces/api";
 import { IFCustomer } from "@/interfaces/customer";
 import { IFTable } from "@/interfaces/tables";
 import { formURL } from "@/utils/url";
 import { EOCustomer } from "@/enums/ordering";
-import { IFProfile } from "@/interfaces/common";
-import { ESProfile } from "@/enums/store";
+import { ERouterParams } from "@/enums/common";
 
 export interface IFState {
   customerList: IFCustomer[];
@@ -33,6 +32,17 @@ export default {
       });
       state.customerList.push(customer);
       return customer;
+    },
+    async updateCustomer(
+      { state }: { state: IFState },
+      params: { customer: IFCustomer; updateData: IFCustomer }
+    ) {
+      const URL = formURL(EACustomer.UPDATE, [
+        { key: ERouterParams.INDEX, value: params.customer.id },
+      ]);
+      await authAxios.put(URL, params.updateData);
+      params.customer = { ...params.customer, ...params.updateData };
+      return params.customer;
     },
     async searchCustomerByPhoneNumber(
       { state }: { state: IFState },
@@ -62,5 +72,16 @@ export default {
     addCustomer(state: IFState, customer: IFCustomer) {
       state.customerList.push(customer);
     },
+    update(state: IFState, customer: IFCustomer) {
+      const updatingCustomer = state.customerList.find(
+        (item) => customer.id === item?.id
+      );
+      if (updatingCustomer) {
+        updatingCustomer.num_people = customer.num_people;
+        updatingCustomer.paid_at = customer.paid_at;
+        updatingCustomer.table = customer.table;
+        updatingCustomer.customer = customer.customer;
+      }
+    }
   },
 };

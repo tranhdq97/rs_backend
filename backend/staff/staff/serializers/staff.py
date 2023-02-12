@@ -44,7 +44,7 @@ class StaffUpdateSlz(StaffBaseSlz):
         model = StaffBaseSlz.Meta.model
         fields = StaffBaseSlz.Meta.fields + (UserFields.TYPE_ID,)
         extra_kwargs = {
-            UserFields.EMAIL: { "read_only": True }
+            UserFields.EMAIL: {"read_only": True}
         }
 
 
