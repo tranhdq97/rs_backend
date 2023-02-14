@@ -66,7 +66,7 @@ export default defineComponent({
         chevron_left
       </span>
     </div>
-    <CSideBarSelector :title="ECommon.HOME" icon="home" />
+    <CSideBarSelector :title="ECommon.HOME" icon="home" :to="ERouter.HOME" />
     <CSideBarSelector
       :title="ECommon.TABLES"
       icon="chair"
@@ -82,8 +82,8 @@ export default defineComponent({
       :title="ECommon.SIGNOUT"
       icon="logout"
       :to="router.currentRoute.value.path"
-      :activeNotAllowed="true"
       @click="signOut"
+      :notActiveAllowed="true"
     />
   </div>
 </template>

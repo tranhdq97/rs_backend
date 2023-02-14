@@ -1,6 +1,6 @@
 import authAxios from "@/axios";
 import { EAOrder, EAOrderItem } from "@/enums/api";
-import { ESAuth, ESOrder, ESOrderItem, ESTable } from "@/enums/store";
+import { ESCustomer, ESOrder, ESOrderItem, ESTable } from "@/enums/store";
 import { IFCustomer } from "@/interfaces/customer";
 import { IFMenuItem } from "@/interfaces/menu";
 import { IFOrderItem, IFOrder } from "@/interfaces/order";
@@ -83,9 +83,7 @@ export default {
   },
   actions: {
     addToOrderPreview(
-      // eslint-disable-next-line
-      //@ts-ignore
-      { state, rootGetters },
+      { state }: { state: IFState },
       params: {
         menu: IFMenuItem;
         table: IFTable;
@@ -97,15 +95,13 @@ export default {
           (item: IFOrderItem) =>
             item.menu.id === params.menu.id &&
             item.table === params.table &&
-            !item.created_at
+            !item.order
         )
       )
         return;
-      const staff: IFStaff = rootGetters[ESAuth.G_USER];
       const newOrderItem = {
         order: params?.order,
         menu: params.menu,
-        staff: staff,
         quantity: 1,
         table: params.table,
       };
@@ -131,9 +127,21 @@ export default {
       const res: IAListRes = await authAxios.get(URL);
       state.orderItemList = res.results as IFOrderItem[];
       state.orderItemList.map((item) => {
-        if (item.order) {
-          item.table = item.order?.table;
-        }
+        item.table = item.order?.table;
+      });
+    },
+    async getOrderItem({ commit }: { commit: Commit }, order: IFOrder) {
+      const orderIDs = concatProperty([order], EPCommon.ID, ",");
+      const URL = formURL(
+        EAOrderItem.LIST,
+        [],
+        [{ key: EPOrderItem.ORDER_ID__IN, value: orderIDs }]
+      );
+      const res: IAListRes = await authAxios.get(URL);
+      const orderItems = res.results as IFOrderItem[];
+      orderItems.map((item) => {
+        item.table = order?.table;
+        commit(ESOrderItem.M_UPDATE, item, { root: true });
       });
     },
     async order(
@@ -147,6 +155,7 @@ export default {
         items: IFOrderItem[];
         tableOrder?: IFOrder;
         customer?: IFCustomer;
+        staff: IFStaff;
       }
     ) {
       let table: IFTable = params.table;
@@ -162,49 +171,53 @@ export default {
         );
       }
       if (!params.tableOrder) {
-        const newOrder: IFOrder = { table_id: table.id, num_people: 1 };
-        if (params.customer) newOrder.customer_id = params.customer.id;
-        tableOrder = await dispatch(ESOrder.A_ADD_ORDER, newOrder, {
-          root: true,
-        });
+        tableOrder = await dispatch(
+          ESOrder.A_ADD_ORDER,
+          {
+            table_id: table.id,
+            num_people: 1,
+            customer_id: params?.customer?.id || 0,
+          },
+          { root: true }
+        );
       }
-      params.items.map(async (newOrder: IFOrderItem) => {
-        const orderItems = state.orderItemList.filter(
-          (item) =>
-            item?.table?.id === table.id &&
-            item.menu.name === newOrder.menu.name
-        ) as IFOrderItem[];
-        const previewItem = orderItems.find((item: IFOrderItem) => !item.order);
-        const orderedItem = orderItems.find((item: IFOrderItem) => item.order);
-        if (orderedItem && previewItem) {
+      params.items.map(async (previewOrderItem: IFOrderItem) => {
+        const orderedItem = state.orderItemList.find(
+          (item: IFOrderItem) =>
+            previewOrderItem.menu.id === item.menu.id &&
+            previewOrderItem.table?.id === item?.table?.id &&
+            item.order
+        );
+        if (orderedItem) {
           const updateURL = formURL(EAOrderItem.UPDATE, [
             { key: ERouterParams.INDEX, value: orderedItem.id },
           ]);
           const res: IFOrderItem = await authAxios.put(updateURL, {
-            quantity: orderedItem.quantity + previewItem.quantity,
+            quantity: orderedItem.quantity + previewOrderItem.quantity,
+            created_by_id: params.staff.id,
           });
-          orderedItem.quantity = res.quantity;
-          orderedItem.updated_at = new Date(res.updated_at as string);
-          commit(ESOrderItem.M_REMOVE_ORDER_ITEM, previewItem, {
-            root: true,
-          });
-        } else if (!orderedItem && previewItem) {
+          res.table = params.table;
+          res.updated_at = new Date(res.updated_at as string);
+          commit(ESOrderItem.M_UPDATE, res, { root: true });
+        } else {
           const res: IFOrderItem = await authAxios.post(EAOrderItem.CREATE, {
-            quantity: previewItem.quantity,
+            quantity: previewOrderItem.quantity,
+            created_by_id: params.staff.id,
             order_id: tableOrder?.id,
-            menu_id: previewItem.menu.id,
+            menu_id: previewOrderItem.menu.id,
           });
-          previewItem.id = res.id;
-          previewItem.order = res.order;
-          previewItem.table = table;
-          previewItem.served_quantity = res.served_quantity;
-          previewItem.created_at = new Date(res.created_at as string);
-          previewItem.updated_at = new Date(res.updated_at as string);
+          res.table = params.table;
+          res.created_at = new Date(res.created_at as string);
+          res.updated_at = new Date(res.updated_at as string);
+          commit(ESOrderItem.M_UPDATE, res, { root: true });
         }
+        commit(ESOrderItem.M_REMOVE_ORDER_ITEM, previewOrderItem, {
+          root: true,
+        });
       });
     },
     async serve(
-      { state }: { state: IFState },
+      { commit }: { commit: Commit },
       params: { item: IFOrderItem; serveQuantity: number }
     ) {
       const URL = formURL(EAOrderItem.UPDATE, [
@@ -215,17 +228,14 @@ export default {
           (params.item?.served_quantity || 0) + params.serveQuantity,
         served_at: new Date(Date.now()).toISOString(),
       });
-      params.item.served_quantity = res.served_quantity;
-      params.item.served_at = new Date(res.served_at as string);
+      res.served_at = new Date(res.served_at as string);
+      commit(ESOrderItem.M_UPDATE, res, { root: true });
     },
     async pay(
-      {
-        state,
-        commit,
-        dispatch,
-      }: { state: IFState; commit: Commit; dispatch: Dispatch },
+      { commit, dispatch }: { commit: Commit; dispatch: Dispatch },
       params: {
         order: IFOrder;
+        customer: IFCustomer;
         orderItems: IFOrderItem[];
       }
     ) {
@@ -247,12 +257,34 @@ export default {
         { root: true }
       );
       commit(ESOrder.M_REMOVE_ORDER, params.order, { root: true });
+      if (params?.customer)
+        commit(ESCustomer.M_REMOVE_CUSTOMER, params.customer, { root: true });
+      params.orderItems.map((item) =>
+        commit(ESOrderItem.M_REMOVE_ORDER_ITEM, item, { root: true })
+      );
     },
   },
   mutations: {
     removeOrderItem(state: IFState, item: IFOrderItem) {
       const index = state.orderItemList.indexOf(item);
       index > -1 ? state.orderItemList.splice(index, 1) : null;
+    },
+    update(state: IFState, orderItem: IFOrderItem) {
+      const updatingOrderItem = state.orderItemList.find(
+        (item) => orderItem.id === item?.id
+      );
+      if (updatingOrderItem) {
+        updatingOrderItem.order = orderItem.order;
+        updatingOrderItem.menu = orderItem.menu;
+        updatingOrderItem.quantity = orderItem.quantity;
+        updatingOrderItem.served_quantity = orderItem.served_quantity;
+        updatingOrderItem.served_at = orderItem.served_at;
+        updatingOrderItem.created_at = orderItem.created_at;
+        updatingOrderItem.updated_at = orderItem.updated_at;
+        updatingOrderItem.created_by = orderItem.created_by;
+      } else {
+        state.orderItemList.push(orderItem);
+      }
     },
   },
 };

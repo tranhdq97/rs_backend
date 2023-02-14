@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ECommon } from "@/enums/common";
-import { ESBill, ESOrder, ESOrderItem } from "@/enums/store";
+import { ESBill, ESOrderItem } from "@/enums/store";
 import { IFOrderItem } from "@/interfaces/order";
 import LAModal from "@/layouts/LAModal.vue";
 import { sumProperty, toExchange } from "@/utils/common";
@@ -13,6 +13,8 @@ import COrderServe from "./COrderServe.vue";
 export default defineComponent({
   props: {
     table: { type: Object, required: true },
+    order: { type: Object, required: false },
+    customer: { type: Object, required: false },
     orderedItemList: { type: Array, default: [] as IFOrderItem[] },
   },
   setup(props) {
@@ -20,9 +22,6 @@ export default defineComponent({
     const isServing = ref(false);
     const VAT = computed(() => store.getters[ESBill.G_VAT]);
     const modal = ref<IFOrderItem | null>();
-    const order = computed(() =>
-      store.getters[ESOrder.G_ORDER_BY_TABLE](props.table)
-    );
     const total_quantity = computed(() =>
       sumProperty(props.orderedItemList, ["quantity"])
     );
@@ -49,7 +48,8 @@ export default defineComponent({
     }
     async function payBill() {
       await store.dispatch(ESOrderItem.A_PAY, {
-        order: order.value,
+        order: props.order,
+        customer: props.customer,
         orderItems: props.orderedItemList,
       });
     }
@@ -58,12 +58,11 @@ export default defineComponent({
       total_quantity,
       total_served,
       amount,
-      serve,
-      serveSubmit,
       isServing,
       modal,
       VAT,
-      order,
+      serve,
+      serveSubmit,
       toExchange,
       payBill,
     };

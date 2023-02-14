@@ -15,13 +15,15 @@ export enum ESOrderItem {
   G_ORDERED_LIST = "order_item/orderedItemList",
   G_TABLE_REP_DATA = "order_item/tableRepData",
   A_GET_ORDER_ITEMS = "order_item/getOrderItems",
+  A_GET_ORDER_ITEM = "order_item/getOrderItem",
   A_ADD_TO_ORDER_PREVIEW = "order_item/addToOrderPreview",
-  M_REMOVE_ORDER_ITEM = "order_item/removeOrderItem",
   A_INCREASE_QUANTITY = "order_item/increaseQuantity",
   A_DECREASE_QUANTITY = "order_item/decreaseQuantity",
   A_ORDER = "order_item/order",
   A_SERVE = "order_item/serve",
   A_PAY = "order_item/pay",
+  M_REMOVE_ORDER_ITEM = "order_item/removeOrderItem",
+  M_UPDATE = "order_item/update",
 }
 
 export enum ESOrder {
@@ -30,6 +32,7 @@ export enum ESOrder {
   G_ORDER_BY_TABLE = "order/orderByTable",
   A_ADD_ORDER = "order/addOrder",
   A_GET_ORDERS = "order/getOrders",
+  A_GET_ORDER = "order/getOrder",
   A_UPDATE_ORDER = "order/updateOrder",
   M_REMOVE_ORDER = "order/removeOrder",
   M_UPDATE = "order/update",
@@ -40,7 +43,10 @@ export enum ESTable {
   G_TABLE = "table/table",
   A_ADD_TABLE = "table/addTable",
   A_GET_TABLES = "table/getTables",
+  A_GET_TABLE = "table/getTable",
   A_UPDATE_TABLE = "table/updateTable",
+  A_INIT_TABLE = "table/initTable",
+  M_UPDATE_TABLE = "table/update",
 }
 
 export enum ESBill {
@@ -59,14 +65,15 @@ export enum ESAuth {
 }
 
 export enum ESCustomer {
+  G_CUSTOMER_BY_ORDER = "customer/customerByOrder",
   A_SEARCH_CUSTOMER_BY_PN = "customer/searchCustomerByPhoneNumber",
   A_ADD_PHONE_NUMBER = "customer/addPhoneNumber",
   A_UPDATE_CUSTOMER = "customer/updateCustomer",
   M_REMOVE_CUSTOMER = "customer/removeCustomer",
+  M_ADD_CUSTOMER = "customer/addCustomer",
   M_UPDATE = "customer/update",
 }
 
 export enum ESProfile {
-  A_ADD_PHONE_NUMBER = "profile/addPhoneNumber",
   A_UPDATE_PROFILE = "profile/updateProfile",
 }

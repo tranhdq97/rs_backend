@@ -30,7 +30,7 @@ export default {
       const res: IFToken = await axios.post(EAAuth.TOKEN, user);
       cookies.set(EToken.ACCESS, res.access);
       cookies.set(EToken.REFRESH, res.refresh);
-      dispatch(ESAuth.A_GET_ME, {}, { root: true });
+      await dispatch(ESAuth.A_GET_ME, {}, { root: true });
     },
     signOut({ commit }: { commit: Commit }) {
       cookies.remove(EToken.ACCESS);

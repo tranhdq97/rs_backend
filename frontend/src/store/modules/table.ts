@@ -1,13 +1,13 @@
 import authAxios from "@/axios";
 import { EATable } from "@/enums/api";
 import { ERouterParams } from "@/enums/common";
-import { ESOrder, ESOrderItem } from "@/enums/store";
+import { ESOrder, ESOrderItem, ESTable } from "@/enums/store";
 import { IAListRes } from "@/interfaces/api";
 import { IFTable } from "@/interfaces/tables";
 import { addPaddingNumber } from "@/utils/common";
 import { formURL } from "@/utils/url";
 import axios from "axios";
-import { Dispatch } from "vuex";
+import { Commit, Dispatch } from "vuex";
 
 export interface IFState {
   tables: Array<IFTable>;
@@ -52,26 +52,26 @@ export default {
         }
       }
     },
-    // async initTable(
-    //   {
-    //     state,
-    //     dispatch,
-    //   }: {
-    //     state: IFState;
-    //     dispatch: Dispatch;
-    //   },
-    //   table: IFTable
-    // ) {
-    //   const orders = await dispatch(
-    //     ESOrder.A_GET_ORDERS,
-    //     tableRes.results as IFTable[],
-    //     { root: true }
-    //   );
-    //   if (orders) {
-    //     await dispatch(ESOrderItem.A_GET_ORDER_ITEMS, orders, { root: true });
-    //   }
-    //   }
-    // },
+    async getTable({ state }: { state: IFState }, table: IFTable) {
+      const URL = formURL(EATable.DETAIL, [
+        { key: ERouterParams.INDEX, value: table.id },
+      ]);
+      const res: IFTable = await axios.get(URL);
+      return res;
+    },
+    async initTable(
+      { dispatch, commit }: { dispatch: Dispatch; commit: Commit },
+      table: IFTable
+    ) {
+      const resTable = await dispatch(ESTable.A_GET_TABLE, table, {
+        root: true,
+      });
+      commit(ESTable.M_UPDATE_TABLE, resTable, { root: true });
+      const order = await dispatch(ESOrder.A_GET_ORDER, table, { root: true });
+      if (order) {
+        await dispatch(ESOrderItem.A_GET_ORDER_ITEM, order, { root: true });
+      }
+    },
     async updateTable(
       { state }: { state: IFState },
       params: { table: IFTable; updateData: IFTable }
@@ -82,6 +82,14 @@ export default {
       await authAxios.put(URL, params.updateData);
       params.table = { ...params.table, ...params.updateData };
       return params.table;
+    },
+  },
+  mutations: {
+    update(state: IFState, table: IFTable) {
+      const updatingTable = state.tables.find((item) => table.id === item?.id);
+      if (updatingTable) {
+        updatingTable.is_available = table.is_available;
+      }
     },
   },
 };

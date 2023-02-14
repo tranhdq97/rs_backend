@@ -19,6 +19,11 @@
     <template v-slot:button>
       <CButton :name="ECommon.SIGNUP" @click="signUp" />
     </template>
+    <template v-slot:ext>
+      <router-link :to="ERouter.SIGNIN">
+        {{ $t(ECommon.SIGNIN) }}
+      </router-link>
+    </template>
   </LAuthForm>
 </template>
 

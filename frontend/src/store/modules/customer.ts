@@ -3,10 +3,12 @@ import { EACustomer } from "@/enums/api";
 import { EPCommon } from "@/enums/params";
 import { IAListRes } from "@/interfaces/api";
 import { IFCustomer } from "@/interfaces/customer";
-import { IFTable } from "@/interfaces/tables";
 import { formURL } from "@/utils/url";
 import { EOCustomer } from "@/enums/ordering";
 import { ERouterParams } from "@/enums/common";
+import { Commit, Dispatch } from "vuex";
+import { ESCustomer, ESOrder } from "@/enums/store";
+import { IFOrder } from "@/interfaces/order";
 
 export interface IFState {
   customerList: IFCustomer[];
@@ -19,30 +21,38 @@ export default {
   } as IFState,
   getters: {
     customerList: (state: IFState) => state.customerList,
-    tableCustomer: (state: IFState) => (table: IFTable) => {
-      return state.customerList.find(
-        (item: IFCustomer) => item?.table?.id === table.id
-      );
-    },
+    customerByOrder: (state: IFState) => (order: IFOrder) =>
+      state.customerList.find((item) => item.id === order?.customer?.id),
   },
   actions: {
-    async addPhoneNumber({ state }: { state: IFState }, phoneNumber: string) {
+    async addPhoneNumber(
+      { commit, dispatch }: { commit: Commit; dispatch: Dispatch },
+      params: { order: IFOrder; phoneNumber: string }
+    ) {
       const customer: IFCustomer = await authAxios.post(EACustomer.CREATE, {
-        profile: { phone_number: phoneNumber },
+        profile: { phone_number: params.phoneNumber },
       });
-      state.customerList.push(customer);
+      commit(ESCustomer.M_ADD_CUSTOMER, customer, { root: true });
+      dispatch(
+        ESOrder.A_UPDATE_ORDER,
+        {
+          order: params.order,
+          updateData: { customer_id: customer.id },
+        },
+        { root: true }
+      );
       return customer;
     },
     async updateCustomer(
-      { state }: { state: IFState },
+      { commit }: { commit: Commit },
       params: { customer: IFCustomer; updateData: IFCustomer }
     ) {
       const URL = formURL(EACustomer.UPDATE, [
         { key: ERouterParams.INDEX, value: params.customer.id },
       ]);
-      await authAxios.put(URL, params.updateData);
-      params.customer = { ...params.customer, ...params.updateData };
-      return params.customer;
+      const res: IFCustomer = await authAxios.put(URL, params.updateData);
+      commit(ESCustomer.M_UPDATE, res, { root: true });
+      return res;
     },
     async searchCustomerByPhoneNumber(
       { state }: { state: IFState },
@@ -75,13 +85,12 @@ export default {
     update(state: IFState, customer: IFCustomer) {
       const updatingCustomer = state.customerList.find(
         (item) => customer.id === item?.id
-      );
+      ) as IFCustomer;
       if (updatingCustomer) {
-        updatingCustomer.num_people = customer.num_people;
-        updatingCustomer.paid_at = customer.paid_at;
-        updatingCustomer.table = customer.table;
-        updatingCustomer.customer = customer.customer;
+        updatingCustomer.profile = customer.profile;
+      } else {
+        state.customerList.push(customer);
       }
-    }
+    },
   },
 };

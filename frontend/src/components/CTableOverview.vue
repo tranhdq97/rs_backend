@@ -1,6 +1,12 @@
 <script lang="ts">
 import { ECommon } from "@/enums/common";
-import { ESCustomer, ESMenu, ESOrder } from "@/enums/store";
+import {
+  ESAuth,
+  ESCustomer,
+  ESMenu,
+  ESOrder,
+  ESOrderItem,
+} from "@/enums/store";
 import { IFMasterData } from "@/interfaces/common";
 import { IFCustomer } from "@/interfaces/customer";
 import { computed, defineComponent, ref } from "vue";
@@ -15,14 +21,15 @@ export default defineComponent({
     orderItemPreviewList: { type: Array, default: () => [] },
     table: { type: Object, required: true },
     order: { type: Object, required: false },
+    customer: { type: Object, required: false },
   },
-  emits: ["handleSelect", "handleOrder"],
+  emits: ["handleSelect"],
   setup(props) {
     const store = useStore();
-    const customer = ref<IFCustomer | null>(props.order?.customer);
-    const phoneNumber = ref(customer.value?.profile?.phone_number || "");
-    const firstName = ref(customer.value?.profile?.first_name || "");
-    const lastName = ref(customer.value?.profile?.last_name || "");
+    const staff = computed(() => store.getters[ESAuth.G_USER]);
+    const phoneNumber = ref(props?.customer?.profile?.phone_number || "");
+    const firstName = ref(props?.customer?.profile?.first_name || "");
+    const lastName = ref(props?.customer?.profile?.last_name || "");
     const numPeople = ref(props?.order?.num_people?.toString() || "0");
     const searchData = computed(() => store.getters[ESMenu.G_AVAILABLE_MENU]);
     const customers = ref<IFCustomer[]>([]);
@@ -62,24 +69,23 @@ export default defineComponent({
         firstName.value = res?.customer?.profile?.first_name || "";
         lastName.value = res?.customer?.profile?.last_name || "";
       }
-      customer.value = selectedCustomer;
     }
     async function addPhoneNumber() {
-      customer.value = await store.dispatch(
-        ESCustomer.A_ADD_PHONE_NUMBER,
-        phoneNumber.value
-      );
+      await store.dispatch(ESCustomer.A_ADD_PHONE_NUMBER, {
+        order: props.order,
+        phoneNumber: phoneNumber.value,
+      });
     }
     async function updateLastName() {
       await store.dispatch(ESCustomer.A_UPDATE_CUSTOMER, {
-        customer: customer.value,
-        udpateData: { last_name: lastName.value },
+        customer: props?.customer,
+        updateData: { profile: { last_name: lastName.value } },
       });
     }
     async function updateFirstName() {
       await store.dispatch(ESCustomer.A_UPDATE_CUSTOMER, {
-        customer: customer.value,
-        udpateData: { first_name: firstName.value },
+        customer: props?.customer,
+        updateData: { profile: { first_name: firstName.value } },
       });
     }
     async function updateNumPeople() {
@@ -95,14 +101,23 @@ export default defineComponent({
         });
       }
     }
+    async function handleOrder() {
+      await store.dispatch(ESOrderItem.A_ORDER, {
+        table: props.table,
+        tableOrder: props.order,
+        items: props.orderItemPreviewList,
+        customer: props.customer,
+        staff: staff.value,
+      });
+    }
     return {
+      staff,
       ECommon,
       searchData,
       phoneNumber,
       firstName,
       lastName,
       numPeople,
-      customer,
       customers,
       customerList,
       searchCustomer,
@@ -111,6 +126,7 @@ export default defineComponent({
       updateLastName,
       updateFirstName,
       updateNumPeople,
+      handleOrder,
     };
   },
   components: { CSearchField, CPreOrder, CButton, CTableCustomerInfo },
@@ -180,7 +196,7 @@ export default defineComponent({
     </div>
     <CButton
       :name="ECommon.ORDER"
-      @click="$emit('handleOrder')"
+      @click="handleOrder"
       v-if="orderItemPreviewList.length"
     />
   </div>

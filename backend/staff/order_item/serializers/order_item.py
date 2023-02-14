@@ -7,6 +7,7 @@ from base.common.utils.serializer import ForeignKeyField
 from base.menu.models import Menu
 from base.order.models import Order
 from base.order_item.models import OrderItem
+from base.staff.models import Staff
 from staff.menu.serializers.menu import MenuRetrieveSlz, MenuListSlz
 from staff.order.serializers.order import OrderRetrieveSlz, OrderListSlz
 from staff.staff.serializers.staff import StaffRetrieveSlz
@@ -51,13 +52,17 @@ class OrderItemCreateSlz(OrderItemBaseSlz):
 class OrderItemUpdateSlz(OrderItemBaseSlz):
     order_id = ForeignKeyField(Order, required=False, write_only=True)
     menu_id = ForeignKeyField(Menu, required=False, write_only=True)
+    created_by_id = ForeignKeyField(Staff, required=False, write_only=True)
     order = OrderRetrieveSlz(read_only=True)
     menu = MenuRetrieveSlz(read_only=True)
+    created_by = StaffRetrieveSlz(read_only=True)
 
     class Meta:
         model = OrderItemBaseSlz.Meta.model
         fields = OrderItemBaseSlz.Meta.fields + (
             OrderItemFields.ORDER_ID, OrderItemFields.MENU_ID, OrderItemFields.ORDER, OrderItemFields.MENU
+        ) + (
+            CommonFields.CREATED_BY, CommonFields.CREATED_BY_ID
         )
         extra_kwargs = {
             OrderItemFields.QUANTITY: {"required": False},
