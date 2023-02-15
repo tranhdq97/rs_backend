@@ -23,3 +23,8 @@ def hash_file(file, block_size=65536):
 def get_file_field_directory(instance, filename):
     _, filename_ext = os.path.splitext(filename)
     return f"{hash_file(instance.file)}{filename_ext}"
+
+
+def get_thumbnail_directory(instance, filename):
+    _, filename_ext = os.path.splitext(filename)
+    return f"thumbnail/{hash_file(instance.file)}{filename_ext}"

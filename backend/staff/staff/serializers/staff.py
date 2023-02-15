@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 
 from base.common.constant import message
@@ -10,7 +11,7 @@ from base.master.models import MasterStaffType
 from base.master.serializers.base_master import MasterBaseSlz
 from base.profile.models import Profile
 from base.staff.models.staff import Staff
-from staff.profile.serializers.profile import ProfileRetrieveSlz, ProfileForUserListSlz
+from staff.profile.serializers.profile import ProfileRetrieveSlz, ProfileForUserListSlz, ProfileUpdateSlz
 
 
 class StaffBaseSlz(serializers.ModelSerializer):
@@ -38,14 +39,29 @@ class StaffListSlz(StaffBaseSlz):
 
 
 class StaffUpdateSlz(StaffBaseSlz):
-    type_id = ForeignKeyField(MasterStaffType)
+    type_id = ForeignKeyField(MasterStaffType, write_only=True, required=False)
+    type = MasterBaseSlz(read_only=True)
+    profile = ProfileUpdateSlz(required=False)
 
     class Meta:
         model = StaffBaseSlz.Meta.model
-        fields = StaffBaseSlz.Meta.fields + (UserFields.TYPE_ID,)
+        fields = StaffBaseSlz.Meta.fields + (UserFields.TYPE_ID, UserFields.TYPE, UserFields.PROFILE)
         extra_kwargs = {
             UserFields.EMAIL: {"read_only": True}
         }
+
+    def update(self, instance, validated_data):
+        with transaction.atomic():
+            profile_data = validated_data.get(UserFields.PROFILE, {})
+            type_id = validated_data.get(UserFields.TYPE_ID)
+            if type_id:
+                instance.type_id = type_id
+            for key, value in profile_data.items():
+                setattr(instance.profile, key, value)
+            if instance.profile:
+                instance.profile.save()
+            instance.save()
+            return instance
 
 
 class StaffCreateSlz(StaffBaseSlz):

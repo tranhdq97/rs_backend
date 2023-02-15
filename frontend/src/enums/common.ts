@@ -1,8 +1,8 @@
 export enum ECommon {
   EMAIL = "email",
   PASSWORD = "password",
-  FIRSTNAME = "firstname",
-  LASTNAME = "lastname",
+  FIRSTNAME = "first_name",
+  LASTNAME = "last_name",
   PHONE_NUMBER = "phone_number",
   LOCALE = "locale",
   SIGNUP = "sign_up",
@@ -12,6 +12,9 @@ export enum ECommon {
   TABLE = "table",
   HOME = "home",
   SIGNOUT = "sign_out",
+  STAFFS = "staffs",
+  STAFF = "staff",
+
   DAYS = "days",
   HOURS = "hours",
   MINUTES = "minutes",
@@ -33,6 +36,8 @@ export enum ECommon {
   VAT = "VAT",
   AMOUNT = "amount",
   NUM_PEOPLE = "num_people",
+  UPDATE = "update",
+  MENU = "menu",
 }
 
 export enum EPlaceHolder {

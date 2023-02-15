@@ -10,11 +10,13 @@ export interface IFMasterData {
 
 export interface IFCity {
   id: number;
+  name: string;
   country?: IFMasterData;
 }
 
 export interface IFDistrict {
   id: number;
+  name: string;
   zipcode?: string;
   city: IFCity;
 }
@@ -32,6 +34,7 @@ export interface IFProfile {
   last_name?: string;
   dob?: Date;
   address?: IFAddress;
+  sex?: IFMasterData;
 }
 
 export interface IFToken {

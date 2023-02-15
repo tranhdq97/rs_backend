@@ -15,16 +15,16 @@ module.exports = defineConfig({
   },
   devServer: {
     proxy: {
-      "^/staff": {
+      "^/stf": {
         target: "http://localhost:8020",
         changeOrigin: true,
         // secure: false,
-        pathRewrite: { "^/staff": "/api" },
+        pathRewrite: { "^/stf": "/api" },
       },
-      "^/storage": {
+      "^/stg": {
         target: "http://localhost:8010",
         changeOrigin: true,
-        pathRewrite: { "^/storage": "/api" },
+        pathRewrite: { "^/stg/": "/api" },
       },
     },
   },

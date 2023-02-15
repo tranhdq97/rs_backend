@@ -66,11 +66,21 @@ export default defineComponent({
         chevron_left
       </span>
     </div>
-    <CSideBarSelector :title="ECommon.HOME" icon="home" :to="ERouter.HOME" />
+    <!-- <CSideBarSelector :title="ECommon.HOME" icon="home" :to="ERouter.HOME" /> -->
+    <CSideBarSelector
+      :title="ECommon.MENU"
+      icon="menu_book"
+      :to="ERouter.MENU"
+    />
     <CSideBarSelector
       :title="ECommon.TABLES"
       icon="chair"
       :to="ERouter.TABLES"
+    />
+    <CSideBarSelector
+      :title="ECommon.STAFFS"
+      icon="diversity_3"
+      :to="ERouter.STAFFS"
     />
     <div class="grow"></div>
     <CSideBarSelector

@@ -77,3 +77,23 @@ export enum ESCustomer {
 export enum ESProfile {
   A_UPDATE_PROFILE = "profile/updateProfile",
 }
+
+export enum ESStaff {
+  G_STAFF = "staff/staff",
+  G_STAFFS = "staff/staffs",
+  G_SEARCHED_STAFFS = "staff/searchedStaffs",
+  G_IS_NEXT = "staff/isNext",
+  G_IS_PREVIOUS = "staff/isPrevious",
+  A_GET_STAFFS = "staff/getStaffs",
+  A_NEXT_PAGE = "staff/nextPage",
+  A_PREVIOUS_PAGE = "staff/previousPage",
+  A_UPDATE_STAFF = "staff/updateStaff",
+  M_REMOVE_STAFF = "staff/removeStaff",
+  M_ADD_STAFF = "staff/addStaff",
+  M_UPDATE = "staff/update",
+}
+
+export enum ESStaffType {
+  G_STAFF_TYPES = "staff_type/staffTypes",
+  A_GET_STAFF_TYPES = "staff_type/getStaffTypes",
+}

@@ -1,8 +1,10 @@
 <script lang="ts">
 import { ECommon } from "@/enums/common";
+import { ERouter } from "@/enums/routers";
 import { ESBill, ESOrderItem } from "@/enums/store";
 import { IFOrderItem } from "@/interfaces/order";
 import LAModal from "@/layouts/LAModal.vue";
+import router from "@/router";
 import { sumProperty, toExchange } from "@/utils/common";
 import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
@@ -52,6 +54,7 @@ export default defineComponent({
         customer: props.customer,
         orderItems: props.orderedItemList,
       });
+      router.push(ERouter.TABLES);
     }
     return {
       ECommon,
@@ -89,8 +92,8 @@ export default defineComponent({
         <COrder
           v-for="(item, i) in orderedItemList"
           :key="i"
-          :item="item"
-          @serve="serve(item)"
+          :item="item || {}"
+          @serve="serve(item as IFOrderItem)"
         />
       </tbody>
       <tfoot v-if="orderedItemList.length">
@@ -121,7 +124,7 @@ export default defineComponent({
     </div>
     <LAModal v-if="isServing" @close="isServing = false">
       <COrderServe
-        :data="modal"
+        :data="modal || {}"
         @serveSubmit="
           (payload) => serveSubmit(payload.item, payload.serveQuantity)
         "

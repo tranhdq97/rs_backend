@@ -8,6 +8,8 @@ import table from "./modules/table";
 import bill from "./modules/bill";
 import auth from "./modules/auth";
 import customer from "./modules/customer";
+import staff from "./modules/staff";
+import staff_type from "./modules/staff_type";
 
 export default createStore({
   modules: {
@@ -19,6 +21,8 @@ export default createStore({
     bill,
     auth,
     customer,
+    staff,
+    staff_type,
   },
   plugins: [createPersistedState()],
 });

@@ -3,7 +3,7 @@
     "model": "master.MasterCountry",
     "fields": {
       "id": 1,
-      "name": "Vietnam",
+      "name": "Việt Nam",
       "code": "vi"
     }
   }

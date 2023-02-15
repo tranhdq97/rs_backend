@@ -9,7 +9,7 @@ import {
 } from "@/enums/store";
 import { IFMasterData } from "@/interfaces/common";
 import { IFCustomer } from "@/interfaces/customer";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { useStore } from "vuex";
 import CButton from "./CButton.vue";
 import CPreOrder from "./CPreOrder.vue";
@@ -30,7 +30,7 @@ export default defineComponent({
     const phoneNumber = ref(props?.customer?.profile?.phone_number || "");
     const firstName = ref(props?.customer?.profile?.first_name || "");
     const lastName = ref(props?.customer?.profile?.last_name || "");
-    const numPeople = ref(props?.order?.num_people?.toString() || "0");
+    const numPeople = ref<number>(props?.order?.num_people || 0);
     const searchData = computed(() => store.getters[ESMenu.G_AVAILABLE_MENU]);
     const customers = ref<IFCustomer[]>([]);
     const customerList = computed(() => {
@@ -169,10 +169,10 @@ export default defineComponent({
       <CTableCustomerInfo
         icon="groups"
         type="number"
-        :content="numPeople"
+        :content="numPeople.toString()"
         :placeHolder="$t(ECommon.NUM_PEOPLE)"
         min="0"
-        @change="(content) => (numPeople = content.value)"
+        @change="(content) => (numPeople = parseInt(content.value))"
         @addInfo="updateNumPeople"
       />
     </div>

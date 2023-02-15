@@ -7,7 +7,7 @@
       (isNotAllowed ? ' disabled' : '')
     "
   >
-    <span :class="'material-icons'">{{ icon }}</span>
+    <span :class="'material-icons-round'">{{ icon }}</span>
     <div class="title" v-show="!isSideBarCollapsed">{{ $t(title) }}</div>
   </router-link>
 </template>

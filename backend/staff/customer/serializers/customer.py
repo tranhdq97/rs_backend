@@ -37,7 +37,7 @@ class CustomerUpdateSlz(CustomerBaseSlz):
 
     def update(self, instance, validated_data):
         with transaction.atomic():
-            profile_data = validated_data.get(UserFields.PROFILE)
+            profile_data = validated_data.get(UserFields.PROFILE, {})
             for key, value in profile_data.items():
                 setattr(instance.profile, key, value)
 

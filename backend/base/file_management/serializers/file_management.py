@@ -11,11 +11,14 @@ from base.master.serializers.base_master import MasterBaseSlz
 
 
 class FileManagementBaseSlz(serializers.ModelSerializer):
+    thumbnail = serializers.ImageField(read_only=True)
+
     class Meta:
         model = FileManagement
         fields = (
             CommonFields.ID,
             FileManagementFields.FILE,
+            FileManagementFields.THUMBNAIL
         )
 
     def validate(self, attrs):
@@ -36,7 +39,8 @@ class FileManagementBaseSlz(serializers.ModelSerializer):
 
 
 class FileManagementCreateSlz(FileManagementBaseSlz):
-    type_id = ForeignKeyField(model=MasterFileType, required=False)
+    type_id = ForeignKeyField(model=MasterFileType, required=False, write_only=True)
+    type = MasterBaseSlz(read_only=True)
 
     class Meta:
         model = FileManagementBaseSlz.Meta.model
@@ -44,17 +48,18 @@ class FileManagementCreateSlz(FileManagementBaseSlz):
             FileManagementFields.NAME,
             FileManagementFields.DESC,
             FileManagementFields.TYPE_ID,
+            FileManagementFields.TYPE,
         )
 
 
 class FileManagementListSlz(FileManagementBaseSlz):
-    type_id = ForeignKeyField(model=MasterFileType)
+    type = MasterBaseSlz()
 
     class Meta:
         model = FileManagementBaseSlz.Meta.model
         fields = FileManagementBaseSlz.Meta.fields + (
             FileManagementFields.NAME,
-            FileManagementFields.TYPE_ID,
+            FileManagementFields.TYPE,
         )
 
 
@@ -67,10 +72,9 @@ class FileManagementRetrieveSlz(FileManagementBaseSlz):
             FileManagementFields.NAME,
             FileManagementFields.DESC,
             FileManagementFields.TYPE,
-        ) + (
-             CommonFields.CREATED_AT,
-             CommonFields.UPDATED_AT,
-         )
+            CommonFields.CREATED_AT,
+            CommonFields.UPDATED_AT,
+        )
 
 
 class FileManagementUpdateSlz(FileManagementBaseSlz):

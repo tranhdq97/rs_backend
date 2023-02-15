@@ -34,3 +34,11 @@ export function concatProperty(
 export function addPaddingNumber(number: number, numLen?: number) {
   return number.toString().padStart(numLen || 3, "0");
 }
+
+export function concatList(array: any[], factor: string): string {
+  let text = "";
+  array.map((item: any, index: number) => {
+    if (item) text += (index === 0 ? "" : factor) + item;
+  });
+  return text;
+}

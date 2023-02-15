@@ -11,3 +11,4 @@ drf_writable_nested
 whitenoise
 django-crum
 gunicorn
+pillow
