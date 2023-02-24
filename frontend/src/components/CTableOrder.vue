@@ -1,11 +1,12 @@
 <script lang="ts">
 import { ECommon } from "@/enums/common";
+import { ERouter } from "@/enums/routers";
 import { ESBill, ESOrderItem } from "@/enums/store";
 import { IFOrderItem } from "@/interfaces/order";
 import LAModal from "@/layouts/LAModal.vue";
+import router from "@/router";
 import { sumProperty, toExchange } from "@/utils/common";
 import { computed, defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import CButton from "./CButton.vue";
 import COrder from "./COrder.vue";
@@ -13,15 +14,16 @@ import COrderServe from "./COrderServe.vue";
 
 export default defineComponent({
   props: {
+    table: { type: Object, required: true },
+    order: { type: Object, required: false },
+    customer: { type: Object, required: false },
     orderedItemList: { type: Array, default: [] as IFOrderItem[] },
   },
   setup(props) {
-    const router = useRouter();
     const store = useStore();
     const isServing = ref(false);
     const VAT = computed(() => store.getters[ESBill.G_VAT]);
     const modal = ref<IFOrderItem | null>();
-    const tableIndex = router.currentRoute.value.params.index;
     const total_quantity = computed(() =>
       sumProperty(props.orderedItemList, ["quantity"])
     );
@@ -46,18 +48,26 @@ export default defineComponent({
       });
       isServing.value = false;
     }
+    async function payBill() {
+      await store.dispatch(ESOrderItem.A_PAY, {
+        order: props.order,
+        customer: props.customer,
+        orderItems: props.orderedItemList,
+      });
+      router.push(ERouter.TABLES);
+    }
     return {
       ECommon,
-      tableIndex,
       total_quantity,
       total_served,
       amount,
-      serve,
-      serveSubmit,
       isServing,
       modal,
       VAT,
+      serve,
+      serveSubmit,
       toExchange,
+      payBill,
     };
   },
   components: { COrder, LAModal, COrderServe, CButton },
@@ -82,17 +92,17 @@ export default defineComponent({
         <COrder
           v-for="(item, i) in orderedItemList"
           :key="i"
-          :item="item"
-          @serve="serve(item)"
+          :item="item || {}"
+          @serve="serve(item as IFOrderItem)"
         />
       </tbody>
       <tfoot v-if="orderedItemList.length">
         <tr>
-          <td>{{ $t(ECommon.AMOUNT) }}</td>
-          <td class="text-center">{{ total_quantity }}</td>
-          <td class="text-center">{{ total_served }}</td>
+          <td class="padding">{{ $t(ECommon.AMOUNT) }}</td>
+          <td class="text-center padding">{{ total_quantity }}</td>
+          <td class="text-center padding">{{ total_served }}</td>
           <td v-for="i in 3" :key="i"></td>
-          <td class="text-right">{{ toExchange(amount) }}</td>
+          <td class="text-right padding">{{ toExchange(amount) }}</td>
         </tr>
         <tr>
           <td class="padding">{{ $t(ECommon.VAT) }}</td>
@@ -108,13 +118,13 @@ export default defineComponent({
         </tr>
       </tfoot>
     </table>
-    <div class="paybill" v-if="orderedItemList.length">
-      <CButton :name="ECommon.PAY_BILL" />
+    <div class="paybill" v-if="order">
+      <CButton :name="ECommon.PAY_BILL" @click="payBill" />
       <span class="material-icons preview">preview</span>
     </div>
     <LAModal v-if="isServing" @close="isServing = false">
       <COrderServe
-        :data="modal"
+        :data="modal || {}"
         @serveSubmit="
           (payload) => serveSubmit(payload.item, payload.serveQuantity)
         "

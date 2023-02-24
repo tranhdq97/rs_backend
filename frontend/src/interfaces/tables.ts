@@ -1,7 +1,7 @@
 export interface IFTable {
-  id: number;
-  name: string;
-  is_available: boolean;
+  id?: number;
+  name?: string;
+  is_available?: boolean;
 }
 
 export interface IFTableRep {

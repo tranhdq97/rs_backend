@@ -79,6 +79,23 @@ td {
 .text-center {
   text-align: center;
 }
+.lowercase {
+  text-transform: lowercase;
+}
+.justify-content-right {
+  justify-content: flex-end;
+}
+.justify-content-left {
+  justify-content: flex-start;
+}
+.no-wrap {
+  white-space: nowrap;
+}
+select {
+  border: none;
+  padding: var(--s-small);
+  font-size: var(--fs-medium);
+}
 ::-webkit-scrollbar {
   width: 10px;
   margin-left: 5px;

@@ -43,7 +43,6 @@ export default defineComponent({
         v-model="searchValue"
         @keyup="handleSearch"
       />
-      <span class="material-icons">search</span>
     </div>
     <div
       class="recommend"

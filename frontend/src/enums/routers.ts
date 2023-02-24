@@ -5,6 +5,10 @@ export enum ERouter {
   SETTING = "/setting",
   TABLES = "/tables",
   TABLE = "/table/:id",
+  STAFFS = "/staffs",
+  STAFF = "/staff/:id",
+  MENU = "/menu",
+  MEAL = "/menu/:id",
 }
 
 export enum ERouterName {
@@ -14,4 +18,8 @@ export enum ERouterName {
   SETTING = "setting",
   TABLES = "tables",
   TABLE = "table",
+  STAFFS = "staffs",
+  STAFF = "staff",
+  MENU = "menu",
+  MEAL = "meal",
 }

@@ -250,3 +250,8 @@ REST_FRAMEWORK = {
     ],
     "EXCEPTION_HANDLER": "base.common.custom.exceptions.custom_exception_handler",
 }
+
+# ---------------------------------------------------------------------------- #
+#                                    OTHER                                      #
+# ---------------------------------------------------------------------------- #
+THUMBNAIL_SIZE = env.int("THUMBNAIL_SIZE")

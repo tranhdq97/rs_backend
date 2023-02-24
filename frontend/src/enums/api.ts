@@ -1,28 +1,75 @@
 export enum EAFileManagement {
-  CREATE = "/storagge/file-management/create",
-  LIST = "/storagge/file-management/list",
-  DETAIL = "/storagge/file-management/:index/detail",
-  UPDATE = "/storagge/file-management/:index/update",
-  DELETE = "/storagge/file-management/:index/delete",
+  CREATE = "/stg/file-management/create",
+  LIST = "/stg/file-management/list",
+  DETAIL = "/stg/file-management/:index/detail",
+  UPDATE = "/stg/file-management/:index/update",
+  DELETE = "/stg/file-management/:index/delete",
 }
+
+export enum EAAddress {}
 
 export enum EAAuth {
-  TOKEN = "/staff/auth/token",
-  REFRESH_TOKEN = "/staff/auth/token/refresh",
-  GET_ME = "/staff/auth/get-me",
-  CHANGE_PASSWORD = "staff/auth/change-password",
+  TOKEN = "/stf/auth/token",
+  REFRESH_TOKEN = "/stf/auth/token/refresh",
+  GET_ME = "/stf/auth/get-me",
+  CHANGE_PASSWORD = "stf/auth/change-password",
 }
 
-export enum EAStaff {
-  CREATE = "/staff/staff/create",
-  LIST = "/staff/staff/list",
-  DETAIL = "/staff/staff/:index/detail",
-  UPDATE = "/staff/staff/:index/update",
-  DELETE = "/staff/staff/:index/delete",
+export enum EACustomer {
+  CREATE = "/stf/customer/create",
+  LIST = "/stf/customer/list",
+  DETAIL = "/stf/customer/:id/detail",
+  DELETE = "/stf/customer/:id/delete",
+  UPDATE = "/stf/customer/:id/update",
 }
 
 export enum EAMaster {
-  CREATE = "staff/master/:master_name/create",
-  LIST = "staff/master/:master_name/list",
-  DELETE = "staff/master/:master_name/:id/list",
+  CREATE = "stf/master/:master_name/create",
+  LIST = "stf/master/:master_name/list",
+  DELETE = "stf/master/:master_name/:id/list",
+}
+
+export enum EAMenu {
+  CREATE = "/stf/menu/create",
+  LIST = "/stf/menu/list",
+  DETAIL = "/stf/menu/:id/detail",
+  UPDATE = "/stf/menu/:id/update",
+  DELETE = "/stf/menu/:id/delete",
+}
+
+export enum EAOrder {
+  CREATE = "/stf/order/create",
+  LIST = "/stf/order/list",
+  DETAIL = "/stf/order/:id/detail",
+  UPDATE = "/stf/order/:id/update",
+  DELETE = "/stf/order/:id/delete",
+}
+export enum EAOrderItem {
+  CREATE = "/stf/order_item/create",
+  LIST = "/stf/order_item/list",
+  DETAIL = "/stf/order_item/:id/detail",
+  UPDATE = "/stf/order_item/:id/update",
+  DELETE = "/stf/order_item/:id/delete",
+}
+export enum EAProfile {
+  CREATE = "/stf/profile/create",
+  DETAIL = "/stf/profile/:id/detail",
+  UPDATE = "/stf/profile/:id/update",
+  DELETE = "/stf/profile/:id/delete",
+}
+
+export enum EAStaff {
+  CREATE = "/stf/staff/create",
+  LIST = "/stf/staff/list",
+  DETAIL = "/stf/staff/:id/detail",
+  UPDATE = "/stf/staff/:id/update",
+  DELETE = "/stf/staff/:id/delete",
+}
+
+export enum EATable {
+  CREATE = "/stf/table/create",
+  LIST = "/stf/table/list",
+  DETAIL = "/stf/table/:id/detail",
+  UPDATE = "/stf/table/:id/update",
+  DELETE = "/stf/table/:id/delete",
 }

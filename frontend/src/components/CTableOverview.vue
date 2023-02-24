@@ -1,30 +1,135 @@
 <script lang="ts">
 import { ECommon } from "@/enums/common";
-import { ESMenu, ESTable } from "@/enums/store";
-import { IFTable } from "@/interfaces/tables";
-import { computed, defineComponent } from "vue";
-import { useRouter } from "vue-router";
+import {
+  ESAuth,
+  ESCustomer,
+  ESMenu,
+  ESOrder,
+  ESOrderItem,
+} from "@/enums/store";
+import { IFMasterData } from "@/interfaces/common";
+import { IFCustomer } from "@/interfaces/customer";
+import { computed, defineComponent, ref, watch } from "vue";
 import { useStore } from "vuex";
 import CButton from "./CButton.vue";
 import CPreOrder from "./CPreOrder.vue";
 import CSearchField from "./CSearchField.vue";
+import CTableCustomerInfo from "./CTableCustomerInfo.vue";
 
 export default defineComponent({
   props: {
     orderItemPreviewList: { type: Array, default: () => [] },
+    table: { type: Object, required: true },
+    order: { type: Object, required: false },
+    customer: { type: Object, required: false },
   },
-  emits: ["handleSelect", "handleOrder"],
-  setup() {
-    const router = useRouter();
+  emits: ["handleSelect"],
+  setup(props) {
     const store = useStore();
-    const tableIndex: number = parseInt(
-      router.currentRoute.value.params.id as string
-    );
-    const table: IFTable = store.getters[ESTable.G_TABLE](tableIndex);
+    const staff = computed(() => store.getters[ESAuth.G_USER]);
+    const phoneNumber = ref(props?.customer?.profile?.phone_number || "");
+    const firstName = ref(props?.customer?.profile?.first_name || "");
+    const lastName = ref(props?.customer?.profile?.last_name || "");
+    const numPeople = ref<number>(props?.order?.num_people || 0);
     const searchData = computed(() => store.getters[ESMenu.G_AVAILABLE_MENU]);
-    return { ECommon, searchData, table };
+    const customers = ref<IFCustomer[]>([]);
+    const customerList = computed(() => {
+      const data: IFMasterData[] = [];
+      customers.value.map((item) =>
+        data.push({
+          id: item.id,
+          name:
+            item?.profile?.phone_number +
+            " - " +
+            item?.profile?.first_name +
+            " " +
+            item?.profile?.last_name,
+        })
+      );
+      return data;
+    });
+    async function searchCustomer(val: string) {
+      phoneNumber.value = val;
+      let res: IFCustomer[] = [];
+      if (val.length) {
+        res = await store.dispatch(ESCustomer.A_SEARCH_CUSTOMER_BY_PN, val);
+      }
+      customers.value = res;
+    }
+    async function selectCustomer(item: IFMasterData) {
+      const selectedCustomer: IFCustomer | null = customers.value.find(
+        (cus) => cus.id === item.id
+      ) as IFCustomer;
+      if (selectedCustomer) {
+        const res = await store.dispatch(ESOrder.A_UPDATE_ORDER, {
+          order: props.order,
+          updateData: { customer_id: selectedCustomer.id },
+        });
+        phoneNumber.value = res?.customer?.profile?.phone_number || "";
+        firstName.value = res?.customer?.profile?.first_name || "";
+        lastName.value = res?.customer?.profile?.last_name || "";
+      }
+    }
+    async function addPhoneNumber() {
+      await store.dispatch(ESCustomer.A_ADD_PHONE_NUMBER, {
+        order: props.order,
+        phoneNumber: phoneNumber.value,
+      });
+    }
+    async function updateLastName() {
+      await store.dispatch(ESCustomer.A_UPDATE_CUSTOMER, {
+        customer: props?.customer,
+        updateData: { profile: { last_name: lastName.value } },
+      });
+    }
+    async function updateFirstName() {
+      await store.dispatch(ESCustomer.A_UPDATE_CUSTOMER, {
+        customer: props?.customer,
+        updateData: { profile: { first_name: firstName.value } },
+      });
+    }
+    async function updateNumPeople() {
+      if (!props.order) {
+        await store.dispatch(ESOrder.A_ADD_ORDER, {
+          table_id: props.table.id,
+          num_people: numPeople.value,
+        });
+      } else {
+        await store.dispatch(ESOrder.A_UPDATE_ORDER, {
+          order: props.order,
+          updateData: { num_people: numPeople.value },
+        });
+      }
+    }
+    async function handleOrder() {
+      await store.dispatch(ESOrderItem.A_ORDER, {
+        table: props.table,
+        tableOrder: props.order,
+        items: props.orderItemPreviewList,
+        customer: props.customer,
+        staff: staff.value,
+      });
+    }
+    return {
+      staff,
+      ECommon,
+      searchData,
+      phoneNumber,
+      firstName,
+      lastName,
+      numPeople,
+      customers,
+      customerList,
+      searchCustomer,
+      selectCustomer,
+      addPhoneNumber,
+      updateLastName,
+      updateFirstName,
+      updateNumPeople,
+      handleOrder,
+    };
   },
-  components: { CSearchField, CPreOrder, CButton },
+  components: { CSearchField, CPreOrder, CButton, CTableCustomerInfo },
 });
 </script>
 
@@ -35,18 +140,41 @@ export default defineComponent({
       <div>{{ table.name }}</div>
     </div>
     <div class="head-info">
-      <div class="sub-info">
-        <span class="material-icons">contact_phone</span>
-        <div class="normal">{{ "0934346270" }}</div>
-      </div>
-      <div class="sub-info">
-        <span class="material-icons">badge</span>
-        <div class="normal">{{ "Dong Quoc Tranh" }}</div>
-      </div>
-      <div class="sub-info">
-        <span class="material-icons">groups</span>
-        <div class="normal">{{ 5 }}</div>
-      </div>
+      <CTableCustomerInfo
+        icon="contact_phone"
+        :content="phoneNumber"
+        :contentList="customerList"
+        :placeHolder="$t(ECommon.PHONE_NUMBER)"
+        actionIcon="add"
+        @change="(content) => searchCustomer(content.value)"
+        @selectCustomer="(item) => selectCustomer(item)"
+        @addInfo="addPhoneNumber"
+        :isDisabled="!order"
+      />
+      <CTableCustomerInfo
+        icon="badge"
+        :content="firstName"
+        :placeHolder="$t(ECommon.FIRSTNAME)"
+        :isDisabled="!customer"
+        @change="(content) => (firstName = content.value)"
+        @addInfo="updateFirstName"
+      />
+      <CTableCustomerInfo
+        :content="lastName"
+        :placeHolder="$t(ECommon.LASTNAME)"
+        :isDisabled="!customer"
+        @change="(content) => (lastName = content.value)"
+        @addInfo="updateLastName"
+      />
+      <CTableCustomerInfo
+        icon="groups"
+        type="number"
+        :content="numPeople.toString()"
+        :placeHolder="$t(ECommon.NUM_PEOPLE)"
+        min="0"
+        @change="(content) => (numPeople = parseInt(content.value))"
+        @addInfo="updateNumPeople"
+      />
     </div>
     <div class="head-info search">
       <span class="material-icons">menu_book</span>
@@ -68,7 +196,7 @@ export default defineComponent({
     </div>
     <CButton
       :name="ECommon.ORDER"
-      @click="$emit('handleOrder')"
+      @click="handleOrder"
       v-if="orderItemPreviewList.length"
     />
   </div>
@@ -96,10 +224,6 @@ export default defineComponent({
     font-weight: var(--fw-small);
   }
 }
-.sub-info {
-  align-items: center;
-  gap: var(--s-medium);
-}
 .pre-order {
   gap: var(--s-small);
   overflow-y: auto;
@@ -107,8 +231,5 @@ export default defineComponent({
 }
 .search {
   justify-content: stretch;
-}
-.normal {
-  font-weight: var(--fw-medium);
 }
 </style>

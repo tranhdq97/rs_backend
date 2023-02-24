@@ -5,6 +5,10 @@ import VHome from "@/views/VHome.vue";
 import VSetting from "@/views/VSetting.vue";
 import VTables from "@/views/VTables.vue";
 import VTable from "@/views/VTable.vue";
+import VStaffs from "@/views/VStaffs.vue";
+import VStaff from "@/views/VStaff.vue";
+import VMenu from "@/views/VMenu.vue";
+import VMeal from "@/views/VMeal.vue";
 import { ERouter, ERouterName } from "@/enums/routers";
 import { EMessage } from "@/enums/common";
 import { EIDStaffType } from "@/enums/value_id";
@@ -59,6 +63,41 @@ const routes: Array<RouteRecordRaw> = [
       notAllowedRoles: [EIDStaffType.UNAPPROVED],
     },
   },
+  {
+    path: ERouter.STAFFS,
+    name: ERouterName.STAFFS,
+    component: VStaffs,
+    meta: {
+      authRequired: true,
+      notAllowedRoles: [EIDStaffType.UNAPPROVED, EIDStaffType.EMPLOYEE],
+    },
+  },
+  {
+    path: ERouter.STAFF,
+    name: ERouterName.STAFF,
+    component: VStaff,
+    meta: {
+      authRequired: true,
+      notAllowedRoles: [EIDStaffType.UNAPPROVED],
+      selfViewRoles: [EIDStaffType.EMPLOYEE],
+    },
+  },
+  {
+    path: ERouter.MENU,
+    name: ERouterName.MENU,
+    component: VMenu,
+    meta: {
+      authRequired: false,
+    },
+  },
+  {
+    path: ERouter.MEAL,
+    name: ERouterName.MEAL,
+    component: VMeal,
+    meta: {
+      authRequired: false,
+    },
+  },
 ];
 
 const router = createRouter({
@@ -67,18 +106,19 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const user: IFStaff = store.getters[ESAuth.G_USER];
   if (
     to.matched.some(
       (record) => record?.meta?.authRequired && record?.meta?.notAllowedRoles
     )
   ) {
     const notAllowedRoleList = (to.meta.notAllowedRoles as number[]) || [];
-    const user: IFStaff = store.getters[ESAuth.G_USER];
-    if (notAllowedRoleList.includes(user?.type?.id || -1)) {
+    if (user && notAllowedRoleList.includes(user?.type?.id || -1)) {
       alert(i18n.t(EMessage.PERMISSION_DENIED));
+    } else if (!user) {
+      router.push(ERouter.SIGNIN);
     } else next();
   } else if (to.matched.some((record) => record?.meta?.authRequired)) {
-    const user: IFStaff = store.getters[ESAuth.G_USER];
     if (!user) {
       router.push(ERouter.SIGNIN);
     } else next();

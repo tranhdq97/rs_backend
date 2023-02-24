@@ -1,4 +1,7 @@
+import { EAMenu } from "@/enums/api";
+import { IAListRes } from "@/interfaces/api";
 import { IFMenuItem } from "@/interfaces/menu";
+import axios from "axios";
 
 export interface IFState {
   menu: Array<IFMenuItem>;
@@ -7,52 +10,17 @@ export interface IFState {
 export default {
   namespaced: true,
   state: {
-    menu: [
-      {
-        id: 1,
-        name: "bo keo phao con heo ga vit",
-        type: {
-          id: 1,
-          name: "main cource",
-        },
-        price: 100000,
-        is_available: true,
-      },
-      {
-        id: 2,
-        name: "bo cong kenh",
-        type: {
-          id: 1,
-          name: "main cource",
-        },
-        price: 130000,
-        is_available: true,
-      },
-      {
-        id: 3,
-        name: "bo keo keo",
-        type: {
-          id: 1,
-          name: "main cource",
-        },
-        price: 90000,
-        is_available: true,
-      },
-      {
-        id: 4,
-        name: "bo an chay",
-        type: {
-          id: 1,
-          name: "main cource",
-        },
-        price: 124000,
-        is_available: false,
-      },
-    ],
+    menu: [],
   },
   getters: {
     menu: (state: IFState) => state.menu,
     availableMenu: (state: IFState) =>
       state.menu.filter((item) => item.is_available),
+  },
+  actions: {
+    async getMenu({ state }: { state: IFState }) {
+      const res: IAListRes = await axios.get(EAMenu.LIST);
+      state.menu = res.results as IFMenuItem[];
+    },
   },
 };

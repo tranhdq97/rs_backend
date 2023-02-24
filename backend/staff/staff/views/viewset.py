@@ -4,7 +4,7 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
-from base.auth.permissions.permission import IsStaff, IsApproved, IsSuperStaff, IsManager
+from base.auth.permissions.permission import IsStaff, IsSuperStaff, IsManager
 from base.common.constant import message
 from base.common.constant.db_fields import UserFields
 from base.common.constant.master import MasterStaffTypeID

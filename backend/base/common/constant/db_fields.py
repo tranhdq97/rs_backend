@@ -76,7 +76,7 @@ class FileManagementFields(str, BaseEnum):
     FILE = "file"
     TYPE = "type"
     TYPE_ID = "type_id"
-    IS_DELETED = "is_deleted"
+    THUMBNAIL = "thumbnail"
 
 
 class MenuFields(str, BaseEnum):

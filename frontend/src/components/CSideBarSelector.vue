@@ -1,9 +1,13 @@
 <template>
   <router-link
     :to="to"
-    :class="'wrapper' + (activeNotAllowed ? ' not-allowed-active' : '')"
+    :class="
+      'wrapper' +
+      (notActiveAllowed ? ' not-allowed-active' : '') +
+      (isNotAllowed ? ' disabled' : '')
+    "
   >
-    <span class="material-icons">{{ icon }}</span>
+    <span :class="'material-icons-round'">{{ icon }}</span>
     <div class="title" v-show="!isSideBarCollapsed">{{ $t(title) }}</div>
   </router-link>
 </template>
@@ -11,24 +15,31 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
-import { ESSideBar } from "@/enums/store";
+import { ESAuth, ESSideBar } from "@/enums/store";
 import { useRouter } from "vue-router";
-import { ERouter } from "@/enums/routers";
+import { IFStaff } from "@/interfaces/staff";
 
 export default defineComponent({
   props: {
     title: { type: String, required: true },
     icon: { type: String, required: true },
-    to: { type: String, default: ERouter.HOME },
-    activeNotAllowed: { type: Boolean, default: false },
+    to: { type: String, required: true },
+    notActiveAllowed: { type: Boolean, required: false },
   },
-  setup() {
+  setup(props) {
     const store = useStore();
     const router = useRouter();
+    const toRouter = router.getRoutes().find((item) => item.path === props.to);
+    const notAllowedRoles = (toRouter?.meta?.notAllowedRoles as number[]) || [];
+    const staff = computed<IFStaff>(() => store.getters[ESAuth.G_USER]);
+    const isNotAllowed = computed(() => {
+      const staffTypeID = staff.value?.type?.id || -1;
+      return notAllowedRoles.some((item) => item === staffTypeID);
+    });
     const isSideBarCollapsed = computed(
       () => store.getters[ESSideBar.G_IS_SIDEBAR_COLLAPSED]
     );
-    return { isSideBarCollapsed, router };
+    return { isSideBarCollapsed, isNotAllowed };
   },
 });
 </script>
@@ -59,5 +70,10 @@ export default defineComponent({
 }
 .not-allowed-active {
   background: var(--c-primary);
+}
+.disabled {
+  span {
+    color: var(--c-grey);
+  }
 }
 </style>

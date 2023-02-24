@@ -18,14 +18,18 @@ class ProfileBaseSlz(serializers.ModelSerializer):
 
 
 class ProfileCreateSlz(ProfileBaseSlz):
-    address_id = ForeignKeyField(Address)
-    photo_id = ForeignKeyField(FileManagement)
-    sex_id = ForeignKeyField(MasterSex)
+    address_id = ForeignKeyField(Address, required=False, write_only=True)
+    photo_id = ForeignKeyField(FileManagement, required=False, write_only=True)
+    sex_id = ForeignKeyField(MasterSex, required=False, write_only=True)
+    address = AddressRetrieveSlz(read_only=True)
+    photo = FileManagementRetrieveSlz(read_only=True)
+    sex = MasterBaseSlz(read_only=True)
 
     class Meta:
         model = ProfileBaseSlz.Meta.model
         fields = ProfileBaseSlz.Meta.fields + (
-            ProfileFields.DOB, ProfileFields.ADDRESS_ID, ProfileFields.PHOTO_ID, ProfileFields.SEX_ID
+            ProfileFields.DOB, ProfileFields.ADDRESS_ID, ProfileFields.PHOTO_ID, ProfileFields.SEX_ID,
+            ProfileFields.ADDRESS, ProfileFields.PHOTO, ProfileFields.SEX
         )
 
 
@@ -52,12 +56,7 @@ class ProfileForUserListSlz(ProfileBaseSlz):
         )
 
 
-class ProfileUpdateSlz(ProfileBaseSlz):
-    photo_id = ForeignKeyField(FileManagement, required=False)
-    sex_id = ForeignKeyField(MasterSex, required=False)
-
+class ProfileUpdateSlz(ProfileCreateSlz):
     class Meta:
-        model = ProfileBaseSlz.Meta.model
-        fields = ProfileBaseSlz.Meta.fields + (
-            ProfileFields.DOB, ProfileFields.PHOTO_ID, ProfileFields.SEX_ID
-        )
+        model = ProfileCreateSlz.Meta.model
+        fields = ProfileCreateSlz.Meta.fields

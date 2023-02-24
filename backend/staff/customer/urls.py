@@ -8,4 +8,5 @@ urlpatterns = [
     path("create", CustomerViewSet.as_view({"post": BaseViewAction.CREATE})),
     path("<int:pk>/detail", CustomerViewSet.as_view({"get": BaseViewAction.RETRIEVE})),
     path("<int:pk>/delete", CustomerViewSet.as_view({"delete": BaseViewAction.DESTROY})),
+    path("<int:pk>/update", CustomerViewSet.as_view({"put": BaseViewAction.UPDATE})),
 ]

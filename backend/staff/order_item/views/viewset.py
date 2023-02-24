@@ -9,7 +9,7 @@ from base.common.constant.view_action import BaseViewAction
 from base.common.custom.pagination import CustomPagination
 from base.common.utils.exceptions import PermissionDenied
 from base.order_item.models import OrderItem
-from staff.order_item.filters.order_item import OrderItemListQueryFields
+from staff.order_item.filters.order_item import OrderItemListQueryFields, OrderItemFilter
 from staff.order_item.serializers.order_item import OrderItemListSlz, OrderItemRetrieveSlz, OrderItemCreateSlz, \
     OrderItemUpdateSlz
 
@@ -25,6 +25,7 @@ class OrderItemViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Up
     ordering_fields = OrderItemListQueryFields.ORDER_FIELDS
     ordering = OrderItemListQueryFields.ORDER_DEFAULT_FIELD
     filterset_fields = OrderItemListQueryFields.FILTERSET_FIELDS
+    filterset_class = OrderItemFilter
 
     def get_serializer_class(self):
         slz_switcher = {
