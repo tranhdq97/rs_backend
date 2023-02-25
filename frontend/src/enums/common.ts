@@ -38,12 +38,20 @@ export enum ECommon {
   NUM_PEOPLE = "num_people",
   UPDATE = "update",
   MENU = "menu",
+  DESC = "desc",
+  ADD_MEAL = "add_meal",
+  MEAL_TYPE = "meal_type",
+  ROLE = "role",
+  PHOTO = "photo",
 }
 
 export enum EPlaceHolder {
   ENTER_EMAIL = "enter_email",
   ENTER_PASSWORD = "enter_password",
   ENTER_PHONENUMBER = "enter_phone_number",
+  ENTER_MEAL_NAME = "enter_meal_name",
+  ENTER_UNIT_PRICE = "enter_unit_price",
+  ENTER_DESC = "enter_desc",
 }
 
 export enum EToken {

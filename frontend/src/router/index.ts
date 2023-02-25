@@ -119,6 +119,7 @@ router.beforeEach((to, from, next) => {
       router.push(ERouter.SIGNIN);
     } else next();
   } else if (to.matched.some((record) => record?.meta?.authRequired)) {
+    console.log("IN1");
     if (!user) {
       router.push(ERouter.SIGNIN);
     } else next();

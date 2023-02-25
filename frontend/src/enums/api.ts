@@ -1,9 +1,9 @@
 export enum EAFileManagement {
   CREATE = "/stg/file-management/create",
   LIST = "/stg/file-management/list",
-  DETAIL = "/stg/file-management/:index/detail",
-  UPDATE = "/stg/file-management/:index/update",
-  DELETE = "/stg/file-management/:index/delete",
+  DETAIL = "/stg/file-management/:id/detail",
+  UPDATE = "/stg/file-management/:id/update",
+  DELETE = "/stg/file-management/:id/delete",
 }
 
 export enum EAAddress {}

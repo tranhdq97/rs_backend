@@ -1,11 +1,7 @@
-<template>
+<template v-show="!isNotAllowed">
   <router-link
     :to="to"
-    :class="
-      'wrapper' +
-      (notActiveAllowed ? ' not-allowed-active' : '') +
-      (isNotAllowed ? ' disabled' : '')
-    "
+    :class="'wrapper' + (notActiveAllowed ? ' not-allowed-active' : '')"
   >
     <span :class="'material-icons-round'">{{ icon }}</span>
     <div class="title" v-show="!isSideBarCollapsed">{{ $t(title) }}</div>
@@ -15,9 +11,7 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
-import { ESAuth, ESSideBar } from "@/enums/store";
-import { useRouter } from "vue-router";
-import { IFStaff } from "@/interfaces/staff";
+import { ESSideBar } from "@/enums/store";
 
 export default defineComponent({
   props: {
@@ -26,20 +20,12 @@ export default defineComponent({
     to: { type: String, required: true },
     notActiveAllowed: { type: Boolean, required: false },
   },
-  setup(props) {
+  setup() {
     const store = useStore();
-    const router = useRouter();
-    const toRouter = router.getRoutes().find((item) => item.path === props.to);
-    const notAllowedRoles = (toRouter?.meta?.notAllowedRoles as number[]) || [];
-    const staff = computed<IFStaff>(() => store.getters[ESAuth.G_USER]);
-    const isNotAllowed = computed(() => {
-      const staffTypeID = staff.value?.type?.id || -1;
-      return notAllowedRoles.some((item) => item === staffTypeID);
-    });
     const isSideBarCollapsed = computed(
       () => store.getters[ESSideBar.G_IS_SIDEBAR_COLLAPSED]
     );
-    return { isSideBarCollapsed, isNotAllowed };
+    return { isSideBarCollapsed };
   },
 });
 </script>
@@ -69,11 +55,6 @@ export default defineComponent({
   background: var(--c-primaryDark);
 }
 .not-allowed-active {
-  background: var(--c-primary);
-}
-.disabled {
-  span {
-    color: var(--c-grey);
-  }
+  background: inherit;
 }
 </style>

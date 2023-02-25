@@ -8,7 +8,7 @@ from base.table.models import Table
 from staff.customer.serializers.customer import CustomerRetrieveSlz, CustomerListSlz
 from staff.staff.serializers.staff import StaffRetrieveSlz
 from staff.table.serializers.table import TableRetrieveSlz, TableListSlz
-
+from django.db import transaction
 
 class OrderBaseSlz(serializers.ModelSerializer):
     created_by = StaffRetrieveSlz(read_only=True)
@@ -47,6 +47,15 @@ class OrderUpdateSlz(OrderBaseSlz):
         extra_kwargs = {
             OrderFields.NUM_PEOPLE: {"required": False}
         }
+
+    def update(self, instance, validated_data):
+        if validated_data.get(OrderFields.PAID_AT):
+            with transaction.atomic():
+                order_items = instance.order_item.all()
+                for order_item in order_items:
+                    order_item.menu.num_ordered += order_item.served_quantity
+                    order_item.menu.save()
+        return super().update(instance, validated_data)
 
 
 class OrderRetrieveSlz(OrderBaseSlz):

@@ -33,7 +33,7 @@ export default defineComponent({
     const amount = computed(() => {
       let sum = 0;
       (props.orderedItemList as IFOrderItem[]).map((item) => {
-        sum += (item?.served_quantity || 0) * item.menu.price;
+        sum += (item?.served_quantity || 0) * (item.menu?.price || 0);
       });
       return sum;
     });
@@ -82,10 +82,10 @@ export default defineComponent({
           <th>{{ $t(ECommon.MEAL_NAME) }}</th>
           <th>{{ $t(ECommon.QUANTITY) }}</th>
           <th>{{ $t(ECommon.SERVED) }}</th>
-          <th>{{ $t(ECommon.UNIT_PRICE) }}</th>
+          <th class="mobile-hidden">{{ $t(ECommon.UNIT_PRICE) }}</th>
           <th>{{ $t(ECommon.ORDERED_AT) }}</th>
           <th>{{ $t(ECommon.SERVED_AT) }}</th>
-          <th>{{ $t(ECommon.TOTAL) }}</th>
+          <th class="mobile-hidden">{{ $t(ECommon.TOTAL) }}</th>
         </tr>
       </thead>
       <tbody>
@@ -101,20 +101,24 @@ export default defineComponent({
           <td class="padding">{{ $t(ECommon.AMOUNT) }}</td>
           <td class="text-center padding">{{ total_quantity }}</td>
           <td class="text-center padding">{{ total_served }}</td>
-          <td v-for="i in 3" :key="i"></td>
-          <td class="text-right padding">{{ toExchange(amount) }}</td>
+          <td v-for="i in 3" :key="i" class="mobile-hidden"></td>
+          <td class="text-right padding mobile-hidden">
+            {{ toExchange(amount) }}
+          </td>
         </tr>
         <tr>
           <td class="padding">{{ $t(ECommon.VAT) }}</td>
-          <td v-for="i in 5" :key="i"></td>
-          <td class="text-right padding">
+          <td v-for="i in 5" :key="i" class="mobile-hidden"></td>
+          <td class="text-right padding mobile-hidden">
             ({{ VAT }}%) {{ toExchange((amount * VAT) / 100) }}
           </td>
         </tr>
         <tr>
           <td>{{ $t(ECommon.TOTAL) }}</td>
-          <td v-for="i in 5" :key="i"></td>
-          <td class="text-right">{{ toExchange(amount * (1 + VAT / 100)) }}</td>
+          <td v-for="i in 5" :key="i" class="mobile-hidden"></td>
+          <td class="text-right mobile-hidden">
+            {{ toExchange(amount * (1 + VAT / 100)) }}
+          </td>
         </tr>
       </tfoot>
     </table>
@@ -166,6 +170,12 @@ thead {
   &:hover {
     border: 1px solid var(--c-primary);
     color: var(--c-primary);
+  }
+}
+@media screen and (max-width: 480px) {
+  .mobile-hidden {
+    visibility: hidden;
+    display: none;
   }
 }
 </style>

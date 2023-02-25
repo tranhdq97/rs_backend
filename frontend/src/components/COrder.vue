@@ -3,10 +3,10 @@
     <td>{{ item.menu.name }}</td>
     <td class="text-center">{{ item.quantity }}</td>
     <td class="text-center">{{ item?.served_quantity }}</td>
-    <td class="text-right">{{ toExchange(item.menu.price) }}</td>
+    <td class="text-right mobile-hidden">{{ toExchange(item.menu.price) }}</td>
     <td class="text-right">{{ toTime(item.updated_at) }}</td>
     <td class="text-right">{{ toTime(item?.served_at) }}</td>
-    <td class="text-right">
+    <td class="text-right mobile-hidden">
       {{ toExchange(item.menu.price * item.served_quantity) }}
     </td>
     <td>
@@ -55,5 +55,11 @@ span {
 }
 td {
   padding-top: var(--s-small);
+}
+@media screen and (max-width: 480px) {
+  .mobile-hidden {
+    visibility: hidden;
+    display: none;
+  }
 }
 </style>

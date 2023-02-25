@@ -24,7 +24,7 @@ module.exports = defineConfig({
       "^/stg": {
         target: "http://localhost:8010",
         changeOrigin: true,
-        pathRewrite: { "^/stg/": "/api" },
+        pathRewrite: { "^/stg": "/api" },
       },
     },
   },

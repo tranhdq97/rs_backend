@@ -4,3 +4,11 @@ export interface IAListRes {
   previous?: string;
   results: Array<unknown>;
 }
+
+export interface IRsFile {
+  name: string;
+  lastModified: number;
+  lastModifiedDate: Date;
+  size: number;
+  type: string;
+}

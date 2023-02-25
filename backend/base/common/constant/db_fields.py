@@ -87,6 +87,7 @@ class MenuFields(str, BaseEnum):
     IS_AVAILABLE = "is_available"
     PHOTO = "photo"
     PHOTO_ID = "photo_id"
+    NUM_ORDERED = "num_ordered"
     DESC = "desc"
 
 

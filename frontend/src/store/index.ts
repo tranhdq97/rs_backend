@@ -10,6 +10,9 @@ import auth from "./modules/auth";
 import customer from "./modules/customer";
 import staff from "./modules/staff";
 import staff_type from "./modules/staff_type";
+import cart from "./modules/cart";
+import menu_type from "./modules/menu_type";
+import file_management from "./modules/file_management";
 
 export default createStore({
   modules: {
@@ -23,6 +26,9 @@ export default createStore({
     customer,
     staff,
     staff_type,
+    cart,
+    menu_type,
+    file_management,
   },
   plugins: [createPersistedState()],
 });
