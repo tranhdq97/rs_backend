@@ -9,7 +9,7 @@ import {
 } from "@/enums/store";
 import { IFMasterData } from "@/interfaces/common";
 import { IFCustomer } from "@/interfaces/customer";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 import CButton from "./CButton.vue";
 import CPreOrder from "./CPreOrder.vue";
@@ -139,7 +139,7 @@ export default defineComponent({
       <span class="material-icons">table_restaurant</span>
       <div>{{ table.name }}</div>
     </div>
-    <div class="head-info">
+    <div class="head-info info-detail">
       <CTableCustomerInfo
         icon="contact_phone"
         :content="phoneNumber"
@@ -151,21 +151,23 @@ export default defineComponent({
         @addInfo="addPhoneNumber"
         :isDisabled="!order"
       />
-      <CTableCustomerInfo
-        icon="badge"
-        :content="firstName"
-        :placeHolder="$t(ECommon.FIRSTNAME)"
-        :isDisabled="!customer"
-        @change="(content) => (firstName = content.value)"
-        @addInfo="updateFirstName"
-      />
-      <CTableCustomerInfo
-        :content="lastName"
-        :placeHolder="$t(ECommon.LASTNAME)"
-        :isDisabled="!customer"
-        @change="(content) => (lastName = content.value)"
-        @addInfo="updateLastName"
-      />
+      <div class="name">
+        <CTableCustomerInfo
+          icon="badge"
+          :content="firstName"
+          :placeHolder="$t(ECommon.FIRSTNAME)"
+          :isDisabled="!customer"
+          @change="(content) => (firstName = content.value)"
+          @addInfo="updateFirstName"
+        />
+        <CTableCustomerInfo
+          :content="lastName"
+          :placeHolder="$t(ECommon.LASTNAME)"
+          :isDisabled="!customer"
+          @change="(content) => (lastName = content.value)"
+          @addInfo="updateLastName"
+        />
+      </div>
       <CTableCustomerInfo
         icon="groups"
         type="number"
@@ -231,5 +233,14 @@ export default defineComponent({
 }
 .search {
   justify-content: stretch;
+}
+.name {
+  gap: var(--s-small);
+}
+@media screen and (max-width: 480px) {
+  .info-detail {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 </style>

@@ -9,6 +9,11 @@ export function toExchange(money: number): string {
   });
 }
 
+export function formatPrice(money: number): string {
+  const val = (money / 1).toFixed(2).replace(".", ",");
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export function sumProperty(array: any[], properties: string[]): number {
   let sum = 0;
   array.map((item: any) => {

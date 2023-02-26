@@ -8,6 +8,7 @@ export enum ESMenu {
   G_MENU = "menu/menu",
   G_AVAILABLE_MENU = "menu/availableMenu",
   A_GET_MENU = "menu/getMenu",
+  A_ADD_MEAL = "menu/addMeal",
 }
 
 export enum ESOrderItem {
@@ -96,4 +97,17 @@ export enum ESStaff {
 export enum ESStaffType {
   G_STAFF_TYPES = "staff_type/staffTypes",
   A_GET_STAFF_TYPES = "staff_type/getStaffTypes",
+}
+
+export enum ESMenuType {
+  G_MENU_TYPES = "menu_type/menuTypes",
+  A_GET_MENU_TYPES = "menu_type/getMenuTypes",
+}
+
+export enum ESCart {
+  G_IS_IN_CART = "cart/isInCart",
+}
+
+export enum ESFileManagement {
+  A_UPLOAD_FILE = "file_management/uploadFile",
 }

@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from base.common.constant.app_label import ModelAppLabel
@@ -15,6 +16,7 @@ class Menu(DateTimeModel, Creator, Editor):
     is_available = models.BooleanField(default=True)
     desc = models.TextField(null=True, blank=True)
     photo = models.ForeignKey(FileManagement, on_delete=models.RESTRICT, related_name=DBTable.MENU, null=True)
+    num_ordered = models.IntegerField(default=0, validators=[MinValueValidator(0)])
 
     class Meta:
         unique_together = ((MenuFields.NAME, MenuFields.TYPE_ID),)

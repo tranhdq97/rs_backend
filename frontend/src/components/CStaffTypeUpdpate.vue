@@ -6,6 +6,7 @@ import CButton from "./CButton.vue";
 import { ECommon } from "@/enums/common";
 import { useStore } from "vuex";
 import { ESStaff } from "@/enums/store";
+import CSelection from "./CSelection.vue";
 
 export default defineComponent({
   props: {
@@ -24,9 +25,12 @@ export default defineComponent({
         updateData: { type_id: selectedId.value },
       });
     }
-    return { concatList, ECommon, selectedId, isChanged, update };
+    const log = (x: number) => {
+      console.log(x);
+    };
+    return { concatList, update, log, ECommon, selectedId, isChanged };
   },
-  components: { CButton },
+  components: { CButton, CSelection },
 });
 </script>
 
@@ -48,16 +52,11 @@ export default defineComponent({
     <div class="info-row">
       <span class="material-icons">assignment_ind</span>
       <div class="container">
-        <select @change="(e) => (selectedId = parseInt(e.target?.value))">
-          <option
-            v-for="(staffType, index) in availableTypes"
-            :key="index"
-            :value="staffType?.id"
-            :selected="staffType?.id === updatedStaff?.type?.id"
-          >
-            {{ staffType?.name }}
-          </option>
-        </select>
+        <CSelection
+          :selectList="availableTypes"
+          :defaultID="updatedStaff?.type?.id"
+          @select="(id) => (selectedId = id)"
+        />
       </div>
     </div>
     <CButton v-if="isChanged" :name="ECommon.UPDATE" @click="update" />

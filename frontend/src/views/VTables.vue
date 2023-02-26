@@ -31,10 +31,10 @@ export default defineComponent({
 .container {
   flex-direction: row;
   align-content: flex-start;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   row-gap: var(--s-medium);
-  column-gap: var(--s-small);
+  column-gap: var(--s-medium);
   flex: 1 0 0;
 }
 </style>

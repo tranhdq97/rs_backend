@@ -10,34 +10,48 @@ from base.menu.models import Menu
 
 
 class MenuBaseSlz(serializers.ModelSerializer):
+    num_ordered = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Menu
-        fields = (CommonFields.ID, MenuFields.NAME, MenuFields.PRICE)
+        fields = (CommonFields.ID, MenuFields.NAME, MenuFields.PRICE, MenuFields.NUM_ORDERED)
 
 
 class MenuCreateSlz(MenuBaseSlz):
-    type_id = ForeignKeyField(model=MasterMenuType)
-    photo_id = ForeignKeyField(model=FileManagement, required=False)
+    type_id = ForeignKeyField(model=MasterMenuType, write_only=True)
+    photo_id = ForeignKeyField(model=FileManagement, required=False, write_only=True)
+    type = MasterBaseSlz(read_only=True)
+    photo = FileManagementRetrieveSlz(read_only=True)
 
     class Meta:
         model = MenuBaseSlz.Meta.model
         fields = MenuBaseSlz.Meta.fields + (
             MenuFields.DESC,
+            MenuFields.TYPE,
             MenuFields.TYPE_ID,
             MenuFields.PHOTO_ID,
+            MenuFields.PHOTO,
+            MenuFields.IS_AVAILABLE,
         )
+        extra_kwargs = {
+            MenuFields.IS_AVAILABLE: {"read_only": True},
+        }
 
 
 class MenuUpdateSlz(MenuBaseSlz):
-    type_id = ForeignKeyField(model=MasterMenuType, required=False)
-    photo_id = ForeignKeyField(model=FileManagement, required=False)
+    type_id = ForeignKeyField(model=MasterMenuType, required=False, write_only=True)
+    photo_id = ForeignKeyField(model=FileManagement, required=False, write_only=True)
+    photo = FileManagementRetrieveSlz(read_only=True)
+    type = MasterBaseSlz(read_only=True)
 
     class Meta:
         model = MenuBaseSlz.Meta.model
         fields = MenuBaseSlz.Meta.fields + (
             MenuFields.DESC,
             MenuFields.IS_AVAILABLE,
+            MenuFields.TYPE,
             MenuFields.TYPE_ID,
+            MenuFields.PHOTO,
             MenuFields.PHOTO_ID,
         )
         extra_kwargs = {

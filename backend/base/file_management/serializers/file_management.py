@@ -78,7 +78,9 @@ class FileManagementRetrieveSlz(FileManagementBaseSlz):
 
 
 class FileManagementUpdateSlz(FileManagementBaseSlz):
-    type_id = ForeignKeyField(MasterFileType, required=False)
+    type_id = ForeignKeyField(MasterFileType, required=False, write_only=True)
+    type = MasterBaseSlz(read_only=True)
+    file = serializers.FileField(read_only=True)
 
     class Meta:
         model = FileManagementBaseSlz.Meta.model
@@ -86,7 +88,5 @@ class FileManagementUpdateSlz(FileManagementBaseSlz):
             FileManagementFields.NAME,
             FileManagementFields.DESC,
             FileManagementFields.TYPE_ID,
+            FileManagementFields.TYPE,
         )
-        extra_kwargs = {
-            FileManagementFields.FILE: {"read_only": True},
-        }
