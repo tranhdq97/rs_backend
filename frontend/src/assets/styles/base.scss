@@ -1,0 +1,62 @@
+///////////// THEME
+:root {
+  --c-primary: rgb(95, 216, 127);
+  --c-primaryTransparent: rgba(62, 255, 114, 0.726);
+  --c-primaryLight: hsl(136, 91%, 77%);
+  --c-primaryDark: hsl(136, 45%, 51%);
+  --c-text: rgb(43, 43, 43);
+  --c-background: rgb(245, 245, 245);
+  --c-alert: red;
+  --c-modal: rgba(0, 0, 0, 0.5);
+}
+///////////// COLOR
+:root {
+  --c-white: white;
+  --c-black: black;
+  --c-grey: rgb(125, 125, 125);
+  --c-greyLight: rgb(200, 200, 200);
+  --c-greyDark: rgb(50, 50, 50);
+}
+///////////// SPACING
+:root {
+  --s-large: 30px;
+  --s-medium: 20px;
+  --s-small: 10px;
+  --s-sp-small: 5px;
+}
+///////////// BORDER RADIUS
+:root {
+  --br-large: 20px;
+  --br-medium: 10px;
+  --br-small: 5px;
+}
+///////////// BORDER SHADOW
+:root {
+  --bs-large: 5px;
+  --bs-medium: 2px;
+  --bs-small: 1px;
+  --bs-blur: 2px;
+  --bs-color: rgba(0, 0, 0, 0.2);
+  --bs-colorLight: rgba(255, 255, 255, 0.7);
+}
+///////////// TEXT
+:root {
+  --fs-large: 32px;
+  --fs-s-large: 24px;
+  --fs-medium: 16px;
+  --fs-s-medium: 12px;
+  --fs-small: 8px;
+}
+:root {
+  --fw-large: 900;
+  --fw-s-large: 700;
+  --fw-medium: 400;
+  --fw-small: 200;
+}
+///////////// ICON SIZE
+:root {
+  --is-small: 18px;
+  --is-medium: 24px;
+  --is-s-large: 36;
+  --is-large: 48px;
+}

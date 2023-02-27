@@ -1,0 +1,30 @@
+[
+    {
+        "model": "master.MasterMenuType",
+        "fields": {
+          "id": 1,
+          "name": "Appetizer"
+        }
+    },
+    {
+        "model": "master.MasterMenuType",
+        "fields": {
+          "id": 2,
+          "name": "Main Course"
+        }
+    },
+    {
+        "model": "master.MasterMenuType",
+        "fields": {
+          "id": 3,
+          "name": "Drinks"
+        }
+    },
+    {
+          "model": "master.MasterMenuType",
+          "fields": {
+            "id": 4,
+            "name": "Desserts"
+          }
+      }
+]

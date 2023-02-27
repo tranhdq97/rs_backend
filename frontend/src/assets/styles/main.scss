@@ -1,0 +1,117 @@
+@import "./base.scss";
+
+div {
+  display: flex;
+  flex-direction: row;
+  text-transform: capitalize;
+  justify-content: center;
+  box-sizing: border-box;
+  text-align: center;
+}
+input, textarea {
+  display: block;
+  outline: none;
+  box-sizing: border-box;
+  border: 1px solid var(--c-grey);
+  border-radius: var(--br-small);
+  padding: var(--s-small);
+  width: 100%;
+  background: transparent;
+  &:hover {
+    border: 1px solid var(--c-primary);
+  }
+  &::placeholder {
+    text-transform: lowercase;
+  }
+}
+img {
+  width: auto;
+  height: inherit;
+}
+body {
+  margin: 0;
+}
+a {
+  color: var(--c-grey);
+  box-sizing: border-box;
+}
+.container {
+  flex-direction: column;
+}
+.material-icons {
+  font-size: var(--is-medium);
+  font-weight: var(--fw-s-large);
+  color: var(--c-text);
+  cursor: pointer;
+}
+.router-view {
+  flex-grow: 1;
+  height: 100vh;
+  overflow-y: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: var(--s-large);
+}
+.area {
+  background: var(--c-white);
+  padding: var(--s-medium);
+  border-radius: var(--s-small);
+  border: 1px solid var(--c-greyLight);
+  box-shadow: var(--bs-medium) var(--bs-medium) var(--bs-blur) var(--bs-color);
+}
+.box-shadow {
+  box-shadow: var(--bs-medium) 0 var(--bs-blur) var(--bs-color);
+}
+.stretch {
+  flex-grow: 1;
+}
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  color: var(--c-grey);
+}
+td {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.lowercase {
+  text-transform: lowercase;
+}
+.justify-content-right {
+  justify-content: flex-end;
+}
+.justify-content-left {
+  justify-content: flex-start;
+}
+.no-wrap {
+  white-space: nowrap;
+}
+// .mobile-hidden {
+//   visibility: hidden;
+  // display: none;
+// }
+select {
+  border: none;
+  padding: var(--s-small);
+  font-size: var(--fs-medium);
+}
+::-webkit-scrollbar {
+  width: 10px;
+  margin-left: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: var(--s-small);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-primary);
+  border-radius: var(--s-small);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-greyDark);
+}
