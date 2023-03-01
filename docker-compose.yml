@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend_staff:
+    restart: always
+    container_name: rs_backend_staff
+    build:
+      context: .
+      dockerfile: Dockerfile_staff
+    ports:
+      - "8020:8000"
+    command: python manage_staff.py runserver 0.0.0.0:8000
+
+  backend_storage:
+    restart: always
+    container_name: rs_backend_storage
+    build:
+      context: .
+      dockerfile: Dockerfile_storage
+    ports:
+      - "8010:8000"
+    command: python manage_storage.py runserver 0.0.0.0:8000
