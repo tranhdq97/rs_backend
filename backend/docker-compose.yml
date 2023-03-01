@@ -31,8 +31,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_staff
-    environment:
-      - DJANGO_APP_TARGET=staff.wsgi:application
     ports:
       - "8020:8000"
     networks:
@@ -45,8 +43,7 @@ services:
     command: bash -c " sleep 5 &&
       python manage_staff.py migrate &&
       python manage_staff.py init_master_data &&
-      python manage_staff.py runserver 0.0.0.0:8000"
-    #    gunicorn $DJANGO_APP_TARGET -b :$PORT --timeout 3600 --threads 4"
+      gunicorn staff.wsgi:application -b 0.0.0.0:8000 --timeout 3600 --threads 4"
 
   backend_storage:
     restart: always
@@ -54,8 +51,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_storage
-    environment:
-      - DJANGO_APP_TARGET=storage.wsgi:application
     ports:
       - "8010:8000"
     networks:
@@ -67,5 +62,4 @@ services:
       - "./media:/app/media"
 
     command: bash -c "sleep 5 &&
-      python manage_storage.py runserver 0.0.0.0:8000"
-#    gunicorn $DJANGO_APP_TARGET -b :$PORT --timeout 3600 --threads 4"
+      gunicorn storage.wsgi:application -b 0.0.0.0:8000 --timeout 3600 --threads 4"
