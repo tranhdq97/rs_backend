@@ -1,65 +1,22 @@
-version: '3.5'
-
-volumes:
-  mysql-data:
-    driver: local
-
-networks:
-  internal:
-    driver: bridge
+version: '3.8'
 
 services:
-  db:
-    restart: always
-    container_name: rs_database
-    image: mysql:8.0
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - internal
-    environment:
-      MYSQL_DATABASE: 'rs_db'
-      MYSQL_ROOT_USER: 'root'
-      MYSQL_PASSWORD: '1'
-      MYSQL_ROOT_PASSWORD: '1'
-
   backend_staff:
-    restart: always
+#    restart: always
     container_name: rs_backend_staff
     build:
       context: .
       dockerfile: Dockerfile_staff
     ports:
       - "8020:8000"
-    networks:
-      - internal
-    depends_on:
-      - db
-    volumes:
-      - "./emails:/app/emails"
-      - "./staff:/app/staff"
-    command: bash -c " sleep 5 &&
-      python manage_staff.py migrate &&
-      python manage_staff.py init_master_data &&
-      gunicorn staff.wsgi:application -b 0.0.0.0:8000 --timeout 3600 --threads 4"
+    command: python manage_staff.py runserver 0.0.0.0:8000
 
   backend_storage:
-    restart: always
+#    restart: always
     container_name: rs_backend_storage
     build:
       context: .
       dockerfile: Dockerfile_storage
     ports:
       - "8010:8000"
-    networks:
-      - internal
-    depends_on:
-      - db
-    volumes:
-      - "./storage:/app/storage"
-      - "./media:/app/media"
-
-    command: bash -c "sleep 5 &&
-      gunicorn storage.wsgi:application -b 0.0.0.0:8000 --timeout 3600 --threads 4"
+    command: python manage_storage.py runserver 0.0.0.0:8000
