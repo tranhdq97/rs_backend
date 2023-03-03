@@ -16,7 +16,7 @@ from base.file_management.serializers.file_management import (
     FileManagementRetrieveSlz,
     FileManagementUpdateSlz,
 )
-from storage.file_management.filters.file_management import FileManagementListQueryFields
+from staff.file_management.filters.file_management import FileManagementListQueryFields
 
 
 class FileManagementViewSet(

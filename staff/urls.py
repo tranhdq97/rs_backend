@@ -13,7 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.urls import path, include
+
+from base import settings
+
+handler500 = "base.common.custom.exceptions.server_error"
 
 urlpatterns = [
     path("", include("base.urls")),
@@ -25,4 +30,8 @@ urlpatterns = [
     path("api/table/", include("staff.table.urls"), name="table"),
     path("api/order/", include("staff.order.urls"), name="order"),
     path("api/order_item/", include("staff.order_item.urls"), name="order_item"),
+    path("api/file-management/", include("staff.file_management.urls"), name="file management"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
