@@ -17,6 +17,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_storage
+    volumes:
+      - "./media:/app/media"
     ports:
       - "8010:8000"
     command: python manage_storage.py runserver 0.0.0.0:8000
