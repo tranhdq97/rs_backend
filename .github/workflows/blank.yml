@@ -31,4 +31,4 @@ jobs:
             cd ~/rs_backend
             git checkout main
             git pull
-            docker-compose up --build
+            docker-compose up --build -d
