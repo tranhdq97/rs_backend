@@ -1,7 +1,7 @@
 from django.urls import path
 
 from base.common.constant.view_action import BaseViewAction
-from storage.file_management.views.viewset import FileManagementViewSet
+from staff.file_management.views.viewset import FileManagementViewSet
 
 urlpatterns = [
     path("create", FileManagementViewSet.as_view({"post": BaseViewAction.CREATE})),

@@ -26,7 +26,7 @@ env.read_env(str(BASE_DIR / ".env"))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lj*t=@*-w2_g7z76mxjvwv^22xd-6tds7lhx2$_z-j3w4@4zd!'
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=True)
@@ -73,8 +73,8 @@ MIDDLEWARE = [
     "base.common.utils.middleware.CorrelationMiddleware",
 ]
 
-# CORS_ALLOW_ALL_ORIGINS = env.bool("CORS_ALLOW_ALL_ORIGINS", default=True)
-# CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
+CORS_ALLOW_ALL_ORIGINS = env.bool("CORS_ALLOW_ALL_ORIGINS", default=True)
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=["*"])
 # CORS_ALLOWED_ORIGIN_REGEXES = env.list("CORS_ALLOWED_ORIGIN_REGEXES", default=[])
 # CORS_ALLOW_CREDENTIALS = env.bool("CORS_ALLOW_METHODS", False)
 

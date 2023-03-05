@@ -1,7 +1,7 @@
 FROM python:3.11.1
 
 ENV PYTHONUNBUFFERED 1
-ENV DJANGO_APP_TARGET "storage.wsgi:application"
+ENV DJANGO_APP_TARGET "staff.wsgi:application"
 ENV PORT 8000
 
 EXPOSE 8020
@@ -15,4 +15,3 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
-RUN rm -rf storage manage_storage.py
