@@ -45,7 +45,6 @@ jobs:
           envkey_AWS_S3_ADDRESSING_STYLE: ${{ secrets.envkey_AWS_S3_ADDRESSING_STYLE }}
           
           file_name: .env
-          directory: rs_backend
 
 
       - name: Executing remote ssh commands using ssh key
