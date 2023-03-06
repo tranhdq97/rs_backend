@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django_filters",
     "corsheaders",
     "drf_spectacular",
+    "storages",
     "base.master",
     "base.address",
     "base.file_management",
@@ -180,6 +181,21 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
+
+# ---------------------------------------------------------------------------- #
+#                                    AWS-S3                                    #
+# ---------------------------------------------------------------------------- #
+AWS_DEFAULT_ACL = None
+AWS_S3_FILE_OVERWRITE = False
+AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME", "")
+AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME", "ap-southeast-1")
+AWS_S3_ADDRESSING_STYLE = env.str("AWS_S3_ADDRESSING_STYLE", "virtual")
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+MEDIAFILES_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 # ---------------------------------------------------------------------------- #
 #                                    LOGGING                                   #
