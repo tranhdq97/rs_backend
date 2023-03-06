@@ -8,6 +8,7 @@ from base import settings
 from base.common.constant.app_label import ModelAppLabel
 from base.common.constant.db_table import DBTable
 from base.common.constant.master import MasterFileTypeID
+from base.common.custom.storages import MediaStorage
 from base.common.models.base import DateTimeModel
 from base.common.utils.strings import get_file_field_directory, get_thumbnail_directory
 from base.common.utils.validators import FileSizeValidator
@@ -18,9 +19,10 @@ class FileManagement(DateTimeModel):
     UPLOAD_SIZE_LIMIT = 200  # 200MB
 
     name = models.CharField(max_length=256, null=True)
-    thumbnail = models.ImageField(upload_to=get_thumbnail_directory, max_length=500, null=True)
+    thumbnail = models.ImageField(upload_to=get_thumbnail_directory, max_length=500, null=True, storage=MediaStorage)
     desc = models.TextField(null=True)
-    file = models.FileField(upload_to=get_file_field_directory, validators=[FileSizeValidator(UPLOAD_SIZE_LIMIT)])
+    file = models.FileField(upload_to=get_file_field_directory, validators=[FileSizeValidator(UPLOAD_SIZE_LIMIT)],
+                            storage=MediaStorage)
     type = models.ForeignKey(MasterFileType, on_delete=models.RESTRICT, related_name=DBTable.FILE_MANAGEMENT,
                              default=MasterFileTypeID.ANY)
 

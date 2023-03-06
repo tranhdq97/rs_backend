@@ -4,8 +4,6 @@ ROOT_URLCONF = "staff.urls"
 
 WSGI_APPLICATION = "staff.wsgi.application"
 
-MEDIA_URL = env.str("STAFF_MEDIA")
-
 # ---------------------------------------------------------------------------- #
 #                                 SWAGGER                                      #
 # ---------------------------------------------------------------------------- #
