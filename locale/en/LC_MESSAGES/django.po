@@ -1,0 +1,96 @@
+#: base/common/constant/message.py:4
+msgid "User must have an email address."
+msgstr "User must have an email address."
+
+#: base/common/constant/message.py:5
+msgid "At least one uppercase letter, one lowercase letter, one number"
+msgstr "At least one uppercase letter, one lowercase letter, one number"
+
+#: base/common/constant/message.py:6
+msgid "The same string sequence as the email address"
+msgstr "The same string sequence as the email address"
+
+#: base/common/constant/message.py:7
+msgid "Dont match current password. Please check again"
+msgstr "Dont match current password. Please check again"
+
+#: base/common/constant/message.py:8
+msgid "Change password successfully"
+msgstr "Change password successfully"
+
+#: base/common/constant/message.py:9
+msgid "There is no room for two super staff."
+msgstr "There is no room for two super staff."
+
+#: base/common/constant/message.py:10
+msgid "Provider must be staff or customer"
+msgstr "Provider must be staff or customer"
+
+#: base/common/constant/message.py:11
+msgid "The email address or password is incorrect"
+msgstr "The email address or password is incorrect"
+
+#: base/common/constant/message.py:12
+msgid "Invalid token"
+msgstr "Invalid token"
+
+#: base/common/constant/message.py:18
+msgid "Does not exist"
+msgstr "Does not exist"
+
+#: base/common/constant/message.py:19
+msgid "There is no serializer matched with this action"
+msgstr "There is no serializer matched with this action"
+
+#: base/common/constant/message.py:20
+msgid "Duplicate entry"
+msgstr "Duplicate entry"
+
+#: base/common/constant/message.py:21
+#, python-format
+msgid ""
+"Please keep filesize under %(limit_value)sKB. Current filesize "
+"%(show_value)sKB"
+msgstr ""
+"Please keep filesize under %(limit_value)sKB. Current filesize "
+"%(show_value)sKB"
+
+#: base/common/constant/message.py:22
+msgid "Filetype is not supported."
+msgstr "Filetype is not supported."
+
+#: base/common/constant/message.py:23
+msgid "Filetype does not match the submitted file"
+msgstr "Filetype does not match the submitted file"
+
+#: base/common/constant/message.py:28
+msgid "This master is not allowed to create."
+msgstr "This master is not allowed to create."
+
+#: base/common/constant/message.py:31
+#, python-format
+msgid ""
+"The number of %(name)s quantities are %(quantity)s. Please change your order."
+msgstr ""
+"The number of %(name)s quantities are %(quantity)s. Please change your order."
+
+#: base/common/constant/message.py:32
+#, python-format
+msgid "You're trying to order 0 %(name)s. Please change your order."
+msgstr "You're trying to order 0 %(name)s. Please change your order."
+
+#: base/common/constant/message.py:36
+msgid ""
+"Password must contain 7 letters or greater, one digit from 0 to 9, one "
+"lowercase letter, one uppercase letter"
+msgstr ""
+"Password must contain 7 letters or greater, one digit from 0 to 9, one "
+"lowercase letter, one uppercase letter"
+
+#: base/common/constant/message.py:38
+msgid "Password must differ email address"
+msgstr "Password must differ email address"
+
+#: base/common/custom/exceptions.py:14
+msgid "Internal Service error"
+msgstr "Internal Service error"

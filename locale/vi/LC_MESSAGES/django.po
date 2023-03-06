@@ -1,0 +1,93 @@
+#: base/common/constant/message.py:4
+msgid "User must have an email address."
+msgstr "Người dùng phải có địa chỉ email."
+
+#: base/common/constant/message.py:5
+msgid "At least one uppercase letter, one lowercase letter, one number"
+msgstr "Ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số"
+
+#: base/common/constant/message.py:6
+msgid "The same string sequence as the email address"
+msgstr "Trùng với địa chỉ email"
+
+#: base/common/constant/message.py:7
+msgid "Dont match current password. Please check again"
+msgstr "Không khớp với mật khẩu hiện tại. Vui lòng kiểm tra lại"
+
+#: base/common/constant/message.py:8
+msgid "Change password successfully"
+msgstr "Thay đổi mật khẩu thành công"
+
+#: base/common/constant/message.py:9
+msgid "There is no room for two super staff."
+msgstr "Không có chỗ cho hai siêu nhân viên."
+
+#: base/common/constant/message.py:10
+msgid "Provider must be staff or customer"
+msgstr "Phải là nhân viên hoặc khách hàng"
+
+#: base/common/constant/message.py:11
+msgid "The email address or password is incorrect"
+msgstr "Địa chỉ email hoặc mật khẩu không chính xác"
+
+#: base/common/constant/message.py:12
+msgid "Invalid token"
+msgstr "Mã thông báo không hợp lệ"
+
+#: base/common/constant/message.py:18
+msgid "Does not exist"
+msgstr "Không tồn tại"
+
+#: base/common/constant/message.py:19
+msgid "There is no serializer matched with this action"
+msgstr "Không có Serializer nào phù hợp với hành động này"
+
+#: base/common/constant/message.py:20
+msgid "Duplicate entry"
+msgstr "Mục nhập trùng lặp"
+
+#: base/common/constant/message.py:21
+#, python-format
+msgid ""
+"Please keep filesize under %(limit_value)sKB. Current filesize "
+"%(show_value)sKB"
+msgstr ""
+"Vui lòng giữ tệp dưới %(limit_value)sKB. Kích thước tệp hiện tại"
+"%(show_value)sKB"
+
+#: base/common/constant/message.py:22
+msgid "Filetype is not supported."
+msgstr ""
+
+#: base/common/constant/message.py:23
+msgid "Filetype does not match the submitted file"
+msgstr "Không hỗ trợ loại file này"
+
+#: base/common/constant/message.py:28
+msgid "This master is not allowed to create."
+msgstr "Không cho phép tạo mới."
+
+#: base/common/constant/message.py:31
+#, python-format
+msgid ""
+"The number of %(name)s quantities are %(quantity)s. Please change your order."
+msgstr "Số lượng của %(name)s là %(quantity)s. Vui lòng điều chỉnh đơn hàng."
+
+#: base/common/constant/message.py:32
+#, python-format
+msgid "You're trying to order 0 %(name)s. Please change your order."
+msgstr "Bạn đang cố đặt với số lượng là 0. Vui lòng điều chỉnh đơn hàng."
+
+#: base/common/constant/message.py:36
+msgid ""
+"Password must contain 7 letters or greater, one digit from 0 to 9, one "
+"lowercase letter, one uppercase letter"
+msgstr "Mật khẩu phải chứa 7 chữ cái trở lên, một chữ số từ 0 đến 9, một chữ thường, một chữ cái viết hoa"
+
+#: base/common/constant/message.py:38
+msgid "Password must differ email address"
+msgstr "Mật khẩu phải khác với địa chỉ email"
+
+#: base/common/custom/exceptions.py:14
+msgid "Internal Service error"
+msgstr "Lỗi dịch vụ nội bộ"

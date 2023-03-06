@@ -1,10 +1,11 @@
 from io import BytesIO
 
 from PIL import Image
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 
-from base import settings
 from base.common.constant.app_label import ModelAppLabel
 from base.common.constant.db_table import DBTable
 from base.common.constant.master import MasterFileTypeID
@@ -19,10 +20,11 @@ class FileManagement(DateTimeModel):
     UPLOAD_SIZE_LIMIT = 200  # 200MB
 
     name = models.CharField(max_length=256, null=True)
-    thumbnail = models.ImageField(upload_to=get_thumbnail_directory, max_length=500, null=True, storage=MediaStorage)
+    thumbnail = models.ImageField(upload_to=get_thumbnail_directory, max_length=500, null=True,
+                                  storage=MediaStorage if settings.USE_S3 else FileSystemStorage)
     desc = models.TextField(null=True)
     file = models.FileField(upload_to=get_file_field_directory, validators=[FileSizeValidator(UPLOAD_SIZE_LIMIT)],
-                            storage=MediaStorage)
+                            storage=MediaStorage if settings.USE_S3 else FileSystemStorage)
     type = models.ForeignKey(MasterFileType, on_delete=models.RESTRICT, related_name=DBTable.FILE_MANAGEMENT,
                              default=MasterFileTypeID.ANY)
 
